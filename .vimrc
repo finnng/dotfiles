@@ -1,10 +1,11 @@
 " Keys mapping
-map <esc> :w<bar>:noh<cr>
-map <C-s> :PrettierAsync<bar>:w<cr>
 map ;; :
+map <esc> :w\|:noh<cr>
 map <C-p> :Files <cr>
 map <leader><bs> :Files <cr>
 map <leader><enter> :Ag<space>
+map <leader>a :GitBlame<cr>
+map <leader>s :PrettierAsync<cr>
 map <leader>b :Buffers <cr>
 map <leader>e :NERDTreeToggle<cr>
 map <leader>r :NERDTreeFind<cr>
@@ -14,8 +15,15 @@ map <leader>v <C-w>v
 map <leader>q <C-w>c
 map <leader>h <C-w>h 
 map <leader>l <C-w>l
+map <leader>j <C-w>j
+map <leader>k <C-w>k
 map <leader>t :tabnew<cr>
 map <leader>o :%bd\|e#<cr>
+
+nnoremap x "_x
+nnoremap <leader>d "_d
+nnoremap <leader>D "_D
+vnoremap <leader>d "_d
 
 set t_Co=256
 set termguicolors
@@ -72,7 +80,7 @@ Plug 'prettier/vim-prettier', {'do': 'npm install', 'for': ['javascript', 'types
 " Config for auto format
 let g:prettier#quickfix_enabled = 0
 let g:prettier#autoformat = 0
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
+" autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
 
 " Airline
 Plug 'vim-airline/vim-airline'
@@ -92,6 +100,9 @@ Plug 'scrooloose/nerdcommenter'
 filetype plugin on
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
+" For jsx
+let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/'  }  }
+
 
 " Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDDefaultAlign = 'both'
