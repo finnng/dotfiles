@@ -1,18 +1,19 @@
 " Keys mapping
-map ;; :
+let mapleader = "\<space>"
+" map ;; :
+tnoremap <Esc> <C-\><C-n>
 map <esc> :w\|:noh<cr>
-map <C-p> :Files <cr>
-map <leader><bs> :Files <cr>
-map <leader><enter> :Ag<space>
-map <leader>a :GitBlame<cr>
-map <leader>s :PrettierAsync<cr>
+map <leader><enter> :
+map <leader>[ :Files <cr>
+map <leader>] :Ag<space>
+map <leader>f :PrettierAsync<cr>
 map <leader>b :Buffers <cr>
 map <leader>e :NERDTreeToggle<cr>
 map <leader>r :NERDTreeFind<cr>
 map <leader>p :let @+ = expand("%")<cr>
 map <leader>w <C-w>w
 map <leader>v <C-w>v
-map <leader>q <C-w>c
+map <leader>q :q<cr>
 map <leader>h <C-w>h 
 map <leader>l <C-w>l
 map <leader>j <C-w>j
@@ -37,7 +38,7 @@ set guioptions=
 set ignorecase
 
 " Enable clipboard to copy from system
-set clipboard+=unnamed
+set clipboard=unnamedplus
 
 " Hightlight all the search matches
 set hlsearch
@@ -68,6 +69,17 @@ syntax enable
 
 " Always split new windows right
 set splitright
+
+" Set persisten undo
+set undofile
+set undodir=~/.vim/undodir
+set undolevels=1000
+set undoreload=10000
+
+" Set no backup
+set nobackup
+set nowb
+set noswapfile
 
 " Always show the nerdtree
 " autocmd vimenter * NERDTree
@@ -103,7 +115,6 @@ let g:NERDSpaceDelims = 1
 " For jsx
 let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/'  }  }
 
-
 " Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDDefaultAlign = 'both'
 
@@ -130,6 +141,8 @@ set updatetime=1000
 
 " code complete
 Plug 'valloric/youcompleteme'
+let g:ycm_key_list_select_completion=[]
+let g:ycm_key_list_previous_completion=[]
 
 " Waka time
 Plug 'wakatime/vim-wakatime'
@@ -155,5 +168,12 @@ Plug 'tpope/vim-fugitive'
 
 " Git blame status
 Plug 'zivyangll/git-blame.vim'
+
+" Snipet
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 call plug#end()
