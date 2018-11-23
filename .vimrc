@@ -141,8 +141,9 @@ set updatetime=1000
 
 " code complete
 Plug 'valloric/youcompleteme'
-let g:ycm_key_list_select_completion=[]
-let g:ycm_key_list_previous_completion=[]
+" make YMC compatible with UltiSnips
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 
 " Waka time
 Plug 'wakatime/vim-wakatime'
