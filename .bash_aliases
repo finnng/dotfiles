@@ -1,6 +1,6 @@
-alias eapi='cd ~/work/ringblaze/api && vim .'
-alias eui='cd ~/work/ringblaze/ui && vim .'
-alias emobi='cd ~/work/ringblaze/mobility && vim .'
+alias eapi='cd ~/ringblaze/api && vim .'
+alias eui='cd ~/ringblaze/ui && vim .'
+alias emobi='cd ~/ringblaze/mobility && vim .'
 
 alias vim='nvim'
 alias evim='vim ~/.vimrc'
@@ -187,4 +187,4 @@ function gdellocal(){
   git branch | grep -v "master" | xargs git branch -D
 }
 
-################# GIT #################
+################# END GIT #################

@@ -1,6 +1,5 @@
 " Keys mapping
 let mapleader = "\<space>"
-" map ;; :
 tnoremap <Esc> <C-\><C-n>
 map <esc> :w\|:noh<cr>
 map <leader><enter> :
@@ -99,10 +98,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 let g:airline_powerline_fonts = 1
 
-" CtrlP
-" Plug 'ctrlpvim/ctrlp.vim'
-" let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
-
 " Color Schemes
 Plug 'flazz/vim-colorschemes'
 
@@ -137,7 +132,7 @@ Plug 'ryanoasis/vim-devicons'
 
 " Show git diff
 Plug 'airblade/vim-gitgutter'
-set updatetime=1000
+set updatetime=500
 
 " code complete
 Plug 'valloric/youcompleteme'
@@ -150,9 +145,6 @@ Plug 'wakatime/vim-wakatime'
 
 " Auto pairs the bracket [ { (...
 Plug 'jiangmiao/auto-pairs'
-
-" Multiple cursor
-" Plug 'terryma/vim-multiple-cursors'
 
 " Javascript syntax
 Plug 'pangloss/vim-javascript'
