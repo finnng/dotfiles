@@ -17,8 +17,9 @@ map <leader>h <C-w>h
 map <leader>l <C-w>l
 map <leader>j <C-w>j
 map <leader>k <C-w>k
-map <leader>t :tabnew<cr>
+map <leader>n :tabnew<cr>
 map <leader>o :%bd\|e#<cr>
+map <leader>t :tabnew<bar>terminal<cr>i 
 
 nnoremap x "_x
 nnoremap <leader>d "_d
@@ -29,6 +30,16 @@ set t_Co=256
 set termguicolors
 set guifont=Meslo\ LG\ S\ DZ\ Regular\ Nerd\ Font\ Complete\ Mono:h13
 colorscheme cobalt2 
+
+" Macro
+let @a="viwdi'\<esc>pa'\<esc>"
+let @c="iconsole.log('-----', )\<esc>F,a\<space>"
+
+" Folding setting
+set foldmethod=indent   
+set foldnestmax=10
+set nofoldenable
+set foldlevel=2
 
 " Disable MacVim scroll bar left and right
 set guioptions=
@@ -82,6 +93,9 @@ set noswapfile
 
 " Always show the nerdtree
 " autocmd vimenter * NERDTree
+
+" Tags
+set tags=tags;/
 
 call plug#begin('~/.vim/plugged')
 

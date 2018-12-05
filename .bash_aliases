@@ -3,6 +3,7 @@ alias eui='cd ~/ringblaze/ui && vim .'
 alias emobi='cd ~/ringblaze/mobility && vim .'
 
 alias vim='nvim'
+alias vi='nvim'
 alias evim='vim ~/.vimrc'
 
 alias ll="ls -al"
