@@ -8,6 +8,8 @@ alias evim='vim ~/.vimrc'
 
 alias ll="ls -al"
 alias gitlog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+# alias gdiff='vim -p $(git diff --name-only HEAD~1 HEAD) -c "tabdo :Gdiff HEAD~1"'
+alias gdiff='vim -p $(git diff --name-only) -c "tabdo :Gdiff HEAD~1"'
 
 alias salias="source ~/.bash_aliases"
 alias ealias="vim ~/.bash_aliases"

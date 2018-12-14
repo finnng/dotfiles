@@ -1,17 +1,20 @@
 " Keys mapping
 let mapleader = "\<space>"
-tnoremap <Esc> <C-\><C-n>
+tnoremap <F2> <C-\><C-n>
 map <esc> :w\|:noh<cr>
 map <leader><enter> :
 map <leader>[ :Files <cr>
 map <leader>] :Ag<space>
+map <leader>\ :History<cr>
 map <leader>f :PrettierAsync<cr>
 map <leader>b :Buffers <cr>
 map <leader>e :NERDTreeToggle<cr>
 map <leader>r :NERDTreeFind<cr>
 map <leader>p :let @+ = expand("%")<cr>
+map <leader>P :let @+ = join([expand('%'),  line(".")], ':')
 map <leader>w <C-w>w
 map <leader>v <C-w>v
+map <leader>c :bd!<cr>
 map <leader>q :q<cr>
 map <leader>h <C-w>h 
 map <leader>l <C-w>l
@@ -19,8 +22,10 @@ map <leader>j <C-w>j
 map <leader>k <C-w>k
 map <leader>n :tabnew<cr>
 map <leader>o :%bd\|e#<cr>
+map <leader>O :%bd\|:q<cr>
 map <leader>t :tabnew<bar>terminal<cr>i 
 
+" x won't replace copied value
 nnoremap x "_x
 nnoremap <leader>d "_d
 nnoremap <leader>D "_D
@@ -28,18 +33,19 @@ vnoremap <leader>d "_d
 
 set t_Co=256
 set termguicolors
-set guifont=Meslo\ LG\ S\ DZ\ Regular\ Nerd\ Font\ Complete\ Mono:h13
+set guifont=Meslo\ LG\ S\ DZ\ Regular\ Nerd\ Font\ Complete\ Mono:h15
 colorscheme cobalt2 
 
 " Macro
 let @a="viwdi'\<esc>pa'\<esc>"
 let @c="iconsole.log('-----', )\<esc>F,a\<space>"
+let @j="viws/*<esc>pa */<esc>"
 
 " Folding setting
 set foldmethod=indent   
 set foldnestmax=10
 set nofoldenable
-set foldlevel=2
+set foldlevel=20
 
 " Disable MacVim scroll bar left and right
 set guioptions=
@@ -97,11 +103,14 @@ set noswapfile
 " Tags
 set tags=tags;/
 
+" Auto reload file changes: check one time after 4s of inactivity in normal mode
+set autoread                                                                                                                                                                                    
+au CursorHold * checktime  
+
 call plug#begin('~/.vim/plugged')
 
 " Prettier
-" post install (yarn install | npm install) then load plugin only for editing supported files
-Plug 'prettier/vim-prettier', {'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql'] }
+Plug 'prettier/vim-prettier', {'do': 'npm install' }
 " Config for auto format
 let g:prettier#quickfix_enabled = 0
 let g:prettier#autoformat = 0
@@ -121,14 +130,16 @@ Plug 'scrooloose/nerdcommenter'
 filetype plugin on
 " Add spaces after comment delimiters by default
 let g:NERDSpaceDelims = 1
-" For jsx
-let g:NERDCustomDelimiters = { 'javascript.jsx': { 'left': '//', 'leftAlt': '/*', 'rightAlt': '*/'  }  }
-
 " Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDDefaultAlign = 'both'
 
 " NERDtree
 Plug 'scrooloose/nerdtree'
+" show hidden file
+let NERDTreeShowHidden=1
+
+" Nerdtree git plugin
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Highlight the search result 
 Plug 'jremmen/vim-ripgrep'
@@ -140,19 +151,33 @@ let g:rg_root_types = ['.git', 'node_modules', 'coverage', 'logs']
 " Ale
 Plug 'w0rp/ale'
 let g:ale_linters = { 'javascript': ['eslint'] }
+" ﰲ     
+let g:ale_sign_error = ''
+let g:ale_sign_warning = ''
+let g:ale_sign_column_always = 1
+" highlight clear ALEErrorSign
+" highlight clear ALEWarningSign
+hi ALEErrorSign guifg=#FF0000
+hi ALEWarningSign guifg=#FFD700
 
 " Vim file type icons
 Plug 'ryanoasis/vim-devicons'
 
 " Show git diff
 Plug 'airblade/vim-gitgutter'
-set updatetime=500
+set updatetime=100
 
 " code complete
 Plug 'valloric/youcompleteme'
 " make YMC compatible with UltiSnips
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+
+" Override YMC's signs
+let g:ycm_error_symbol = ''
+let g:ycm_warning_symbol = ''
+hi YcmErrorSign guifg=#FF0000
+hi YcmWarningSign guifg=#FFD700
 
 " Waka time
 Plug 'wakatime/vim-wakatime'
@@ -182,5 +207,8 @@ Plug 'honza/vim-snippets'
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" Graphql for vim
+Plug 'jparise/vim-graphql'
 
 call plug#end()
