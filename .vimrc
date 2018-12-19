@@ -1,45 +1,47 @@
 " Keys mapping
 let mapleader = "\<space>"
-tnoremap <F2> <C-\><C-n>
 map <esc> :w\|:noh<cr>
 map <leader><enter> :
+map <leader>O :%bd\|:q<cr>
+map <leader>P :let @+ = join([expand('%'),  line(".")], ':')<cr>
 map <leader>[ :Files <cr>
-map <leader>] :Ag<space>
 map <leader>\ :History<cr>
-map <leader>f :PrettierAsync<cr>
+map <leader>] :Ag<space>
 map <leader>b :Buffers <cr>
-map <leader>e :NERDTreeToggle<cr>
-map <leader>r :NERDTreeFind<cr>
-map <leader>p :let @+ = expand("%")<cr>
-map <leader>P :let @+ = join([expand('%'),  line(".")], ':')
-map <leader>w <C-w>w
-map <leader>v <C-w>v
 map <leader>c :bd!<cr>
-map <leader>q :q<cr>
+map <leader>e :NERDTreeToggle<cr>
+map <leader>f :PrettierAsync<cr>
 map <leader>h <C-w>h 
-map <leader>l <C-w>l
 map <leader>j <C-w>j
 map <leader>k <C-w>k
+map <leader>l <C-w>l
 map <leader>n :tabnew<cr>
 map <leader>o :%bd\|e#<cr>
-map <leader>O :%bd\|:q<cr>
+map <leader>p :let @+ = expand("%")<cr>
+map <leader>q :q<cr>
+map <leader>r :NERDTreeFind<cr>
 map <leader>t :tabnew<bar>terminal<cr>i 
-
-" x won't replace copied value
-nnoremap x "_x
-nnoremap <leader>d "_d
+map <leader>v <C-w>v
+map <leader>w <C-w>w
 nnoremap <leader>D "_D
+nnoremap <leader>d "_d
+nnoremap x "_x
+tnoremap <F2> <C-\><C-n>
 vnoremap <leader>d "_d
 
-set t_Co=256
-set termguicolors
-set guifont=Meslo\ LG\ S\ DZ\ Regular\ Nerd\ Font\ Complete\ Mono:h15
-colorscheme cobalt2 
 
 " Macro
 let @a="viwdi'\<esc>pa'\<esc>"
 let @c="iconsole.log('-----', )\<esc>F,a\<space>"
 let @j="viws/*<esc>pa */<esc>"
+
+set t_Co=256
+set termguicolors
+set guifont=Meslo\ LG\ S\ DZ\ Regular\ Nerd\ Font\ Complete\ Mono:h15
+colorscheme tender
+
+" Hide mode in the bottom e.g., -- INSERT --
+set noshowmode
 
 " Folding setting
 set foldmethod=indent   
@@ -150,6 +152,7 @@ let g:rg_root_types = ['.git', 'node_modules', 'coverage', 'logs']
 
 " Ale
 Plug 'w0rp/ale'
+let g:ale_linters_explicit = 1
 let g:ale_linters = { 'javascript': ['eslint'] }
 " ﰲ     
 let g:ale_sign_error = ''
@@ -210,5 +213,8 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " Graphql for vim
 Plug 'jparise/vim-graphql'
+
+" Manage the tags
+Plug 'ludovicchabant/vim-gutentags'
 
 call plug#end()

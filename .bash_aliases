@@ -17,6 +17,8 @@ alias ealias="vim ~/.bash_aliases"
 alias dc="docker-compose"
 alias dclog="docker-compose logs -f --tail=100"
 
+alias ctags="`brew --prefix`/bin/ctags"
+
 # Read markdown on terminal
 rmd () {
   pandoc $1 | lynx -stdin
