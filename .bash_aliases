@@ -5,11 +5,9 @@ alias emobi='cd ~/ringblaze/mobility && vim .'
 alias vim='nvim'
 alias vi='nvim'
 alias evim='vim ~/.vimrc'
-
+alias :q='exit'
+alias :wq='exit'
 alias ll="ls -al"
-alias gitlog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-# alias gdiff='vim -p $(git diff --name-only HEAD~1 HEAD) -c "tabdo :Gdiff HEAD~1"'
-alias gdiff='vim -p $(git diff --name-only) -c "tabdo :Gdiff HEAD~1"'
 
 alias salias="source ~/.bash_aliases"
 alias ealias="vim ~/.bash_aliases"
@@ -28,6 +26,9 @@ rmd () {
 #export PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'
 
 ################# GIT #################
+
+alias gdiff='vim -p $(git diff --name-only) -c "tabdo :Gdiff HEAD~1"'
+alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 # git delete all the local branchs
 function gdb(){

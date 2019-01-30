@@ -2,13 +2,10 @@
 let mapleader = "\<space>"
 map <esc> :w\|:noh<cr>
 map <leader><enter> :
-map <leader>O :%bd\|:q<cr>
-map <leader>P :let @+ = join([expand('%'),  line(".")], ':')<cr>
 map <leader>[ :Files <cr>
 map <leader>\ :History<cr>
 map <leader>] :Ag<space>
 map <leader>b :Buffers <cr>
-map <leader>c :bd!<cr>
 map <leader>e :NERDTreeToggle<cr>
 map <leader>f :PrettierAsync<cr>
 map <leader>h <C-w>h 
@@ -16,29 +13,46 @@ map <leader>j <C-w>j
 map <leader>k <C-w>k
 map <leader>l <C-w>l
 map <leader>n :tabnew<cr>
-map <leader>o :%bd\|e#<cr>
-map <leader>p :let @+ = expand("%")<cr>
 map <leader>q :q<cr>
 map <leader>r :NERDTreeFind<cr>
 map <leader>t :tabnew<bar>terminal<cr>i 
 map <leader>v <C-w>v
 map <leader>w <C-w>w
+
+" Copy relative path to clipboard
+map <leader>p :let @+ = expand("%")<cr>
+
+" Copy full file path to the clipboard
+map <leader>P :let @+ = join([expand('%'),  line(".")], ':')<cr>
+
+" ESC in terminal mode
+tnoremap <F2> <C-\><C-n>
+
+" Delete current buffer, includes terminal buffer
+map <F3> :bd!<cr>
+
+" Close all buffer except the opening one
+map <F4> :%bd\|e#<cr>
+
+" Close all buffers and quit Vim
+map <F12> :%bd\|:q<cr>
+
+" Delete without yanking to clipboard "
+vnoremap <leader>d "_d
 nnoremap <leader>D "_D
 nnoremap <leader>d "_d
 nnoremap x "_x
-tnoremap <F2> <C-\><C-n>
-vnoremap <leader>d "_d
 
+" Paste without copy the selected text to clipboard
+xnoremap p "_dP
 
 " Macro
-let @a="viwdi'\<esc>pa'\<esc>"
-let @c="iconsole.log('-----', )\<esc>F,a\<space>"
-let @j="viws/*<esc>pa */<esc>"
+let @"="viwdi'\<esc>pa'\<esc>"
 
 set t_Co=256
 set termguicolors
 set guifont=Meslo\ LG\ S\ DZ\ Regular\ Nerd\ Font\ Complete\ Mono:h15
-colorscheme tender
+colorscheme dracula
 
 " Hide mode in the bottom e.g., -- INSERT --
 set noshowmode
@@ -216,5 +230,9 @@ Plug 'jparise/vim-graphql'
 
 " Manage the tags
 Plug 'ludovicchabant/vim-gutentags'
+
+" JSDoc
+Plug 'heavenshell/vim-jsdoc'
+let g:jsdoc_enable_es6=1
 
 call plug#end()
