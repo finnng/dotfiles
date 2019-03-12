@@ -1,25 +1,46 @@
 " Keys mapping
 let mapleader = "\<space>"
 map <esc> :w\|:noh<cr>
-map <leader><enter> :
+map <leader><enter> :Files<cr>
 map <leader>[ :Files <cr>
 map <leader>\ :History<cr>
 map <leader>] :Ag<space>
 map <leader>b :Buffers <cr>
 map <leader>e :NERDTreeToggle<cr>
 map <leader>f :PrettierAsync<cr>
-map <leader>h <C-w>h 
-map <leader>j <C-w>j
-map <leader>k <C-w>k
-map <leader>l <C-w>l
+" map <leader>h <C-w>h 
+" map <leader>j <C-w>j
+" map <leader>k <C-w>k
+" map <leader>l <C-w>l
 map <leader>n :tabnew<cr>
 map <leader>q :q<cr>
 map <leader>r :NERDTreeFind<cr>
 map <leader>t :tabnew<bar>terminal<cr>i 
 map <leader>v <C-w>v
+map <leader>s <C-w>s
 map <leader>w <C-w>w
 
-" Copy relative path to clipboard
+" Moving between splitted panels
+" Alt j
+map ∆ <C-w>j
+
+" Alt h
+map ˙ <C-w>h
+
+" Alt k
+map ˚ <C-w>k
+
+" Alt l
+map ¬ <C-w>l
+
+" Jump back and forth eslint error
+map <leader>0 :ALENext<cr>
+map <leader>9 :ALEPrevious<cr>
+
+" Git blame on line
+" Alt s
+map ß :GitBlame<cr>
+
 map <leader>p :let @+ = expand("%")<cr>
 
 " Copy full file path to the clipboard
@@ -45,6 +66,9 @@ nnoremap x "_x
 
 " Paste without copy the selected text to clipboard
 xnoremap p "_dP
+
+" Always split new windows right
+set splitright
 
 " Macro
 let @"="viwdi'\<esc>pa'\<esc>"
@@ -91,16 +115,13 @@ set shell=/bin/zsh
 set mouse=a
 
 " Show line number
-set nu
+set relativenumber
 
 " Use vimrc 
 set nocompatible
 
 " Show code syntax
 syntax enable
-
-" Always split new windows right
-set splitright
 
 " Set persisten undo
 set undofile
