@@ -1,4 +1,4 @@
-" Keys mapping
+"c Keys mapping
 let mapleader = "\<space>"
 map <esc> :w\|:noh<cr>
 map <leader><enter> :Files<cr>
@@ -8,14 +8,14 @@ map <leader>] :Ag<space>
 map <leader>b :Buffers <cr>
 map <leader>e :NERDTreeToggle<cr>
 map <leader>f :PrettierAsync<cr>
-" map <leader>h <C-w>h 
+" map <leader>h <C-w>h
 " map <leader>j <C-w>j
 " map <leader>k <C-w>k
 " map <leader>l <C-w>l
 map <leader>n :tabnew<cr>
 map <leader>q :q<cr>
 map <leader>r :NERDTreeFind<cr>
-map <leader>t :tabnew<bar>terminal<cr>i 
+map <leader>t :tabnew<bar>terminal<cr>i
 map <leader>v <C-w>v
 map <leader>s <C-w>s
 map <leader>w <C-w>w
@@ -82,7 +82,7 @@ colorscheme dracula
 set noshowmode
 
 " Folding setting
-set foldmethod=indent   
+set foldmethod=indent
 set foldnestmax=10
 set nofoldenable
 set foldlevel=20
@@ -117,7 +117,7 @@ set mouse=a
 " Show line number
 set relativenumber
 
-" Use vimrc 
+" Use vimrc
 set nocompatible
 
 " Show code syntax
@@ -141,8 +141,8 @@ set noswapfile
 set tags=tags;/
 
 " Auto reload file changes: check one time after 4s of inactivity in normal mode
-set autoread                                                                                                                                                                                    
-au CursorHold * checktime  
+set autoread
+au CursorHold * checktime
 
 call plug#begin('~/.vim/plugged')
 
@@ -151,12 +151,24 @@ Plug 'prettier/vim-prettier', {'do': 'npm install' }
 " Config for auto format
 let g:prettier#quickfix_enabled = 0
 let g:prettier#autoformat = 0
+let g:prettier#config#parser = 'babylon'
 " autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
 
 " Airline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 let g:airline_powerline_fonts = 1
+" Hide the git hunk
+" %{airline#util#wrap(airline#extensions#hunks#get_hunks(),0)}%{airline#util#wrap(airline#extensions#branch#get_head(),0)}
+let g:airline_section_b = '%{airline#util#wrap(airline#extensions#branch#get_head(),0)}'
+
+" remove the filetype part
+let g:airline_section_y = ''
+let g:airline_skip_empty_sections = 1
+let g:webdevicons_enable_airline_statusline_fileformat_symbols = 0
+
+" Airline theme
+let g:airline_theme = 'papercolor'
 
 " Color Schemes
 Plug 'flazz/vim-colorschemes'
@@ -178,7 +190,7 @@ let NERDTreeShowHidden=1
 " Nerdtree git plugin
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
-" Highlight the search result 
+" Highlight the search result
 Plug 'jremmen/vim-ripgrep'
 " true if you want matches highlighted
 let g:rg_highlight = 1
@@ -208,8 +220,8 @@ set updatetime=100
 " code complete
 Plug 'valloric/youcompleteme'
 " make YMC compatible with UltiSnips
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 
 " Override YMC's signs
 let g:ycm_error_symbol = ''
@@ -241,10 +253,21 @@ Plug 'zivyangll/git-blame.vim'
 
 " Snipet
 Plug 'SirVer/ultisnips'
+" Makes ultisnip works with YCM
+let g:UltiSnipsExpandTrigger = "<nop>"
+let g:ulti_expand_or_jump_res = 0
+function ExpandSnippetOrCarriageReturn()
+    let snippet = UltiSnips#ExpandSnippetOrJump()
+    if g:ulti_expand_or_jump_res > 0
+        return snippet
+    else
+        return "\<CR>"
+    endif
+endfunction
+inoremap <expr> <CR> pumvisible() ? "\<C-R>=ExpandSnippetOrCarriageReturn()\<CR>" : "\<CR>"
+
+" More snipet file
 Plug 'honza/vim-snippets'
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 " Graphql for vim
 Plug 'jparise/vim-graphql'
