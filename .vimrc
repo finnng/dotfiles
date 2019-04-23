@@ -1,4 +1,4 @@
-"c Keys mapping
+" Keys mapping
 let mapleader = "\<space>"
 map <esc> :w\|:noh<cr>
 map <leader><enter> :Files<cr>
@@ -8,10 +8,6 @@ map <leader>] :Ag<space>
 map <leader>b :Buffers <cr>
 map <leader>e :NERDTreeToggle<cr>
 map <leader>f :PrettierAsync<cr>
-" map <leader>h <C-w>h
-" map <leader>j <C-w>j
-" map <leader>k <C-w>k
-" map <leader>l <C-w>l
 map <leader>n :tabnew<cr>
 map <leader>q :q<cr>
 map <leader>r :NERDTreeFind<cr>
@@ -20,29 +16,12 @@ map <leader>v <C-w>v
 map <leader>s <C-w>s
 map <leader>w <C-w>w
 
-" Moving between splitted panels
-" Alt j
-map ∆ <C-w>j
-
-" Alt h
-map ˙ <C-w>h
-
-" Alt k
-map ˚ <C-w>k
-
-" Alt l
-map ¬ <C-w>l
-
 " Jump back and forth eslint error
 map <leader>0 :ALENext<cr>
 map <leader>9 :ALEPrevious<cr>
 
-" Git blame on line
-" Alt s
-map ß :GitBlame<cr>
-
+" Copy file path to the clipboard
 map <leader>p :let @+ = expand("%")<cr>
-
 " Copy full file path to the clipboard
 map <leader>P :let @+ = join([expand('%'),  line(".")], ':')<cr>
 
@@ -70,9 +49,7 @@ xnoremap p "_dP
 " Always split new windows right
 set splitright
 
-" Macro
-let @"="viwdi'\<esc>pa'\<esc>"
-
+" Set theme, font and color scheme
 set t_Co=256
 set termguicolors
 set guifont=Meslo\ LG\ S\ DZ\ Regular\ Nerd\ Font\ Complete\ Mono:h15
@@ -134,15 +111,31 @@ set nobackup
 set nowb
 set noswapfile
 
-" Always show the nerdtree
-" autocmd vimenter * NERDTree
-
 " Tags
 set tags=tags;/
 
 " Auto reload file changes: check one time after 4s of inactivity in normal mode
 set autoread
 au CursorHold * checktime
+
+" Quick and dirty function to show the git blame message after the current
+" line, depend on `let g:ale_virtualtext_cursor = 1`  to clear the previous text
+" :troll:
+" Temporary just work with git repo
+function ShowGitBlame()
+  let l:file = expand('%')
+  let l:line = line('.')
+  let l:buffer = bufnr('')
+  let l:prefix = '¬ '
+  
+  let l:message = gitblame#commit_summary(l:file, l:line)
+
+  hi GitBlame ctermfg=61 ctermbg=NONE cterm=NONE guifg=#6272a4 guibg=NONE gui=NONE
+
+  call nvim_buf_set_virtual_text(l:buffer, 1, l:line-1, [[l:prefix.l:message, 'GitBlame']], {})
+endfunction
+
+au CursorHold * call ShowGitBlame() 
 
 call plug#begin('~/.vim/plugged')
 
@@ -190,23 +183,16 @@ let NERDTreeShowHidden=1
 " Nerdtree git plugin
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
-" Highlight the search result
-Plug 'jremmen/vim-ripgrep'
-" true if you want matches highlighted
-let g:rg_highlight = 1
-" list of files/dir found in project root
-let g:rg_root_types = ['.git', 'node_modules', 'coverage', 'logs']
-
-" Ale
+" Ale ﰲ     
 Plug 'w0rp/ale'
 let g:ale_linters_explicit = 1
 let g:ale_linters = { 'javascript': ['eslint'] }
-" ﰲ     
 let g:ale_sign_error = ''
 let g:ale_sign_warning = ''
 let g:ale_sign_column_always = 1
-" highlight clear ALEErrorSign
-" highlight clear ALEWarningSign
+let g:ale_virtualtext_cursor = 1 
+" let g:ale_virtualtext_prefix = ' '
+" hi ALEVirtualTextError ctermfg=61 ctermbg=NONE cterm=NONE guifg=#6272a4 guibg=NONE gui=NONE
 hi ALEErrorSign guifg=#FF0000
 hi ALEWarningSign guifg=#FFD700
 
@@ -219,11 +205,6 @@ set updatetime=100
 
 " code complete
 Plug 'valloric/youcompleteme'
-" make YMC compatible with UltiSnips
-" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-
-" Override YMC's signs
 let g:ycm_error_symbol = ''
 let g:ycm_warning_symbol = ''
 hi YcmErrorSign guifg=#FF0000
@@ -254,17 +235,17 @@ Plug 'zivyangll/git-blame.vim'
 " Snipet
 Plug 'SirVer/ultisnips'
 " Makes ultisnip works with YCM
-let g:UltiSnipsExpandTrigger = "<nop>"
-let g:ulti_expand_or_jump_res = 0
-function ExpandSnippetOrCarriageReturn()
-    let snippet = UltiSnips#ExpandSnippetOrJump()
-    if g:ulti_expand_or_jump_res > 0
-        return snippet
-    else
-        return "\<CR>"
-    endif
-endfunction
-inoremap <expr> <CR> pumvisible() ? "\<C-R>=ExpandSnippetOrCarriageReturn()\<CR>" : "\<CR>"
+" let g:UltiSnipsExpandTrigger = "<nop>"
+" let g:ulti_expand_or_jump_res = 0
+" function ExpandSnippetOrCarriageReturn()
+"     let snippet = UltiSnips#ExpandSnippetOrJump()
+"     if g:ulti_expand_or_jump_res > 0
+"         return snippet
+"     else
+"         return "\<CR>"
+"     endif
+" endfunction
+" inoremap <expr> <CR> pumvisible() ? "\<C-R>=ExpandSnippetOrCarriageReturn()\<CR>" : "\<CR>"
 
 " More snipet file
 Plug 'honza/vim-snippets'
