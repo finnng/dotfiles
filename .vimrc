@@ -16,10 +16,6 @@ map <leader>v <C-w>v
 map <leader>s <C-w>s
 map <leader>w <C-w>w
 
-" Jump back and forth eslint error
-map <leader>0 :ALENext<cr>
-map <leader>9 :ALEPrevious<cr>
-
 " Copy file path to the clipboard
 map <leader>p :let @+ = expand("%")<cr>
 " Copy full file path to the clipboard
@@ -45,6 +41,17 @@ nnoremap x "_x
 
 " Paste without copy the selected text to clipboard
 xnoremap p "_dP
+
+" Mapping for COC plugin
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+nmap <silent> <leader>9 <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>0 <Plug>(coc-diagnostic-next)
+nmap <leader>R <Plug>(coc-rename)
 
 " Always split new windows right
 set splitright
@@ -108,34 +115,40 @@ set undoreload=10000
 
 " Set no backup
 set nobackup
+set nowritebackup
 set nowb
 set noswapfile
 
 " Tags
-set tags=tags;/
+set tags=tags;
 
 " Auto reload file changes: check one time after 4s of inactivity in normal mode
 set autoread
 au CursorHold * checktime
 
+" Set update time for git-gutter and coc
+set updatetime=100
+
+" hidden closed buffer
+set hidden
+
 " Quick and dirty function to show the git blame message after the current
 " line, depend on `let g:ale_virtualtext_cursor = 1`  to clear the previous text
 " :troll:
 " Temporary just work with git repo
-function ShowGitBlame()
-  let l:file = expand('%')
-  let l:line = line('.')
-  let l:buffer = bufnr('')
-  let l:prefix = '¬ '
-  
-  let l:message = gitblame#commit_summary(l:file, l:line)
+" function ShowGitBlame()
+"   let l:file = expand('%')
+"   let l:line = line('.')
+"   let l:buffer = bufnr('')
+"   let l:prefix = '¬ '
+"   let l:message = gitblame#commit_summary(l:file, l:line)
 
-  hi GitBlame ctermfg=61 ctermbg=NONE cterm=NONE guifg=#6272a4 guibg=NONE gui=NONE
+"   hi GitBlame ctermfg=61 ctermbg=NONE cterm=NONE guifg=#6272a4 guibg=NONE gui=NONE
 
-  call nvim_buf_set_virtual_text(l:buffer, 1, l:line-1, [[l:prefix.l:message, 'GitBlame']], {})
-endfunction
+"   call nvim_buf_set_virtual_text(l:buffer, 1, l:line-1, [[l:prefix.l:message, 'GitBlame']], {})
+" endfunction
 
-au CursorHold * call ShowGitBlame() 
+" au CursorHold * call ShowGitBlame() 
 
 call plug#begin('~/.vim/plugged')
 
@@ -152,7 +165,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 let g:airline_powerline_fonts = 1
 " Hide the git hunk
-" %{airline#util#wrap(airline#extensions#hunks#get_hunks(),0)}%{airline#util#wrap(airline#extensions#branch#get_head(),0)}
 let g:airline_section_b = '%{airline#util#wrap(airline#extensions#branch#get_head(),0)}'
 
 " remove the filetype part
@@ -184,31 +196,12 @@ let NERDTreeShowHidden=1
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Ale ﰲ     
-Plug 'w0rp/ale'
-let g:ale_linters_explicit = 1
-let g:ale_linters = { 'javascript': ['eslint'] }
-let g:ale_sign_error = ''
-let g:ale_sign_warning = ''
-let g:ale_sign_column_always = 1
-let g:ale_virtualtext_cursor = 1 
-" let g:ale_virtualtext_prefix = ' '
-" hi ALEVirtualTextError ctermfg=61 ctermbg=NONE cterm=NONE guifg=#6272a4 guibg=NONE gui=NONE
-hi ALEErrorSign guifg=#FF0000
-hi ALEWarningSign guifg=#FFD700
 
 " Vim file type icons
 Plug 'ryanoasis/vim-devicons'
 
 " Show git diff
 Plug 'airblade/vim-gitgutter'
-set updatetime=100
-
-" code complete
-Plug 'valloric/youcompleteme'
-let g:ycm_error_symbol = ''
-let g:ycm_warning_symbol = ''
-hi YcmErrorSign guifg=#FF0000
-hi YcmWarningSign guifg=#FFD700
 
 " Waka time
 Plug 'wakatime/vim-wakatime'
@@ -232,24 +225,6 @@ Plug 'tpope/vim-fugitive'
 " Git blame status
 Plug 'zivyangll/git-blame.vim'
 
-" Snipet
-Plug 'SirVer/ultisnips'
-" Makes ultisnip works with YCM
-" let g:UltiSnipsExpandTrigger = "<nop>"
-" let g:ulti_expand_or_jump_res = 0
-" function ExpandSnippetOrCarriageReturn()
-"     let snippet = UltiSnips#ExpandSnippetOrJump()
-"     if g:ulti_expand_or_jump_res > 0
-"         return snippet
-"     else
-"         return "\<CR>"
-"     endif
-" endfunction
-" inoremap <expr> <CR> pumvisible() ? "\<C-R>=ExpandSnippetOrCarriageReturn()\<CR>" : "\<CR>"
-
-" More snipet file
-Plug 'honza/vim-snippets'
-
 " Graphql for vim
 Plug 'jparise/vim-graphql'
 
@@ -259,5 +234,17 @@ Plug 'ludovicchabant/vim-gutentags'
 " JSDoc
 Plug 'heavenshell/vim-jsdoc'
 let g:jsdoc_enable_es6=1
+
+" Vim Coquer of completion
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+let g:coc_status_warning_sign=''
+
+" Snipet
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+let g:UltiSnipsExpandTrigger = "<nop>"
+
+" View the JS package info 
+Plug 'meain/vim-package-info', { 'do': 'npm install' }
 
 call plug#end()

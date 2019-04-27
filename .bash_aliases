@@ -1,10 +1,7 @@
-function fzfDefaultCommand(){
-  export FZF_DEFAULT_COMMAND='ag --nocolor --ignore node_modules -g "" '
-}
 
-alias eapi='cd ~/ringblaze/api && fzfDefaultCommand && vim .'
-alias eui='cd ~/ringblaze/ui && fzfDefaultCommand && vim .'
-alias emobi='cd ~/ringblaze/mobility && fzfDefaultCommand && vim .'
+alias eapi='cd ~/ringblaze/api && vim .'
+alias eui='cd ~/ringblaze/ui && vim .'
+alias emobi='cd ~/ringblaze/mobility && vim .'
 
 alias vim='nvim'
 alias vi='nvim'
