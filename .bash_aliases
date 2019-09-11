@@ -2,22 +2,27 @@ export FZF_DEFAULT_COMMAND="ag --nogroup --nocolor --column --hidden -l"
 
 alias ll="ls -al"
 
+alias kd="kitty +kitten diff"
+alias kgd="git difftool --no-symlinks --dir-diff"
+
 alias vim='~/nvim-osx64/bin/nvim'
 alias vi='~/nvim-osx64/bin/nvim'
 
 alias evim='vim ~/.vimrc'
-alias eapi='cd ~/ringblaze/api && vim .'
-alias eui='cd ~/ringblaze/ui && vim .'
-alias emobi='cd ~/ringblaze/mobility && vim .'
-alias ehippo='cd ~/projects/hippo && vim .'
 
 alias salias="source ~/.bash_aliases"
 alias ealias="vim ~/.bash_aliases"
 
+alias vpuring="cd ~/projects/sportcontract/puring-tiger && vim ."
+alias vdatahub="cd ~/projects/sportcontract/datahub && vim ."
+alias vbpuring="cd ~/projects/sportcontract/backend-application && vim ."
+alias vbdatahub="cd ~/projects/sportcontract/backend-datahub && vim ."
+alias vmobile="cd ~/projects/sportcontract/mobile-communication && vim ."
+
 alias dc="docker-compose"
 alias dclog="docker-compose logs -f --tail=100"
 
-alias ctags="`brew --prefix`/bin/ctags"
+alias :q="exit"
 
 # Read markdown on terminal
 rmd () {
@@ -29,7 +34,7 @@ rmd () {
 
 ################# GIT #################
 
-alias gdiff='vim -p $(git diff --name-only) -c "tabdo :Gvdiff HEAD~1"'
+alias gdiff='vim -p $(git diff --name-only) -c "tabdo :Gvdiff HEAD"'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
 # git status
@@ -125,6 +130,13 @@ function gpull() {
   BRANCH=$(gcurrent)
   echo "git pull --prune origin $BRANCH ↩︎"
   git pull --prune origin $BRANCH
+}
+
+# git pull rescursive
+function gpullr() {
+  BRANCH=$(gcurrent)
+  echo "git pull --prune --recurse-submodules origin $BRANCH ↩︎"
+  git pull --prune --recurse-submodules origin $BRANCH
 }
 
 # gpush

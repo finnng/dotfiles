@@ -1,3 +1,16 @@
+set background=dark
+colorscheme quantum
+" set background=light
+" colorscheme papercolor " gruvbox
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
 " Keys mapping
 let mapleader = "\<space>"
 map <esc> :w\|:noh<cr>
@@ -6,17 +19,27 @@ map <leader>[ :GitFiles <cr>
 map <leader>\ :History<cr>
 map <leader>] :Ag<space>
 map <leader>b :Buffers <cr>
-map <leader>f :PrettierAsync<cr>
+map <leader>f :ALEFix<cr>
 map <leader>n :tabnew<cr>
 map <leader>q :q<cr>
 map <leader>e :NERDTreeToggle<cr>
 map <leader>r :NERDTreeFind<cr>
 map <silent> <leader>t :tabnew<bar>terminal<cr>i
 map gb :GitBlame<cr>
-nmap <leader>rn <Plug>(coc-rename)
-
+nmap <leader>R <Plug>(coc-rename)
 map <leader>i :ALEPrevious<cr>
 map <leader>o :ALENext<cr>	
+map <leader>T :ALEGoToDefinition<cr>
+map <leader>Y :ALEFindReferences<cr>
+
+" nmap <silent> gd <Plug>(coc-definition)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+" Change theme
+map <leader><Up> :colorscheme quantum \| set background=dark<cr>
+map <leader><Down> :colorscheme papercolor \| set background=light<cr>
 
 " Copy file path to the clipboard
 map <leader>p :let @+ = expand("%")<cr>
@@ -29,6 +52,7 @@ tnoremap <F2> <C-\><C-n>
 " Delete current buffer, includes terminal buffer
 map <F3> :bd!<cr>
 
+" Close all buffer then open the last one
 map <F4> :%bd!\|e#<cr>
 
 " Close all buffers and quit Vim
@@ -56,9 +80,7 @@ set splitright
 " Set theme, font and color scheme
 set t_Co=256
 set termguicolors
-set guifont=Meslo\ LG\ S\ DZ\ Regular\ Nerd\ Font\ Complete\ Mono:h15
-set background=dark
-colorscheme papercolor
+set guifont="MesloLGSDZ Nerd Font"
 
 " Hide mode in the bottom e.g., -- INSERT --
 set noshowmode
@@ -85,7 +107,7 @@ set encoding=utf8
 
 " Flag to support indent
 set expandtab
-set tabstop=2
+set tabstop=4
 set shiftwidth=2
 set autoindent
 set smartindent
@@ -98,6 +120,7 @@ set mouse=a
 
 " Show line number
 set relativenumber
+set nu rnu
 
 " Use vimrc
 set nocompatible
@@ -117,9 +140,6 @@ set nowritebackup
 set nowb
 set noswapfile
 
-" Tags
-set tags=tags;
-
 " Auto reload file changes: check one time after 4s of inactivity in normal mode
 set autoread
 au CursorHold * checktime
@@ -135,26 +155,21 @@ filetype plugin on
 
 call plug#begin('~/.vim/plugged')
 
-" Prettier
-Plug 'prettier/vim-prettier', {'do': 'npm install' }
-let g:prettier#quickfix_enabled = 0
-let g:prettier#autoformat = 0
-let g:prettier#config#parser = 'babylon'
-
 " Airline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-let g:airline_powerline_fonts = 1
-" Hide the git hunk
-let g:airline_section_b = '%{airline#util#wrap(airline#extensions#branch#get_head(),0)}'
+" let g:airline_powerline_fonts = 1
+let g:webdevicons_enable_airline_statusline_fileformat_symbols = 0
 
 " Remove the file type part
 let g:airline_section_y = ''
 let g:airline_skip_empty_sections = 1
-let g:webdevicons_enable_airline_statusline_fileformat_symbols = 0
 
 " Airline theme
-let g:airline_theme = 'papercolor'
+let g:airline_theme='papercolor'
+
+" " Hide the git hunk
+let g:airline_section_b = '%{airline#util#wrap(strpart(airline#extensions#branch#get_head(),0,11),0)}'
 
 " Color Schemes
 Plug 'flazz/vim-colorschemes'
@@ -171,23 +186,40 @@ Plug 'scrooloose/nerdtree'
 " show hidden file
 let NERDTreeShowHidden=1
 let NERDTreeShowLineNumbers=1
-
-" Completion
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}} let g:deoplete#enable_at_startup = 1
+let g:NERDTreeWinSize=40
+let g:NERDTreeStatusline="%{substitute(getcwd(), '^.*/', '', '')}"
+" Hide the NERDTree CWD, https://github.com/scrooloose/nerdtree/issues/806
+augroup nerdtreehidecwd
+	autocmd!
+	autocmd FileType nerdtree setlocal conceallevel=3 | syntax match NERDTreeHideCWD #^[</].*$# conceal
+augroup end
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+let g:coc_node_path = '/Users/finn/.nvm/versions/node/v10.8.0/bin/node'
 
-" Ale ﰲ     
-Plug 'w0rp/ale'
+Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
+let g:prettier#exec_cmd_path = "/Users/finn/.nvm/versions/node/v8.7.0/bin/prettier"
+let g:prettier#exec_cmd_async = 1
+let g:prettier#quickfix_enabled = 0
+let g:prettier#config#parser = 'babylon'
+
+Plug 'dense-analysis/ale'
 let g:ale_completion_enabled = 0
-let g:ale_linters_explicit = 1	
-let g:ale_linters = { 'javascript': ['eslint'] }	
+let g:ale_javascript_prettier_use_local_config = 1
+let g:ale_fixers = {
+  \ 'css': ['prettier'],
+  \ 'typescript': ['prettier', 'eslint'],
+  \ 'javascript': ['prettier', 'eslint'],
+  \ 'html': ['prettier'],
+  \ 'json': ['prettier'],
+  \ 'liquid': ['prettier']
+  \ }
 let g:ale_sign_error = ''	
 let g:ale_sign_warning = ''	
 let g:ale_sign_column_always = 1	
 hi ALEErrorSign guifg=#FF0000	
 hi ALEWarningSign guifg=#FFD700
+
 
 " Vim file type icons
 Plug 'ryanoasis/vim-devicons'
@@ -218,17 +250,26 @@ Plug 'tpope/vim-fugitive'
 Plug 'zivyangll/git-blame.vim'
 
 " Graphql for vim
-Plug 'jparise/vim-graphql'
-
-" Manage the tags
-Plug 'ludovicchabant/vim-gutentags'
+" Plug 'jparise/vim-graphql'
 
 " Snipet
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 Plug 'tpope/vim-surround'
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+" Typescript
+Plug 'leafgarland/typescript-vim'
+
+" Elixir
+Plug 'elixir-editors/vim-elixir'
+
+" Liquid
+Plug 'tpope/vim-liquid'
 
 call plug#end()
