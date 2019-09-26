@@ -108,7 +108,7 @@ set encoding=utf8
 " Flag to support indent
 set expandtab
 set tabstop=4
-set shiftwidth=2
+set shiftwidth=4
 set autoindent
 set smartindent
 
@@ -186,7 +186,7 @@ Plug 'scrooloose/nerdtree'
 " show hidden file
 let NERDTreeShowHidden=1
 let NERDTreeShowLineNumbers=1
-let g:NERDTreeWinSize=40
+let g:NERDTreeWinSize=50
 let g:NERDTreeStatusline="%{substitute(getcwd(), '^.*/', '', '')}"
 " Hide the NERDTree CWD, https://github.com/scrooloose/nerdtree/issues/806
 augroup nerdtreehidecwd
