@@ -1,3 +1,6 @@
+let g:python_host_prog  = '/usr/bin/python2'
+let g:python3_host_prog  = '/usr/bin/python3'
+
 set background=dark
 colorscheme quantum
 " set background=light
@@ -9,6 +12,27 @@ function! s:show_documentation()
   else
     call CocAction('doHover')
   endif
+endfunction
+
+function! FloatingFZF()
+  let buf = nvim_create_buf(v:false, v:true)
+  call setbufvar(buf, '&signcolumn', 'no')
+ 
+  let height = float2nr(20)
+  let width = float2nr(100)
+  let horizontal = float2nr((&columns - width) / 2)
+  let vertical = 1
+ 
+  let opts = {
+        \ 'relative': 'editor',
+        \ 'row': vertical,
+        \ 'col': horizontal,
+        \ 'width': width,
+        \ 'height': height,
+        \ 'style': 'minimal'
+        \ }
+ 
+  call nvim_open_win(buf, v:true, opts)
 endfunction
 
 " Keys mapping
@@ -23,7 +47,7 @@ map <leader>f :ALEFix<cr>
 map <leader>n :tabnew<cr>
 map <leader>q :q<cr>
 map <leader>e :NERDTreeToggle<cr>
-map <leader>r :NERDTreeFind<cr>
+map <leader>r :NERDTreeFind<cr>\|zz
 map <silent> <leader>t :tabnew<bar>terminal<cr>i
 map gb :GitBlame<cr>
 nmap <leader>R <Plug>(coc-rename)
@@ -39,7 +63,7 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 " Change theme
 map <leader><Up> :colorscheme quantum \| set background=dark<cr>
-map <leader><Down> :colorscheme papercolor \| set background=light<cr>
+map <leader><Down> :colorscheme PaperColor \| set background=light<cr>
 
 " Copy file path to the clipboard
 map <leader>p :let @+ = expand("%")<cr>
@@ -56,7 +80,7 @@ map <F3> :bd!<cr>
 map <F4> :%bd!\|e#<cr>
 
 " Close all buffers and quit Vim
-map <F12> :%bd\|:q<cr>
+map <F11> :%bd\|:q<cr>
 
 " Delete without yanking to clipboard "
 vnoremap <leader>d "_d
@@ -80,7 +104,7 @@ set splitright
 " Set theme, font and color scheme
 set t_Co=256
 set termguicolors
-set guifont="MesloLGSDZ Nerd Font"
+" set guifont="MesloLGSDZ Nerd Font"
 
 " Hide mode in the bottom e.g., -- INSERT --
 set noshowmode
@@ -195,10 +219,10 @@ augroup nerdtreehidecwd
 augroup end
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-let g:coc_node_path = '/Users/finn/.nvm/versions/node/v10.8.0/bin/node'
+let g:coc_node_path = '/home/finn/.nvm/versions/node/v10.8.0/bin/node'
 
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-let g:prettier#exec_cmd_path = "/Users/finn/.nvm/versions/node/v8.7.0/bin/prettier"
+let g:prettier#exec_cmd_path = "/home/finn/.nvm/versions/node/v8.7.0/bin/prettier"
 let g:prettier#exec_cmd_async = 1
 let g:prettier#quickfix_enabled = 0
 let g:prettier#config#parser = 'babylon'
@@ -242,6 +266,7 @@ let g:javascript_plugin_jsdoc = 1
 " FZF plugin
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
+let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 
 " Git plugin for gdiff command
 Plug 'tpope/vim-fugitive'

@@ -5,19 +5,11 @@ alias ll="ls -al"
 alias kd="kitty +kitten diff"
 alias kgd="git difftool --no-symlinks --dir-diff"
 
-alias vim='~/nvim-osx64/bin/nvim'
-alias vi='~/nvim-osx64/bin/nvim'
+alias vim="nvim"
+alias evim='vim ~/.config/nvim/init.vim'
 
-alias evim='vim ~/.vimrc'
-
-alias salias="source ~/.bash_aliases"
-alias ealias="vim ~/.bash_aliases"
-
-alias vpuring="cd ~/projects/sportcontract/puring-tiger && vim ."
-alias vdatahub="cd ~/projects/sportcontract/datahub && vim ."
-alias vbpuring="cd ~/projects/sportcontract/backend-application && vim ."
-alias vbdatahub="cd ~/projects/sportcontract/backend-datahub && vim ."
-alias vmobile="cd ~/projects/sportcontract/mobile-communication && vim ."
+alias salias="source ~/.aliases"
+alias ealias="vim ~/.aliases"
 
 alias dc="docker-compose"
 alias dclog="docker-compose logs -f --tail=100"
