@@ -1,8 +1,9 @@
 let g:python_host_prog  = '/usr/bin/python2'
 let g:python3_host_prog  = '/usr/bin/python3'
 
+set cursorline
 set background=dark
-colorscheme quantum
+colorscheme gruvbox
 " set background=light
 " colorscheme papercolor " gruvbox
 
@@ -21,7 +22,7 @@ function! FloatingFZF()
   let height = float2nr(20)
   let width = float2nr(100)
   let horizontal = float2nr((&columns - width) / 2)
-  let vertical = 1
+  let vertical = float2nr((&lines - height) / 2)
  
   let opts = {
         \ 'relative': 'editor',
@@ -80,7 +81,7 @@ map <F3> :bd!<cr>
 map <F4> :%bd!\|e#<cr>
 
 " Close all buffers and quit Vim
-map <F11> :%bd\|:q<cr>
+map <F12> :%bd\|:q<cr>
 
 " Delete without yanking to clipboard "
 vnoremap <leader>d "_d
@@ -296,5 +297,10 @@ Plug 'elixir-editors/vim-elixir'
 
 " Liquid
 Plug 'tpope/vim-liquid'
+
+" nvim blame line
+Plug 'tveskag/nvim-blame-line'
+" Enable on start
+autocmd BufEnter * EnableBlameLine
 
 call plug#end()

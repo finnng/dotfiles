@@ -29,13 +29,15 @@ rmd () {
 alias gdiff='vim -p $(git diff --name-only) -c "tabdo :Gvdiff HEAD"'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
+function gcb(){
+    BRANCH=$(echo `~/.scripts/make-branch-name.js $1`)
+    echo "Create new branch $BRANCH"
+    echo `git checkout -b $BRANCH`
+}
+
 # git status
 function gs(){
   git status
-}
-
-function gck() {
-  git checkout
 }
 
 # git delete all the local branchs
