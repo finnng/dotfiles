@@ -1,5 +1,5 @@
-let g:python_host_prog  = '/usr/bin/python2'
-let g:python3_host_prog  = '/usr/bin/python3'
+" let g:python_host_prog  = '/usr/bin/python2'
+" let g:python3_host_prog  = '/usr/bin/python3'
 
 set cursorline
 set background=dark
@@ -22,7 +22,7 @@ function! FloatingFZF()
   let height = float2nr(20)
   let width = float2nr(100)
   let horizontal = float2nr((&columns - width) / 2)
-  let vertical = float2nr((&lines - height) / 2)
+  let vertical = 0 " float2nr((&lines - height))
  
   let opts = {
         \ 'relative': 'editor',
@@ -43,6 +43,7 @@ map <leader><enter> :Files<cr>
 map <leader>[ :GitFiles <cr>
 map <leader>\ :History<cr>
 map <leader>] :Ag<space>
+map <leader>} yiw:Ag<space><C-R><S-+><cr>
 map <leader>b :Buffers <cr>
 map <leader>f :ALEFix<cr>
 map <leader>n :tabnew<cr>
@@ -220,10 +221,10 @@ augroup nerdtreehidecwd
 augroup end
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-let g:coc_node_path = '/home/finn/.nvm/versions/node/v10.8.0/bin/node'
+let g:coc_node_path = $HOME.'/.nvm/versions/node/v10.8.0/bin/node'
 
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-let g:prettier#exec_cmd_path = "/home/finn/.nvm/versions/node/v8.7.0/bin/prettier"
+let g:prettier#exec_cmd_path = $HOME."/.nvm/versions/node/v8.7.0/bin/prettier"
 let g:prettier#exec_cmd_async = 1
 let g:prettier#quickfix_enabled = 0
 let g:prettier#config#parser = 'babylon'
@@ -297,10 +298,5 @@ Plug 'elixir-editors/vim-elixir'
 
 " Liquid
 Plug 'tpope/vim-liquid'
-
-" nvim blame line
-Plug 'tveskag/nvim-blame-line'
-" Enable on start
-autocmd BufEnter * EnableBlameLine
 
 call plug#end()
