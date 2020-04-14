@@ -7,6 +7,9 @@ colorscheme gruvbox
 " set background=light
 " colorscheme papercolor " gruvbox
 
+set listchars=space:.,tab:>-
+set list
+
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -22,7 +25,7 @@ function! FloatingFZF()
   let height = float2nr(20)
   let width = float2nr(100)
   let horizontal = float2nr((&columns - width) / 2)
-  let vertical = 0 " float2nr((&lines - height))
+  let vertical = 0 ""float2nr((&lines - height) /2 )
  
   let opts = {
         \ 'relative': 'editor',
@@ -240,12 +243,11 @@ let g:ale_fixers = {
   \ 'json': ['prettier'],
   \ 'liquid': ['prettier']
   \ }
-let g:ale_sign_error = ''	
-let g:ale_sign_warning = ''	
-let g:ale_sign_column_always = 1	
-hi ALEErrorSign guifg=#FF0000	
+let g:ale_sign_error = ''
+let g:ale_sign_warning = ''
+let g:ale_sign_column_always = 1
+hi ALEErrorSign guifg=#FF0000
 hi ALEWarningSign guifg=#FFD700
-
 
 " Vim file type icons
 Plug 'ryanoasis/vim-devicons'
@@ -276,9 +278,6 @@ Plug 'tpope/vim-fugitive'
 " Git blame status
 Plug 'zivyangll/git-blame.vim'
 
-" Graphql for vim
-" Plug 'jparise/vim-graphql'
-
 " Snipet
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -288,15 +287,10 @@ let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 Plug 'tpope/vim-surround'
 
-" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-
 " Typescript
 Plug 'leafgarland/typescript-vim'
 
-" Elixir
-Plug 'elixir-editors/vim-elixir'
-
-" Liquid
-Plug 'tpope/vim-liquid'
+" gdscript
+Plug 'clktmr/vim-gdscript3'
 
 call plug#end()
