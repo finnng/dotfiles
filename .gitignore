@@ -1,6 +1,5 @@
-*
-!.vimrc
-!.bash_aliases
+!init.vim
+!.aliases
 !kitty.conf
 !theme.conf
 !README.md
