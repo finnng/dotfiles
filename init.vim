@@ -1,6 +1,3 @@
-" let g:python_host_prog  = '/usr/bin/python2'
-" let g:python3_host_prog  = '/usr/bin/python3'
-
 set cursorline
 set background=dark
 colorscheme gruvbox
@@ -198,7 +195,7 @@ let g:airline_skip_empty_sections = 1
 let g:airline_theme='papercolor'
 
 " " Hide the git hunk
-let g:airline_section_b = '%{airline#util#wrap(strpart(airline#extensions#branch#get_head(),0,11),0)}'
+" let g:airline_section_b = '%{airline#util#wrap(strpart(airline#extensions#branch#get_head(),0,11),0)}'
 
 " Color Schemes
 Plug 'flazz/vim-colorschemes'
@@ -224,10 +221,11 @@ augroup nerdtreehidecwd
 augroup end
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-let g:coc_node_path = $HOME.'/.nvm/versions/node/v10.8.0/bin/node'
+let g:coc_node_path = $HOME.'/.nvm/versions/node/v12.18.2/bin/node'
+let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-python', 'coc-tsserver']
 
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-let g:prettier#exec_cmd_path = $HOME."/.nvm/versions/node/v8.7.0/bin/prettier"
+let g:prettier#exec_cmd_path = $HOME."/.nvm/versions/node/v12.18.2/bin/prettier"
 let g:prettier#exec_cmd_async = 1
 let g:prettier#quickfix_enabled = 0
 let g:prettier#config#parser = 'babylon'
@@ -268,7 +266,7 @@ Plug 'mxw/vim-jsx'
 let g:javascript_plugin_jsdoc = 1
 
 " FZF plugin
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 
@@ -292,5 +290,8 @@ Plug 'leafgarland/typescript-vim'
 
 " gdscript
 Plug 'clktmr/vim-gdscript3'
+
+" Rust
+Plug 'rust-lang/rust.vim'
 
 call plug#end()
