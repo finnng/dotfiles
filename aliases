@@ -216,3 +216,8 @@ function gdellocal(){
 }
 
 ################# END GIT #################
+
+# Get nameserver of the WSL host on Windows 10
+function getwslhost(){
+  cat /etc/resolv.conf | grep nameserver | cut -d ' ' -f 2
+}

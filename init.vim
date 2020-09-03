@@ -1,8 +1,6 @@
 set cursorline
 set background=dark
-colorscheme gruvbox
-" set background=light
-" colorscheme papercolor " gruvbox
+colorscheme quantum
 
 set listchars=space:.,tab:>-
 set list
@@ -18,12 +16,11 @@ endfunction
 function! FloatingFZF()
   let buf = nvim_create_buf(v:false, v:true)
   call setbufvar(buf, '&signcolumn', 'no')
- 
   let height = float2nr(20)
-  let width = float2nr(100)
+  let width = float2nr(120)
   let horizontal = float2nr((&columns - width) / 2)
-  let vertical = 0 ""float2nr((&lines - height) /2 )
- 
+  let vertical = 0 " float2nr((&lines - height))
+
   let opts = {
         \ 'relative': 'editor',
         \ 'row': vertical,
@@ -32,7 +29,7 @@ function! FloatingFZF()
         \ 'height': height,
         \ 'style': 'minimal'
         \ }
- 
+
   call nvim_open_win(buf, v:true, opts)
 endfunction
 
@@ -50,15 +47,17 @@ map <leader>n :tabnew<cr>
 map <leader>q :q<cr>
 map <leader>e :NERDTreeToggle<cr>
 map <leader>r :NERDTreeFind<cr>\|zz
-map <silent> <leader>t :tabnew<bar>terminal<cr>i
+" map <silent> <leader>t :tabnew<bar>terminal<cr>i
+map <silent><leader>t :split<bar>wincmd j<bar>resize 10<bar>terminal<cr>i
 map gb :GitBlame<cr>
 nmap <leader>R <Plug>(coc-rename)
 map <leader>i :ALEPrevious<cr>
-map <leader>o :ALENext<cr>	
+map <leader>o :ALENext<cr>
 map <leader>T :ALEGoToDefinition<cr>
 map <leader>Y :ALEFindReferences<cr>
+" tnoremap <silent><C-[> <C-\><C-n>
 
-" nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gd <Plug>(coc-definition)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -76,13 +75,13 @@ map <leader>P :let @+ = join([expand('%'),  line(".")], ':')<cr>
 tnoremap <F2> <C-\><C-n>
 
 " Delete current buffer, includes terminal buffer
-map <F3> :bd!<cr>
+" map <F3> :bd!<cr>
 
 " Close all buffer then open the last one
 map <F4> :%bd!\|e#<cr>
 
 " Close all buffers and quit Vim
-map <F12> :%bd\|:q<cr>
+" map <F12> :qa!<cr>
 
 " Delete without yanking to clipboard "
 vnoremap <leader>d "_d
@@ -106,7 +105,6 @@ set splitright
 " Set theme, font and color scheme
 set t_Co=256
 set termguicolors
-" set guifont="MesloLGSDZ Nerd Font"
 
 " Hide mode in the bottom e.g., -- INSERT --
 set noshowmode
@@ -116,9 +114,6 @@ set foldmethod=indent
 set foldnestmax=10
 set nofoldenable
 set foldlevel=20
-
-" Disable MacVim scroll bar left and right
-" set guioptions=
 
 " Ignore case sensitive when search
 set ignorecase
@@ -212,7 +207,7 @@ Plug 'scrooloose/nerdtree'
 " show hidden file
 let NERDTreeShowHidden=1
 let NERDTreeShowLineNumbers=1
-let g:NERDTreeWinSize=50
+let g:NERDTreeWinSize=45
 let g:NERDTreeStatusline="%{substitute(getcwd(), '^.*/', '', '')}"
 " Hide the NERDTree CWD, https://github.com/scrooloose/nerdtree/issues/806
 augroup nerdtreehidecwd
@@ -222,7 +217,7 @@ augroup end
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 let g:coc_node_path = $HOME.'/.nvm/versions/node/v12.18.2/bin/node'
-let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-python', 'coc-tsserver']
+let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-python', 'coc-tsserver', 'coc-rls']
 
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 let g:prettier#exec_cmd_path = $HOME."/.nvm/versions/node/v12.18.2/bin/prettier"
@@ -239,7 +234,8 @@ let g:ale_fixers = {
   \ 'javascript': ['prettier', 'eslint'],
   \ 'html': ['prettier'],
   \ 'json': ['prettier'],
-  \ 'liquid': ['prettier']
+  \ 'liquid': ['prettier'],
+  \ 'rust': ['rustfmt'],
   \ }
 let g:ale_sign_error = ''
 let g:ale_sign_warning = ''
@@ -292,6 +288,6 @@ Plug 'leafgarland/typescript-vim'
 Plug 'clktmr/vim-gdscript3'
 
 " Rust
-Plug 'rust-lang/rust.vim'
+" Plug 'rust-lang/rust.vim'
 
 call plug#end()
