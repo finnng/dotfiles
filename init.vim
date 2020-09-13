@@ -1,6 +1,9 @@
-set cursorline
+" set cursorline
+let $darkcolor='nord'
+let $whitecolor='PaperColor'
+
 set background=dark
-colorscheme quantum
+colorscheme $darkcolor
 
 set listchars=space:.,tab:>-
 set list
@@ -63,8 +66,8 @@ nmap <silent> gd <Plug>(coc-definition)
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 " Change theme
-map <leader><Up> :colorscheme quantum \| set background=dark<cr>
-map <leader><Down> :colorscheme PaperColor \| set background=light<cr>
+map <leader><Up> :colorscheme $darkcolor \| set background=dark<cr>
+map <leader><Down> :colorscheme $whitecolor \| set background=light<cr>
 
 " Copy file path to the clipboard
 map <leader>p :let @+ = expand("%")<cr>
@@ -75,13 +78,13 @@ map <leader>P :let @+ = join([expand('%'),  line(".")], ':')<cr>
 tnoremap <F2> <C-\><C-n>
 
 " Delete current buffer, includes terminal buffer
-" map <F3> :bd!<cr>
+map <F3> :bd!<cr>
 
 " Close all buffer then open the last one
 map <F4> :%bd!\|e#<cr>
 
 " Close all buffers and quit Vim
-" map <F12> :qa!<cr>
+map <F12> :qa!<cr>
 
 " Delete without yanking to clipboard "
 vnoremap <leader>d "_d
@@ -133,6 +136,8 @@ set shiftwidth=4
 set autoindent
 set smartindent
 
+autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2
+
 " Need to zshell because I'm using it, make sure nothing broken
 set shell=/bin/zsh
 
@@ -141,7 +146,7 @@ set mouse=a
 
 " Show line number
 set relativenumber
-set nu rnu
+" set nu rnu
 
 " Use vimrc
 set nocompatible
@@ -166,7 +171,7 @@ set autoread
 au CursorHold * checktime
 
 " Set update time for git-gutter and coc
-set updatetime=100
+set updatetime=200
 
 " hidden closed buffer
 set hidden
@@ -216,11 +221,11 @@ augroup nerdtreehidecwd
 augroup end
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-let g:coc_node_path = $HOME.'/.nvm/versions/node/v12.18.2/bin/node'
+let g:coc_node_path = $NODE_EXE
 let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-python', 'coc-tsserver', 'coc-rls']
 
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
-let g:prettier#exec_cmd_path = $HOME."/.nvm/versions/node/v12.18.2/bin/prettier"
+let g:prettier#exec_cmd_path = $HOME."/.nvm/versions/node/v10.15.1/bin/prettier"
 let g:prettier#exec_cmd_async = 1
 let g:prettier#quickfix_enabled = 0
 let g:prettier#config#parser = 'babylon'
@@ -250,7 +255,7 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'airblade/vim-gitgutter'
 
 " Waka time
-Plug 'wakatime/vim-wakatime'
+" Plug 'wakatime/vim-wakatime'
 
 " Auto pairs the bracket [ { (...
 Plug 'jiangmiao/auto-pairs'
@@ -285,7 +290,7 @@ Plug 'tpope/vim-surround'
 Plug 'leafgarland/typescript-vim'
 
 " gdscript
-Plug 'clktmr/vim-gdscript3'
+" Plug 'clktmr/vim-gdscript3'
 
 " Rust
 " Plug 'rust-lang/rust.vim'
