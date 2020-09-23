@@ -22,27 +22,18 @@ rmd () {
 }
 
 # Only show the current directory's name in the tab
-#export PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'
+# export PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'
 
 ################# GIT #################
 
 alias gdiff='vim -p $(git diff --name-only) -c "tabdo :Gvdiff HEAD"'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
-function gcb(){
-    BRANCH=$(echo `~/.scripts/make-branch-name.js $1`)
-    echo "Create new branch $BRANCH"
-    echo `git checkout -b $BRANCH`
-}
 
-# git status
+export CONNECT_APP_DIR=/Users/finn/Projects/connect
+
 function gs(){
   git status
-}
-
-# git delete all the local branchs
-function gdb(){
-  git branch | grep -v "master" | xargs git branch -D 
 }
 
 function gcurrent() {
@@ -51,13 +42,27 @@ function gcurrent() {
 
 function gtemp() {
   git add --all
-  git commit -m "Temp commit"
+  git commit -m "Temp"
 }
 
-# ghotfix <message>
+# ghotfix <Jira-Issue-Number> <message>
 function ghotfix() {
+  jiraIssueId=${1=""}
+  message=${2=""}
+  echo "ghotfix \"$1\" \"$2\""
+
+  if [[ "$jiraIssueId" = "" || "$message" = "" ]]; then
+    echo "Error: Missing argument!\nUsage:\n\tghotfix <Jira-Issue-Number> <message>"
+    return
+  fi
+
+  echo "git add --all"
   git add --all
-  git commit -m "Hotfix: $1"
+
+  echo "git commit -m \"$jiraIssueId (Hotfix) $message\""
+  git commit -m "$jiraIssueId (Hotfix) $message"
+
+  echo "gpush"
   gpush
 }
 
@@ -66,14 +71,18 @@ function gcommit() {
   BRANCH=$(gcurrent)
   echo "Current git branch $BRANCH"
 
-  echo "git add --all ↩︎"
+  echo "git add --all"
   git add --all
 
-  echo "git commit -m \"$1\" ↩︎"
+  echo "git commit -m \"$1\""
   git commit -m "$1"
 
-  echo "git push origin $BRANCH ↩︎"
+  echo "git push origin $BRANCH"
   git push origin $BRANCH
+}
+
+function gbranchlist() {
+  git branch | grep $1 | yank
 }
 
 # gbranchrename <new-branch-name>
@@ -82,21 +91,46 @@ function gbranchrename() {
   NEW_BRANCH=$1
   echo "Rename git branch: $OLD_BRANCH --> $NEW_BRANCH"
 
-  echo "git checkout master ↩︎"
+  echo "git checkout master"
   git checkout master
 
-  echo "git branch -m $OLD_BRANCH $NEW_BRANCH ↩︎"
+  echo "git branch -m $OLD_BRANCH $NEW_BRANCH"
   git branch -m $OLD_BRANCH $NEW_BRANCH
 
-  echo "git push origin :$OLD_BRANCH $NEW_BRANCH ↩︎"
+  echo "git push origin :$OLD_BRANCH $NEW_BRANCH"
   git push origin :$OLD_BRANCH $NEW_BRANCH
+
+  echo "git checkouut $NEW_BRANCH"
+  git checkouut $NEW_BRANCH
+}
+
+# gtaglast <filter-string>
+function gtaglast() {
+  TAG_LIST=`git tag | grep $1`
+  # echo "node $CONNECT_APP_DIR/deployment/scripts/tools/calculate-latest-git-tag.js $TAG_LIST"
+  LAST_TAG_LIST=`node $CONNECT_APP_DIR/deployment/scripts/tools/calculate-latest-git-tag.js $TAG_LIST`
+  echo $LAST_TAG_LIST
 }
 
 # gtagpush <tag-name>
 function gtagpush() {
+  
+  echo "git checkout master"
   git checkout master
-  git tag -a $1 -m "v$1"
-  git pull --prune origin master
+
+  echo "git tag -a $1 -m \"$1\""
+  git tag -a $1 -m "$1"
+
+  echo "git push origin $1"
+  git push origin $1
+}
+
+# gtagpushbranch <tag-name>
+function gtagpushbranch() {
+  echo "git tag -a $1 -m \"$1\""
+  git tag -a $1 -m "$1"
+
+  echo "git push origin $1"
   git push origin $1
 }
 
@@ -104,6 +138,14 @@ function gtagpush() {
 function gtaglist() {
   TAG_LIST=`git tag | grep $1`
   echo $TAG_LIST
+}
+
+# gtag <filter-string>
+function gtag() {
+  TAG_LIST=`git tag | grep $1`
+  # echo "node $CONNECT_APP_DIR/deployment/scripts/tools/calculate-latest-git-tag.js $TAG_LIST"
+  LAST_TAG_LIST=`node $CONNECT_APP_DIR/deployment/scripts/tools/calculate-latest-git-tag.js $TAG_LIST`
+  echo $LAST_TAG_LIST | yank
 }
 
 # gtagdelete <branch-name>
@@ -114,43 +156,83 @@ function gtagdelete() {
 
 # gfetch
 function gfetch() {
+  echo "git fetch"
+  git fetch
+}
+
+# gfetch
+function gfetchprune() {
+  # BRANCH=$(gcurrent)
+  # echo "git fetch --prune origin $BRANCH"
+  # git fetch --prune origin $BRANCH
+  echo "git fetch --prune"
+  git fetch --prune
+}
+
+# gpull
+function gpullprune() {
   BRANCH=$(gcurrent)
-  echo "git fetch --prune origin $BRANCH ↩︎"
-  git fetch --prune origin $BRANCH
+  echo "git pull --prune origin $BRANCH"
+  git pull --prune origin $BRANCH
 }
 
 # gpull
 function gpull() {
   BRANCH=$(gcurrent)
-  echo "git pull --prune origin $BRANCH ↩︎"
-  git pull --prune origin $BRANCH
-}
-
-# git pull rescursive
-function gpullr() {
-  BRANCH=$(gcurrent)
-  echo "git pull --prune --recurse-submodules origin $BRANCH ↩︎"
-  git pull --prune --recurse-submodules origin $BRANCH
+  echo "git pull origin $BRANCH --rebase"
+  git pull origin $BRANCH --rebase
 }
 
 # gpush
 function gpush() {
   BRANCH=$(gcurrent)
-  echo "Current git branch $BRANCH ↩︎"
+  echo "Current git branch $BRANCH"
   git push origin $BRANCH
+}
+
+function gpullpush() {
+  gpull && gpush
 }
 
 # gpushf
 function gpushf() {
   BRANCH=$(gcurrent)
-  echo "Current git branch $BRANCH ↩︎"
+  echo "Current git branch $BRANCH"
   git push origin $BRANCH -f
 }
 
 # gbranchdelete <branch-name>
 function gbranchdelete() {
+  gbranchdeletelocal $1
   git push origin -d -f $1
-  git branch -d $1
+}
+
+# gbranchdeletelocal <branch-name>
+function gbranchdeletelocal() {
+  git branch -D $1
+}
+
+# Delete all git branches on local except master
+# Make sure you push all commits to remote (e.g. github)
+function gbranchdeletelocalall() {
+  for refname in $(git for-each-ref --format='%(refname)' refs/heads/); do
+    branch=$(echo $refname | sed "s|refs/heads/||")
+    echo "Deleting $branch on local..."
+    gbranchdeletelocal $branch
+    echo "Deleted $branch on local\n\n"
+  done
+}
+
+# Delete all git remote branches except master
+# Make sure you push all commits to remote (e.g. github)
+function gbranchdeleteremote() {
+  pattern=refs/remotes/origin/
+  for refname in $(git for-each-ref --format='%(refname)' $pattern); do
+    branch=$(echo $refname | sed "s|$pattern||")
+    echo "Deleting $branch on local..."
+    #gbranchdeletelocal $branch
+    #echo "Deleted $branch on local\n\n"
+  done
 }
 
 # gbranch <branch-name>
@@ -172,52 +254,91 @@ function gstashrebase() {
   git stash apply
 }
 
-# grebase
-function grebase(){
-  BRANCH=$(gcurrent)
-  TARGET="master"
-  if [ ! -z $1 ]
-  then
-    TARGET=$1
-  fi
-  echo "Current git branch $BRANCH"
-  echo "git checkout $TARGET ↩︎"
-  git checkout $TARGET
-  echo "git pull origin $TARGET ↩︎"
-  git pull origin $TARGET
-  echo "git checkout $BRANCH ↩︎" 
-  git checkout $BRANCH
-  echo "git rebase $TARGET ↩︎"
-  git rebase $TARGET
+# grebase <branch>
+function grebase() {
+  CURRENT_BRANCH=$(gcurrent)
+  BASE_BRANCH=${1:=master}
+
+  echo "Current git branch $CURRENT_BRANCH"
+  git checkout $BASE_BRANCH
+
+  echo "git pull origin $BASE_BRANCH --rebase"
+  git pull origin $BASE_BRANCH --rebase
+
+  echo "git checkout $CURRENT_BRANCH"
+  git checkout $CURRENT_BRANCH
+
+  echo "git rebase $BASE_BRANCH"
+  git rebase $BASE_BRANCH
 }
 
-# gmerge
+# gmerge <to-branch>
 function gmerge() {
+
+  CURRENT_BRANCH=$(gcurrent)
+  TO_BRANCH=${1:=master}
+
+  echo "Merging $CURRENT_BRANCH -> $TO_BRANCH"
+
+  echo "git checkout $TO_BRANCH"
+  git checkout $TO_BRANCH
+
+  echo "git merge --no-ff $CURRENT_BRANCH"
+  git merge --no-ff $CURRENT_BRANCH
+
+  echo "git commit -m 'Merge branch $CURRENT_BRANCH'"
+  git commit -m "Merge branch $CURRENT_BRANCH"
+
+  echo "git push origin $TO_BRANCH"
+  git push origin $TO_BRANCH
+
+  echo "Delete $CURRENT_BRANCH branch from local"
+  gbranchdeletelocal $CURRENT_BRANCH
+}
+
+# grebasedevelop
+function grebasedevelop() {
+  BRANCH=$(gcurrent)
+
+  echo "Current git branch $BRANCH"
+  git checkout develop
+
+  echo "git pull origin develop --rebase"
+  git pull origin develop --rebase
+
+  echo "git checkout $BRANCH"
+  git checkout $BRANCH
+
+  echo "git rebase develop"
+  git rebase develop
+}
+
+# gmergedevelop
+function gmergedevelop() {
+
   BRANCH=$(gcurrent)
   echo "Current git branch $BRANCH"
 
-  echo "git checkout master"
-  git checkout master
+  echo "git checkout develop"
+  git checkout develop
 
-  echo "git merge --no-ff $BRANCH ↩︎"
+  echo "git merge --no-ff $BRANCH"
   git merge --no-ff $BRANCH
 
-  echo "git commit -m 'Merge branch $BRANCH' ↩︎"
+  echo "git commit -m 'Merge branch $BRANCH'"
   git commit -m "Merge branch $BRANCH"
 
-  echo "git push origin master ↩︎"
-  git push origin master
+  echo "git push origin develop"
+  git push origin develop
 }
-
-# git delete all local branches except master
-function gdellocal(){
-  echo "git branch | grep -v \"master\" | xargs git branch -D ↩︎"
-  git branch | grep -v "master" | xargs git branch -D
-}
-
 ################# END GIT #################
 
 # Get nameserver of the WSL host on Windows 10
 function getwslhost(){
   cat /etc/resolv.conf | grep nameserver | cut -d ' ' -f 2
+}
+
+# search in the history
+h() {
+  print -z $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed -E 's/ *[0-9]*\*? *//' | sed -E 's/\\/\\\\/g')
 }

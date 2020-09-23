@@ -1,12 +1,12 @@
-" set cursorline
-let $darkcolor='nord'
+set cursorline
+let $darkcolor='quantum'
 let $whitecolor='PaperColor'
 
 set background=dark
 colorscheme $darkcolor
 
-set listchars=space:.,tab:>-
-set list
+" set listchars=space:.,tab:>-
+" set list
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -20,7 +20,7 @@ function! FloatingFZF()
   let buf = nvim_create_buf(v:false, v:true)
   call setbufvar(buf, '&signcolumn', 'no')
   let height = float2nr(20)
-  let width = float2nr(120)
+  let width = float2nr(180)
   let horizontal = float2nr((&columns - width) / 2)
   let vertical = 0 " float2nr((&lines - height))
 
@@ -36,7 +36,6 @@ function! FloatingFZF()
   call nvim_open_win(buf, v:true, opts)
 endfunction
 
-" Keys mapping
 let mapleader = "\<space>"
 map <esc> :w\|:noh<cr>
 map <leader><enter> :Files<cr>
@@ -145,8 +144,7 @@ set shell=/bin/zsh
 set mouse=a
 
 " Show line number
-set relativenumber
-" set nu rnu
+set nu rnu
 
 " Use vimrc
 set nocompatible
@@ -192,7 +190,7 @@ let g:airline_section_y = ''
 let g:airline_skip_empty_sections = 1
 
 " Airline theme
-let g:airline_theme='papercolor'
+" let g:airline_theme='nord'
 
 " " Hide the git hunk
 " let g:airline_section_b = '%{airline#util#wrap(strpart(airline#extensions#branch#get_head(),0,11),0)}'
@@ -215,14 +213,14 @@ let NERDTreeShowLineNumbers=1
 let g:NERDTreeWinSize=45
 let g:NERDTreeStatusline="%{substitute(getcwd(), '^.*/', '', '')}"
 " Hide the NERDTree CWD, https://github.com/scrooloose/nerdtree/issues/806
-augroup nerdtreehidecwd
-	autocmd!
-	autocmd FileType nerdtree setlocal conceallevel=3 | syntax match NERDTreeHideCWD #^[</].*$# conceal
-augroup end
+" augroup nerdtreehidecwd
+"     autocmd!
+"     autocmd FileType nerdtree setlocal conceallevel=3 | syntax match NERDTreeHideCWD #^[</].*$# conceal
+" augroup end
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 let g:coc_node_path = $NODE_EXE
-let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-python', 'coc-tsserver', 'coc-rls']
+let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-python', 'coc-tsserver', 'coc-rls', 'coc-flow']
 
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 let g:prettier#exec_cmd_path = $HOME."/.nvm/versions/node/v10.15.1/bin/prettier"
