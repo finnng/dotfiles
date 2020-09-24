@@ -58,6 +58,8 @@ map <leader>o :ALENext<cr>
 map <leader>T :ALEGoToDefinition<cr>
 map <leader>Y :ALEFindReferences<cr>
 " tnoremap <silent><C-[> <C-\><C-n>
+" Copy the last message to clipboard
+nnoremap <silent><leader>E :redir @+<cr>:message<cr>:redir END<cr>
 
 nmap <silent> gd <Plug>(coc-definition)
 
@@ -253,7 +255,7 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'airblade/vim-gitgutter'
 
 " Waka time
-" Plug 'wakatime/vim-wakatime'
+Plug 'wakatime/vim-wakatime'
 
 " Auto pairs the bracket [ { (...
 Plug 'jiangmiao/auto-pairs'
