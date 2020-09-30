@@ -59,7 +59,7 @@ map <leader>T :ALEGoToDefinition<cr>
 map <leader>Y :ALEFindReferences<cr>
 " tnoremap <silent><C-[> <C-\><C-n>
 " Copy the last message to clipboard
-nnoremap <silent><leader>E :redir @+<cr>:message<cr>:redir END<cr>
+nnoremap <silent><leader>E :redir @+<cr>:1message<cr>:redir END<cr>
 
 nmap <silent> gd <Plug>(coc-definition)
 
@@ -76,16 +76,16 @@ map <leader>p :let @+ = expand("%")<cr>
 map <leader>P :let @+ = join([expand('%'),  line(".")], ':')<cr>
 
 " ESC in terminal mode
-tnoremap <F2> <C-\><C-n>
+" tnoremap <F2> <C-\><C-n>
 
 " Delete current buffer, includes terminal buffer
-map <F3> :bd!<cr>
+" map <F3> :bd!<cr>
 
 " Close all buffer then open the last one
-map <F4> :%bd!\|e#<cr>
+" map <F4> :%bd!\|e#<cr>
 
 " Close all buffers and quit Vim
-map <F12> :qa!<cr>
+" map <F12> :qa!<cr>
 
 " Delete without yanking to clipboard "
 vnoremap <leader>d "_d
