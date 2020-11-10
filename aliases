@@ -1,4 +1,4 @@
-export FZF_DEFAULT_COMMAND="ag --nogroup --nocolor --column --hidden -l"
+export FZF_DEFAULT_COMMAND="ag -Q --nogroup --nocolor --column --hidden -l"
 
 alias ll="ls -al"
 
@@ -31,6 +31,62 @@ alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset
 
 
 export CONNECT_APP_DIR=/Users/finn/Projects/connect
+
+function replace-host(){
+    host_ip=$1
+    host_name=$2
+
+    new_line="$host_ip        $host_name"
+    echo "Will replace with new host: $new_line"
+
+    echo "Backing up your hosts file at /tmp/hosts"
+    cp /etc/hosts /tmp/hosts
+
+    echo "Find and replace the last occurrence of $host_name by the new line in file /tmp/hosts"
+    vim /tmp/hosts -s <(echo -e "?$(echo $host_name)?\ndd\no$(echo $new_line)\e:wq")
+
+    echo "sudo cp /tmp/hosts /etc/hosts"
+    sudo cp /tmp/hosts /etc/hosts
+}
+
+# Get UAT host
+function get-uat-host(){
+    echo "gcloud compute instances list"
+    instances_list=$(gcloud compute instances list)
+
+    uat_host=$(echo $instances_list | grep gke-uat-default-pool | awk 'NR==1 {print $4}')
+    
+    echo "Get the hosts for UAT..."
+    if [ $uat_host ]
+    then
+        replace-host $uat_host "guat.app1"
+    else
+        echo "UAT is not started yet!"
+    fi
+}
+
+# Get Staging host
+function get-staging-host(){
+    echo "gcloud compute instances list"
+    instances_list=$(gcloud compute instances list)
+
+    staging_host=$(echo $instances_list | grep gke-staging-default-pool | awk 'NR==1 {print $4}')
+    
+    echo "Get the hosts for Staging..."
+    if [ $staging_host ]
+    then
+        replace-host $staging_host "gstg.app1"
+    else
+        echo "Staging is not started yet!"
+    fi
+}
+
+function rediscluster(){
+  cwd=$(pwd)
+  cd /Users/finn/Projects/redis/utils/create-cluster
+  ./create-cluster $1
+  cd $cwd
+}
 
 function gs(){
   git status
@@ -101,7 +157,7 @@ function gbranchrename() {
   git push origin :$OLD_BRANCH $NEW_BRANCH
 
   echo "git checkouut $NEW_BRANCH"
-  git checkouut $NEW_BRANCH
+  git checkout $NEW_BRANCH
 }
 
 # gtaglast <filter-string>
