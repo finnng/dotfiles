@@ -29,7 +29,6 @@ rmd () {
 alias gdiff='vim -p $(git diff --name-only) -c "tabdo :Gvdiff HEAD"'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
-
 export CONNECT_APP_DIR=/Users/finn/Projects/connect
 
 function replace-host(){
@@ -80,6 +79,18 @@ function get-staging-host(){
         echo "Staging is not started yet!"
     fi
 }
+
+function test-helper(){
+ cwd=$(pwd)
+ cd /Users/finn/Projects/connect/nodejs/lib/ar-test-helpers
+ if [ $1 = "start" ]; then
+     docker-compose up -d
+ elif [ $1 = "stop" ]; then
+     docker-compose down
+ fi
+ cd $cwd
+}
+
 
 function rediscluster(){
   cwd=$(pwd)
