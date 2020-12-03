@@ -42,10 +42,13 @@ function replace-host(){
     cp /etc/hosts /tmp/hosts
 
     echo "Find and replace the last occurrence of $host_name by the new line in file /tmp/hosts"
-    vim /tmp/hosts -s <(echo -e "?$(echo $host_name)?\ndd\no$(echo $new_line)\e:wq")
+    /usr/bin/vim /tmp/hosts -s <(echo -e "?$(echo $host_name)?\nS$(echo $new_line)\e:wq")
 
     echo "sudo cp /tmp/hosts /etc/hosts"
     sudo cp /tmp/hosts /etc/hosts
+
+    echo "tail -n 10 /etc/hosts"
+    tail -n 10 /etc/hosts
 }
 
 # Get UAT host

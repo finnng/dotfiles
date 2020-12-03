@@ -1,6 +1,8 @@
 let $FZF_DEFAULT_COMMAND="ag -Q --nogroup --nocolor --column --hidden -l"
-let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all,ctrl-d:deselect-all'
-let $darkcolor='quantum'
+let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all,ctrl-d:deselect-all --color=bg:#3d3d3c'
+
+" let $darkcolor='Tomorrow-Night'
+let $darkcolor='nord'
 let $whitecolor='PaperColor'
 
 set incsearch
@@ -24,42 +26,35 @@ command! -bang -nargs=* Ag
   \                         : fzf#vim#with_preview('right:50%', '?'),
   \                 <bang>0)
 
+" Rag search within specific directory
+command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+
 let mapleader = "\<space>"
 nmap <esc> :noh<cr>
-tnoremap <silent><esc> <C-\><C-n>:q<cr>
+tnoremap <esc> <C-\><C-n>:q<cr>
 map <leader>w :w<cr>
 map <leader><enter> :Files<cr>
-map <leader>[ :GitFiles <cr>
+map <leader>[ yiw:Rag<space><C-R><C-+><space><C-R><S-%>
+map <leader>{ :Rag <C-R><C-%>
 map <leader>\ :History<cr>
 map <leader>] :Ag<cr>
 map <leader>} yiw:Ag<space><C-R><S-+><cr>
 map <leader>b :Buffers <cr>
-map <leader>f :ALEFix<cr>
-" map <silent><leader>f :CocCommand eslint.executeAutofix<cr>
-map <leader>n :tabnew<cr>
+map <leader>f <Plug>(coc-codeaction)
+map <leader>t :tabnew<cr>
 map <leader>q :q<cr>
 map <leader>e :NERDTreeToggle<cr>
 map <leader>r :NERDTreeFind<cr>\|zz
-" map <silent> <leader>t :tabnew<bar>terminal<cr>i
-map <silent><leader>t :split<bar>wincmd j<bar>resize 10<bar>terminal<cr>i
+map <leader>n :set nohlsearch<cr>
+map <leader>N :set hlsearch<cr>
 map <leader>gb :GitBlame<cr>
 nmap <leader>R <Plug>(coc-rename)
-" map <leader>i :ALEPrevious<cr>
-" map <leader>o :ALENext<cr>
 nmap <silent><leader>i <Plug>(coc-diagnostic-prev)
 nmap <silent><leader>o <Plug>(coc-diagnostic-next)
-" map <leader>T :ALEGoToDefinition<cr>
-" map <leader>Y :ALEFindReferences<cr>
-" tnoremap <silent><C-[> <C-\><C-n>
-" Copy the last message to clipboard
 nnoremap <silent><leader>E :redir @+<cr>:1message<cr>:redir END<cr>
 
-" Remap keys for applying codeAction to the current buffer.
-" nmap <leader>ac  <Plug>(coc-codeaction)
 " Apply AutoFix to problem on the current line.
-nmap <leader>qf  <Plug>(coc-fix-current)
-
-" nnoremap <silent><nowait> <leader>2  :<C-u>CocList -I symbols<cr>
+nmap <leader>F  <Plug>(coc-fix-current)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
@@ -74,22 +69,30 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 map <leader><Up> :colorscheme $darkcolor \| set background=dark<cr>
 map <leader><Down> :colorscheme $whitecolor \| set background=light<cr>
 
+" coc-snippets tab to trigger complete
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+" Use <C-b> for trigger snippet expand.
+imap <C-s> <Plug>(coc-snippets-expand)
+let g:coc_snippet_next = '<Down>'
+let g:coc_snippet_prev = '<Up>'
+
 " Copy file path to the clipboard
 map <leader>p :let @+ = expand("%")<cr>
+
 " Copy full file path to the clipboard
 map <leader>P :let @+ = join([expand('%'),  line(".")], ':')<cr>
-
-" ESC in terminal mode
-" tnoremap <F2> <C-\><C-n>
-
-" Delete current buffer, includes terminal buffer
-" map <F3> :bd!<cr>
-
-" Close all buffer then open the last one
-" map <F4> :%bd!\|e#<cr>
-
-" Close all buffers and quit Vim
-" map <F12> :qa!<cr>
 
 " Delete without yanking to clipboard "
 vnoremap <leader>d "_d
@@ -106,6 +109,16 @@ nnoremap x "_x
 
 " Paste without copy the selected text to clipboard
 xnoremap p "_dP
+
+" Move line up and down in normal mode and visual mode
+noremap ∆ <Esc>:m .+1<CR>
+noremap ˚ <Esc>:m .-2<CR>
+vnoremap ∆ :m '>+1<CR>gv=gv
+vnoremap ˚ :m '<-2<CR>gv=gv
+
+" Commands
+:command Json :set filetype=json
+:command Js   :set filetype=javascript
 
 " Always split new windows right
 set splitright
@@ -130,7 +143,7 @@ set ignorecase
 set clipboard=unnamedplus
 
 " Hightlight all the search matches
-set hlsearch
+set nohlsearch
 
 set encoding=utf8
 
@@ -196,7 +209,7 @@ let g:airline_skip_empty_sections = 1
 let g:airline_theme='wombat'
 
 " " Hide the git hunk
-" let g:airline_section_b = '%{airline#util#wrap(strpart(airline#extensions#branch#get_head(),0,11),0)}'
+let g:airline_section_b = '%{airline#util#wrap(strpart(airline#extensions#branch#get_head(),0,11),0)}'
 
 " Color Schemes
 Plug 'flazz/vim-colorschemes'
@@ -212,13 +225,13 @@ let g:NERDDefaultAlign = 'both'
 Plug 'scrooloose/nerdtree'
 " show hidden file
 let NERDTreeShowHidden=1
-let NERDTreeShowLineNumbers=1
-let g:NERDTreeWinSize=45
+" let NERDTreeShowLineNumbers=1
+let g:NERDTreeWinSize=50
 let g:NERDTreeStatusline="%{substitute(getcwd(), '^.*/', '', '')}"
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 let g:coc_node_path = $NODE_EXE
-let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-python', 'coc-tsserver', 'coc-rls', 'coc-flow', 'coc-eslint', 'coc-json']
+let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-python', 'coc-tsserver', 'coc-rls', 'coc-flow', 'coc-eslint', 'coc-json', 'coc-prettier', 'coc-snippets']
 
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 let g:prettier#exec_cmd_path = $HOME."/.nvm/versions/node/v10.15.1/bin/prettier"
@@ -226,25 +239,25 @@ let g:prettier#exec_cmd_async = 1
 let g:prettier#quickfix_enabled = 0
 let g:prettier#config#parser = 'babylon'
 
-let g:ale_disable_lsp = 1
-Plug 'dense-analysis/ale'
-let g:ale_fix_on_save = 1
-let g:ale_completion_enabled = 0
-let g:ale_javascript_prettier_use_local_config = 1
-let g:ale_fixers = {
-  \ 'css': ['prettier'],
-  \ 'typescript': ['prettier', 'eslint'],
-  \ 'javascript': ['prettier', 'eslint'],
-  \ 'html': ['prettier'],
-  \ 'json': ['prettier'],
-  \ 'liquid': ['prettier'],
-  \ 'rust': ['rustfmt'],
-  \ }
-let g:ale_sign_error = ''
-let g:ale_sign_warning = ''
-let g:ale_sign_column_always = 1
-hi ALEErrorSign guifg=#FF0000
-hi ALEWarningSign guifg=#FFD700
+" let g:ale_disable_lsp = 1
+" Plug 'dense-analysis/ale'
+" let g:ale_fix_on_save = 1
+" let g:ale_completion_enabled = 0
+" let g:ale_javascript_prettier_use_local_config = 1
+" let g:ale_fixers = {
+"   \ 'css': ['prettier'],
+"   \ 'typescript': ['prettier', 'eslint'],
+"   \ 'javascript': ['prettier', 'eslint'],
+"   \ 'html': ['prettier'],
+"   \ 'json': ['prettier'],
+"   \ 'liquid': ['prettier'],
+"   \ 'rust': ['rustfmt'],
+"   \ }
+" let g:ale_sign_error = ''
+" let g:ale_sign_warning = ''
+" let g:ale_sign_column_always = 1
+" hi ALEErrorSign guifg=#FF0000
+" hi ALEWarningSign guifg=#FFD700
 
 " Vim file type icons
 Plug 'ryanoasis/vim-devicons'
@@ -260,6 +273,7 @@ Plug 'jiangmiao/auto-pairs'
 
 " Javascript syntax
 Plug 'pangloss/vim-javascript'
+
 Plug 'mxw/vim-jsx'
 " Enable syntax for jsdocs
 let g:javascript_plugin_jsdoc = 1
@@ -268,45 +282,34 @@ let g:javascript_plugin_jsdoc = 1
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'antoinemadec/coc-fzf'
-let g:coc_fzf_preview='up:50%'
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 }}
 let g:coc_fzf_preview = ''
 let g:coc_fzf_opts = []
 
 " Git plugin for gdiff command
-Plug 'tpope/vim-fugitive'
+" Plug 'tpope/vim-fugitive'
 
 " Git blame status
 Plug 'zivyangll/git-blame.vim'
 
 " Snipet
-Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+" let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
+" let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 Plug 'tpope/vim-surround'
 
 " Typescript
 Plug 'leafgarland/typescript-vim'
 
-" gdscript
-" Plug 'clktmr/vim-gdscript3'
-
 " Rust
 " Plug 'rust-lang/rust.vim'
 
-" Plug 'ludovicchabant/vim-gutentags'
-" let g:gutentags_cache_dir = expand('~/.cache/vim/ctags/')
-" let g:gutentags_generate_on_new = 1
-" let g:gutentags_generate_on_missing = 1
-" let g:gutentags_generate_on_write = 1
-" let g:gutentags_generate_on_empty_buffer = 0
-" let g:gutentags_add_default_project_roots = 0
-" let g:gutentags_project_root = ['package.json', '.git']
-
 Plug 'lambdalisue/suda.vim'
+
+" Plug 'matze/vim-move'
 
 call plug#end()
 
