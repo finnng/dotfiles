@@ -1,8 +1,7 @@
 let $FZF_DEFAULT_COMMAND="ag -Q --nogroup --nocolor --column --hidden -l"
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all,ctrl-d:deselect-all --color=bg:#3d3d3c'
 
-" let $darkcolor='Tomorrow-Night'
-let $darkcolor='nord'
+let $darkcolor='kuroi'
 let $whitecolor='PaperColor'
 
 set incsearch
@@ -83,8 +82,8 @@ endfunction
 
 let g:coc_snippet_next = '<tab>'
 
-" Use <C-b> for trigger snippet expand.
-imap <C-s> <Plug>(coc-snippets-expand)
+" Use <C-g> for trigger snippet expand.
+imap <C-g> <Plug>(coc-snippets-expand)
 let g:coc_snippet_next = '<Down>'
 let g:coc_snippet_prev = '<Up>'
 
@@ -239,26 +238,6 @@ let g:prettier#exec_cmd_async = 1
 let g:prettier#quickfix_enabled = 0
 let g:prettier#config#parser = 'babylon'
 
-" let g:ale_disable_lsp = 1
-" Plug 'dense-analysis/ale'
-" let g:ale_fix_on_save = 1
-" let g:ale_completion_enabled = 0
-" let g:ale_javascript_prettier_use_local_config = 1
-" let g:ale_fixers = {
-"   \ 'css': ['prettier'],
-"   \ 'typescript': ['prettier', 'eslint'],
-"   \ 'javascript': ['prettier', 'eslint'],
-"   \ 'html': ['prettier'],
-"   \ 'json': ['prettier'],
-"   \ 'liquid': ['prettier'],
-"   \ 'rust': ['rustfmt'],
-"   \ }
-" let g:ale_sign_error = ''
-" let g:ale_sign_warning = ''
-" let g:ale_sign_column_always = 1
-" hi ALEErrorSign guifg=#FF0000
-" hi ALEWarningSign guifg=#FFD700
-
 " Vim file type icons
 Plug 'ryanoasis/vim-devicons'
 
@@ -287,17 +266,13 @@ let g:coc_fzf_preview = ''
 let g:coc_fzf_opts = []
 
 " Git plugin for gdiff command
-" Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 
 " Git blame status
 Plug 'zivyangll/git-blame.vim'
 
 " Snipet
-" Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-" let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
-" let g:UltiSnipsJumpForwardTrigger="<tab>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 Plug 'tpope/vim-surround'
 
@@ -309,7 +284,7 @@ Plug 'leafgarland/typescript-vim'
 
 Plug 'lambdalisue/suda.vim'
 
-" Plug 'matze/vim-move'
+" An always-on highlight for a unique character in every word on a line to help you use f, F and family.
+Plug 'unblevable/quick-scope'
 
 call plug#end()
-

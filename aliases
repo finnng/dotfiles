@@ -28,6 +28,7 @@ rmd () {
 
 alias gdiff='vim -p $(git diff --name-only) -c "tabdo :Gvdiff HEAD"'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias co="git checkout"
 
 export CONNECT_APP_DIR=/Users/finn/Projects/connect
 
