@@ -110,10 +110,16 @@ nnoremap x "_x
 xnoremap p "_dP
 
 " Move line up and down in normal mode and visual mode
-noremap ∆ <Esc>:m .+1<CR>
-noremap ˚ <Esc>:m .-2<CR>
-vnoremap ∆ :m '>+1<CR>gv=gv
-vnoremap ˚ :m '<-2<CR>gv=gv
+" noremap ∆ <Esc>:m .+1<CR>
+" noremap ˚ <Esc>:m .-2<CR>
+" vnoremap ∆ :m '>+1<CR>gv=gv
+" vnoremap ˚ :m '<-2<CR>gv=gv
+
+" Split panel switching
+noremap ¬ <C-w>l
+noremap ˙ <C-w>h
+noremap ˚ <C-w>k
+noremap ∆ <C-w>j
 
 " Commands
 :command Json :set filetype=json
@@ -230,7 +236,7 @@ let g:NERDTreeStatusline="%{substitute(getcwd(), '^.*/', '', '')}"
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 let g:coc_node_path = $NODE_EXE
-let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-python', 'coc-tsserver', 'coc-rls', 'coc-flow', 'coc-eslint', 'coc-json', 'coc-prettier', 'coc-snippets']
+let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-python', 'coc-tsserver', 'coc-rls', 'coc-flow', 'coc-eslint', 'coc-json', 'coc-prettier', 'coc-snippets', 'coc-flutter']
 
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 let g:prettier#exec_cmd_path = $HOME."/.nvm/versions/node/v10.15.1/bin/prettier"
@@ -286,5 +292,7 @@ Plug 'lambdalisue/suda.vim'
 
 " An always-on highlight for a unique character in every word on a line to help you use f, F and family.
 Plug 'unblevable/quick-scope'
+
+Plug 'dart-lang/dart-vim-plugin'
 
 call plug#end()

@@ -84,6 +84,22 @@ function get-staging-host(){
     fi
 }
 
+# Get production hosts
+function get-prod-host(){
+    echo "gcloud compute instances list"
+    instances_list=$(gcloud compute instances list)
+
+    production_host=$(echo $instances_list | grep gke-production-nfs-pool | awk 'NR==1 {print $4}')
+    
+    echo "Get the hosts for Production..."
+    if [ $production_host ]
+    then
+        replace-host $production_host "gprod.app1"
+    else
+        echo "Can not find production host!"
+    fi
+}
+
 function test-helper(){
  cwd=$(pwd)
  cd /Users/finn/Projects/connect/nodejs/lib/ar-test-helpers
@@ -223,6 +239,30 @@ function gtag() {
 function gtagdelete() {
   git tag -d $1
   git push origin :refs/tags/$1
+}
+
+# gtag_team_ia_data <filter-string>
+function gtag_team_ia_data() {
+  TAG_LIST=`git tag | grep team-ia-data | grep $1`
+  # echo "node $CONNECT_APP_DIR/deployment/scripts/tools/calculate-latest-git-tag.js $TAG_LIST"
+  LAST_TAG_LIST=`node $CONNECT_APP_DIR/deployment/scripts/tools/calculate-latest-git-tag.js $TAG_LIST`
+  echo $LAST_TAG_LIST | yank
+}
+
+# gtag_team_fuse_cloud <filter-string>
+function gtag_team_fuse_cloud() {
+  TAG_LIST=`git tag | grep team-fuse-cloud | grep $1`
+  # echo "node $CONNECT_APP_DIR/deployment/scripts/tools/calculate-latest-git-tag.js $TAG_LIST"
+  LAST_TAG_LIST=`node $CONNECT_APP_DIR/deployment/scripts/tools/calculate-latest-git-tag.js $TAG_LIST`
+  echo $LAST_TAG_LIST | yank
+}
+
+# gtag_team_fuse_product <filter-string>
+function gtag_team_fuse_product() {
+  TAG_LIST=`git tag | grep team-fuse-product | grep $1`
+  # echo "node $CONNECT_APP_DIR/deployment/scripts/tools/calculate-latest-git-tag.js $TAG_LIST"
+  LAST_TAG_LIST=`node $CONNECT_APP_DIR/deployment/scripts/tools/calculate-latest-git-tag.js $TAG_LIST`
+  echo $LAST_TAG_LIST | yank
 }
 
 # gfetch
