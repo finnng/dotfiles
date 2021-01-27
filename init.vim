@@ -1,7 +1,7 @@
 let $FZF_DEFAULT_COMMAND="ag -Q --nogroup --nocolor --column --hidden -l"
-let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all,ctrl-d:deselect-all --color=bg:#3d3d3c'
+let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all,ctrl-d:deselect-all --color=bg:#3d3d3c --inline-info'
 
-let $darkcolor='kuroi'
+let $darkcolor='gruvbox'
 let $whitecolor='PaperColor'
 
 set incsearch
@@ -37,15 +37,16 @@ map <leader>[ yiw:Rag<space><C-R><C-+><space><C-R><S-%>
 map <leader>{ :Rag <C-R><C-%>
 map <leader>\ :History<cr>
 map <leader>] :Ag<cr>
-map <leader>} yiw:Ag<space><C-R><S-+><cr>
-map <leader>b :Buffers <cr>
+nmap <leader>} yiw:Ag<space><C-R><S-+><cr>
+vmap <leader>} y:Ag<space><C-R><S-+><cr>
+map <leader>b :Buffers<cr>
 map <leader>f <Plug>(coc-codeaction)
 map <leader>t :tabnew<cr>
 map <leader>q :q<cr>
 map <leader>e :NERDTreeToggle<cr>
 map <leader>r :NERDTreeFind<cr>\|zz
-map <leader>n :set nohlsearch<cr>
-map <leader>N :set hlsearch<cr>
+" map <leader>n :set nohlsearch<cr>
+" map <leader>N :set hlsearch<cr>
 map <leader>gb :GitBlame<cr>
 nmap <leader>R <Plug>(coc-rename)
 nmap <silent><leader>i <Plug>(coc-diagnostic-prev)
@@ -88,10 +89,10 @@ let g:coc_snippet_next = '<Down>'
 let g:coc_snippet_prev = '<Up>'
 
 " Copy file path to the clipboard
-map <leader>p :let @+ = expand("%")<cr>
+map <leader>P :let @+ = expand("%")<cr>
 
 " Copy full file path to the clipboard
-map <leader>P :let @+ = join([expand('%'),  line(".")], ':')<cr>
+" map <leader>P :let @+ = join([expand('%'),  line(".")], ':')<cr>
 
 " Delete without yanking to clipboard "
 vnoremap <leader>d "_d
@@ -110,16 +111,34 @@ nnoremap x "_x
 xnoremap p "_dP
 
 " Move line up and down in normal mode and visual mode
-" noremap ∆ <Esc>:m .+1<CR>
-" noremap ˚ <Esc>:m .-2<CR>
-" vnoremap ∆ :m '>+1<CR>gv=gv
-" vnoremap ˚ :m '<-2<CR>gv=gv
+noremap ∆ <Esc>:m .+1<CR>
+noremap ˚ <Esc>:m .-2<CR>
+vnoremap ∆ :m '>+1<CR>gv=gv
+vnoremap ˚ :m '<-2<CR>gv=gv
 
 " Split panel switching
 noremap ¬ <C-w>l
 noremap ˙ <C-w>h
-noremap ˚ <C-w>k
-noremap ∆ <C-w>j
+" noremap ˚ <C-w>k
+" noremap ∆ <C-w>j
+
+" Jump between quick fix list
+noremap ≥ :cn<CR>
+noremap ≤ :cp<CR>
+
+" vem-tabline remap key
+nnoremap <leader>1 :1tabnext<CR>
+nnoremap <leader>2 :2tabnext<CR>
+nnoremap <leader>3 :3tabnext<CR>
+nnoremap <leader>4 :4tabnext<CR>
+nnoremap <leader>5 :5tabnext<CR>
+nnoremap <leader>6 :6tabnext<CR>
+nnoremap <leader>7 :7tabnext<CR>
+nnoremap <leader>8 :8tabnext<CR>
+nnoremap <leader>9 :9tabnext<CR>
+nmap <leader>p <Plug>vem_prev_buffer-
+nmap <leader>n <Plug>vem_next_buffer-
+nmap <leader>x <Plug>vem_delete_buffer-
 
 " Commands
 :command Json :set filetype=json
@@ -148,7 +167,7 @@ set ignorecase
 set clipboard=unnamedplus
 
 " Hightlight all the search matches
-set nohlsearch
+set hlsearch
 
 set encoding=utf8
 
@@ -175,7 +194,7 @@ syntax enable
 
 " Set persisten undo
 set undofile
-set undodir=~/.vim/undodir
+set undodir=~/.config/nvim/undodir
 set undolevels=1000
 set undoreload=10000
 
@@ -198,7 +217,7 @@ set hidden
 " Need to enable plugin to work correctly
 filetype plugin on
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
 " Airline
 Plug 'vim-airline/vim-airline'
@@ -236,7 +255,7 @@ let g:NERDTreeStatusline="%{substitute(getcwd(), '^.*/', '', '')}"
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 let g:coc_node_path = $NODE_EXE
-let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-python', 'coc-tsserver', 'coc-rls', 'coc-flow', 'coc-eslint', 'coc-json', 'coc-prettier', 'coc-snippets', 'coc-flutter']
+let g:coc_global_extensions=['coc-omnisharp', 'coc-python', 'coc-tsserver', 'coc-rls', 'coc-flow', 'coc-eslint', 'coc-json', 'coc-prettier', 'coc-snippets', 'coc-flutter']
 
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 let g:prettier#exec_cmd_path = $HOME."/.nvm/versions/node/v10.15.1/bin/prettier"
@@ -267,7 +286,8 @@ let g:javascript_plugin_jsdoc = 1
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'antoinemadec/coc-fzf'
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 }}
+" let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 }}
+let g:fzf_layout = { 'down': '~60%' }
 let g:coc_fzf_preview = ''
 let g:coc_fzf_opts = []
 
@@ -294,5 +314,15 @@ Plug 'lambdalisue/suda.vim'
 Plug 'unblevable/quick-scope'
 
 Plug 'dart-lang/dart-vim-plugin'
+
+Plug 'aserebryakov/vim-todo-lists'
+let g:VimTodoListsMoveItems = 0
+let g:VimTodoListsDatesEnabled = 1
+
+Plug 'AndrewRadev/tagalong.vim'
+
+Plug 'psliwka/vim-smoothie'
+
+Plug 'pacha/vem-tabline'
 
 call plug#end()

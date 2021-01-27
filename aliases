@@ -8,8 +8,8 @@ alias kgd="git difftool --no-symlinks --dir-diff"
 alias vim="nvim"
 alias evim='vim ~/.config/nvim/init.vim'
 
-alias salias="source ~/.aliases"
-alias ealias="vim ~/.aliases"
+alias salias="source ~/.aliases.sh"
+alias ealias="vim ~/.aliases.sh"
 
 alias dc="docker-compose"
 alias dclog="docker-compose logs -f --tail=100"
@@ -32,73 +32,9 @@ alias co="git checkout"
 
 export CONNECT_APP_DIR=/Users/finn/Projects/connect
 
-function replace-host(){
-    host_ip=$1
-    host_name=$2
+################# GET HOSTS #################
 
-    new_line="$host_ip        $host_name"
-    echo "Will replace with new host: $new_line"
-
-    echo "Backing up your hosts file at /tmp/hosts"
-    cp /etc/hosts /tmp/hosts
-
-    echo "Find and replace the last occurrence of $host_name by the new line in file /tmp/hosts"
-    /usr/bin/vim /tmp/hosts -s <(echo -e "?$(echo $host_name)?\nS$(echo $new_line)\e:wq")
-
-    echo "sudo cp /tmp/hosts /etc/hosts"
-    sudo cp /tmp/hosts /etc/hosts
-
-    echo "tail -n 10 /etc/hosts"
-    tail -n 10 /etc/hosts
-}
-
-# Get UAT host
-function get-uat-host(){
-    echo "gcloud compute instances list"
-    instances_list=$(gcloud compute instances list)
-
-    uat_host=$(echo $instances_list | grep gke-uat-default-pool | awk 'NR==1 {print $4}')
-    
-    echo "Get the hosts for UAT..."
-    if [ $uat_host ]
-    then
-        replace-host $uat_host "guat.app1"
-    else
-        echo "UAT is not started yet!"
-    fi
-}
-
-# Get Staging host
-function get-staging-host(){
-    echo "gcloud compute instances list"
-    instances_list=$(gcloud compute instances list)
-
-    staging_host=$(echo $instances_list | grep gke-staging-default-pool | awk 'NR==1 {print $4}')
-    
-    echo "Get the hosts for Staging..."
-    if [ $staging_host ]
-    then
-        replace-host $staging_host "gstg.app1"
-    else
-        echo "Staging is not started yet!"
-    fi
-}
-
-# Get production hosts
-function get-prod-host(){
-    echo "gcloud compute instances list"
-    instances_list=$(gcloud compute instances list)
-
-    production_host=$(echo $instances_list | grep gke-production-nfs-pool | awk 'NR==1 {print $4}')
-    
-    echo "Get the hosts for Production..."
-    if [ $production_host ]
-    then
-        replace-host $production_host "gprod.app1"
-    else
-        echo "Can not find production host!"
-    fi
-}
+source $CONNECT_APP_DIR/dev-tools/shell-scripts/get-hosts.sh
 
 function test-helper(){
  cwd=$(pwd)
