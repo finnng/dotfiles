@@ -1,20 +1,25 @@
-export FZF_DEFAULT_COMMAND="ag --nogroup --nocolor --column --hidden -l"
+export FZF_DEFAULT_COMMAND="ag -Q --nogroup --nocolor --column --hidden -l"
 
 alias ll="ls -al"
 
 alias kd="kitty +kitten diff"
 alias kgd="git difftool --no-symlinks --dir-diff"
 
-alias vim="nvim"
+alias vim="~/nvim-osx64/bin/nvim"
+# alias vim="nvim"
 alias evim='vim ~/.config/nvim/init.vim'
 
-alias salias="source ~/.aliases"
-alias ealias="vim ~/.aliases"
+alias salias="source ~/.aliases.sh"
+alias ealias="vim ~/.aliases.sh"
 
 alias dc="docker-compose"
 alias dclog="docker-compose logs -f --tail=100"
 
 alias :q="exit"
+
+# Kubernetes
+alias ks="kubectl --context=gke_agency-revolution_asia-southeast1-a_staging --namespace=staging"
+alias kp="kubectl --context=gke_agency-revolution_us-west1-b_production --namespace=production"
 
 # Read markdown on terminal
 rmd () {
@@ -28,9 +33,32 @@ rmd () {
 
 alias gdiff='vim -p $(git diff --name-only) -c "tabdo :Gvdiff HEAD"'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-
+alias gc="git checkout"
 
 export CONNECT_APP_DIR=/Users/finn/Projects/connect
+
+################# GET HOSTS #################
+
+source $CONNECT_APP_DIR/dev-tools/shell-scripts/get-hosts.sh
+
+function test-helper(){
+ cwd=$(pwd)
+ cd /Users/finn/Projects/connect/nodejs/lib/ar-test-helpers
+ if [ $1 = "start" ]; then
+     docker-compose up -d
+ elif [ $1 = "stop" ]; then
+     docker-compose down
+ fi
+ cd $cwd
+}
+
+
+function rediscluster(){
+  cwd=$(pwd)
+  cd /Users/finn/Projects/redis/utils/create-cluster
+  ./create-cluster $1
+  cd $cwd
+}
 
 function gs(){
   git status
@@ -101,7 +129,7 @@ function gbranchrename() {
   git push origin :$OLD_BRANCH $NEW_BRANCH
 
   echo "git checkouut $NEW_BRANCH"
-  git checkouut $NEW_BRANCH
+  git checkout $NEW_BRANCH
 }
 
 # gtaglast <filter-string>
@@ -152,6 +180,30 @@ function gtag() {
 function gtagdelete() {
   git tag -d $1
   git push origin :refs/tags/$1
+}
+
+# gtag_team_ia_data <filter-string>
+function gtag_team_ia_data() {
+  TAG_LIST=`git tag | grep team-ia-data | grep $1`
+  # echo "node $CONNECT_APP_DIR/deployment/scripts/tools/calculate-latest-git-tag.js $TAG_LIST"
+  LAST_TAG_LIST=`node $CONNECT_APP_DIR/deployment/scripts/tools/calculate-latest-git-tag.js $TAG_LIST`
+  echo $LAST_TAG_LIST | yank
+}
+
+# gtag_team_fuse_cloud <filter-string>
+function gtag_team_fuse_cloud() {
+  TAG_LIST=`git tag | grep team-fuse-cloud | grep $1`
+  # echo "node $CONNECT_APP_DIR/deployment/scripts/tools/calculate-latest-git-tag.js $TAG_LIST"
+  LAST_TAG_LIST=`node $CONNECT_APP_DIR/deployment/scripts/tools/calculate-latest-git-tag.js $TAG_LIST`
+  echo $LAST_TAG_LIST | yank
+}
+
+# gtag_team_fuse_product <filter-string>
+function gtag_team_fuse_product() {
+  TAG_LIST=`git tag | grep team-fuse-product | grep $1`
+  # echo "node $CONNECT_APP_DIR/deployment/scripts/tools/calculate-latest-git-tag.js $TAG_LIST"
+  LAST_TAG_LIST=`node $CONNECT_APP_DIR/deployment/scripts/tools/calculate-latest-git-tag.js $TAG_LIST`
+  echo $LAST_TAG_LIST | yank
 }
 
 # gfetch

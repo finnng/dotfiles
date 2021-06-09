@@ -1,12 +1,20 @@
-set cursorline
-let $darkcolor='quantum'
+let $FZF_DEFAULT_COMMAND="ag -Q --nogroup --nocolor --column --hidden -l"
+let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all,ctrl-d:deselect-all --color=bg:#3d3d3c --inline-info'
+
+let g:nord_italic = 1
+let g:nord_italic_comments = 1
+let g:nord_underline = 1
+let g:nord_cursor_line_number_background = 1
+let g:nord_uniform_diff_background = 1
+
+let $darkcolor='nord'
 let $whitecolor='PaperColor'
 
+set incsearch
+set cursorline
+set smartcase
 set background=dark
 colorscheme $darkcolor
-
-" set listchars=space:.,tab:>-
-" set list
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -16,52 +24,54 @@ function! s:show_documentation()
   endif
 endfunction
 
-function! FloatingFZF()
-  let buf = nvim_create_buf(v:false, v:true)
-  call setbufvar(buf, '&signcolumn', 'no')
-  let height = float2nr(20)
-  let width = float2nr(180)
-  let horizontal = float2nr((&columns - width) / 2)
-  let vertical = 0 " float2nr((&lines - height))
+" Ag with preview
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%', '?'),
+  \                 <bang>0)
 
-  let opts = {
-        \ 'relative': 'editor',
-        \ 'row': vertical,
-        \ 'col': horizontal,
-        \ 'width': width,
-        \ 'height': height,
-        \ 'style': 'minimal'
-        \ }
-
-  call nvim_open_win(buf, v:true, opts)
-endfunction
+" Rag search within specific directory
+command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 
 let mapleader = "\<space>"
-map <esc> :w\|:noh<cr>
+nmap <esc> :noh<cr>
+tnoremap <esc> <C-\><C-n>:q<cr>
+map <leader>w :w<cr>
 map <leader><enter> :Files<cr>
-map <leader>[ :GitFiles <cr>
+map <leader>[ yiw:Rag<space><C-R><C-+><space><C-R><S-%>
+map <leader>{ :Rag <C-R><C-%>
 map <leader>\ :History<cr>
-map <leader>] :Ag<space>
-map <leader>} yiw:Ag<space><C-R><S-+><cr>
-map <leader>b :Buffers <cr>
-map <leader>f :ALEFix<cr>
-map <leader>n :tabnew<cr>
+map <leader>] :Ag<cr>
+nmap <leader>} yiw:Ag<space><C-R><S-+><cr>
+vmap <leader>} y:Ag<space><C-R><S-+><cr>
+map <leader>b :Buffers<cr>
+map <leader>a <Plug>(coc-codeaction)
+map <leader>f :Prettier<cr>
+map <leader>t :tabnew<cr>
 map <leader>q :q<cr>
 map <leader>e :NERDTreeToggle<cr>
 map <leader>r :NERDTreeFind<cr>\|zz
-" map <silent> <leader>t :tabnew<bar>terminal<cr>i
-map <silent><leader>t :split<bar>wincmd j<bar>resize 10<bar>terminal<cr>i
-map gb :GitBlame<cr>
+map <leader>n :set nohlsearch<cr>
+map <leader>N :set hlsearch<cr>
+map <leader>gb :GitBlame<cr>
 nmap <leader>R <Plug>(coc-rename)
-map <leader>i :ALEPrevious<cr>
-map <leader>o :ALENext<cr>
-map <leader>T :ALEGoToDefinition<cr>
-map <leader>Y :ALEFindReferences<cr>
-" tnoremap <silent><C-[> <C-\><C-n>
-" Copy the last message to clipboard
-nnoremap <silent><leader>E :redir @+<cr>:message<cr>:redir END<cr>
+nmap <silent><leader>i <Plug>(coc-diagnostic-prev)
+nmap <silent><leader>o <Plug>(coc-diagnostic-next)
+nnoremap <silent><leader>E :redir @+<cr>:1message<cr>:redir END<cr>
 
+" Search and highlight but do not jump
+nnoremap * *``
+nnoremap * :keepjumps normal! mi*`i<CR>
+
+" Apply AutoFix to problem on the current line.
+nmap <leader>F  <Plug>(coc-fix-current)
+
+" GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -70,22 +80,30 @@ nnoremap <silent> K :call <SID>show_documentation()<CR>
 map <leader><Up> :colorscheme $darkcolor \| set background=dark<cr>
 map <leader><Down> :colorscheme $whitecolor \| set background=light<cr>
 
+" coc-snippets tab to trigger complete
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? coc#_select_confirm() :
+      \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+let g:coc_snippet_next = '<tab>'
+
+" Use <C-g> for trigger snippet expand.
+imap <C-g> <Plug>(coc-snippets-expand)
+let g:coc_snippet_next = '<Down>'
+let g:coc_snippet_prev = '<Up>'
+
 " Copy file path to the clipboard
-map <leader>p :let @+ = expand("%")<cr>
+map <leader>P :let @+ = expand("%")<cr>
+
 " Copy full file path to the clipboard
-map <leader>P :let @+ = join([expand('%'),  line(".")], ':')<cr>
-
-" ESC in terminal mode
-tnoremap <F2> <C-\><C-n>
-
-" Delete current buffer, includes terminal buffer
-map <F3> :bd!<cr>
-
-" Close all buffer then open the last one
-map <F4> :%bd!\|e#<cr>
-
-" Close all buffers and quit Vim
-map <F12> :qa!<cr>
+" map <leader>P :let @+ = join([expand('%'),  line(".")], ':')<cr>
 
 " Delete without yanking to clipboard "
 vnoremap <leader>d "_d
@@ -102,6 +120,26 @@ nnoremap x "_x
 
 " Paste without copy the selected text to clipboard
 xnoremap p "_dP
+
+" Move line up and down in normal mode and visual mode
+noremap ∆ <Esc>:m .+1<CR>
+noremap ˚ <Esc>:m .-2<CR>
+vnoremap ∆ :m '>+1<CR>gv=gv
+vnoremap ˚ :m '<-2<CR>gv=gv
+
+" Split panel switching
+noremap ¬ <C-w>l
+noremap ˙ <C-w>h
+" noremap ˚ <C-w>k
+" noremap ∆ <C-w>j
+
+" Jump between quick fix list
+noremap ≥ :cn<CR>
+noremap ≤ :cp<CR>
+
+" Commands
+:command Json :set filetype=json
+:command Js   :set filetype=javascript
 
 " Always split new windows right
 set splitright
@@ -139,9 +177,6 @@ set smartindent
 
 autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2
 
-" Need to zshell because I'm using it, make sure nothing broken
-set shell=/bin/zsh
-
 " Using mouse
 set mouse=a
 
@@ -156,7 +191,7 @@ syntax enable
 
 " Set persisten undo
 set undofile
-set undodir=~/.vim/undodir
+set undodir=~/.config/nvim/undodir-0.5.0
 set undolevels=1000
 set undoreload=10000
 
@@ -179,7 +214,7 @@ set hidden
 " Need to enable plugin to work correctly
 filetype plugin on
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
 " Airline
 Plug 'vim-airline/vim-airline'
@@ -192,10 +227,11 @@ let g:airline_section_y = ''
 let g:airline_skip_empty_sections = 1
 
 " Airline theme
-" let g:airline_theme='nord'
+" let g:airline_theme = 'spaceduck'
 
 " " Hide the git hunk
 " let g:airline_section_b = '%{airline#util#wrap(strpart(airline#extensions#branch#get_head(),0,11),0)}'
+let g:airline_section_b = ''
 
 " Color Schemes
 Plug 'flazz/vim-colorschemes'
@@ -212,41 +248,18 @@ Plug 'scrooloose/nerdtree'
 " show hidden file
 let NERDTreeShowHidden=1
 let NERDTreeShowLineNumbers=1
-let g:NERDTreeWinSize=45
+let g:NERDTreeWinSize=50
 let g:NERDTreeStatusline="%{substitute(getcwd(), '^.*/', '', '')}"
-" Hide the NERDTree CWD, https://github.com/scrooloose/nerdtree/issues/806
-" augroup nerdtreehidecwd
-"     autocmd!
-"     autocmd FileType nerdtree setlocal conceallevel=3 | syntax match NERDTreeHideCWD #^[</].*$# conceal
-" augroup end
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 let g:coc_node_path = $NODE_EXE
-let g:coc_global_extensions=[ 'coc-omnisharp', 'coc-python', 'coc-tsserver', 'coc-rls', 'coc-flow']
+let g:coc_global_extensions=['coc-omnisharp', 'coc-python', 'coc-tsserver', 'coc-rls', 'coc-flow', 'coc-eslint', 'coc-json', 'coc-prettier', 'coc-snippets', 'coc-flutter']
 
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 let g:prettier#exec_cmd_path = $HOME."/.nvm/versions/node/v10.15.1/bin/prettier"
 let g:prettier#exec_cmd_async = 1
 let g:prettier#quickfix_enabled = 0
 let g:prettier#config#parser = 'babylon'
-
-Plug 'dense-analysis/ale'
-let g:ale_completion_enabled = 0
-let g:ale_javascript_prettier_use_local_config = 1
-let g:ale_fixers = {
-  \ 'css': ['prettier'],
-  \ 'typescript': ['prettier', 'eslint'],
-  \ 'javascript': ['prettier', 'eslint'],
-  \ 'html': ['prettier'],
-  \ 'json': ['prettier'],
-  \ 'liquid': ['prettier'],
-  \ 'rust': ['rustfmt'],
-  \ }
-let g:ale_sign_error = ''
-let g:ale_sign_warning = ''
-let g:ale_sign_column_always = 1
-hi ALEErrorSign guifg=#FF0000
-hi ALEWarningSign guifg=#FFD700
 
 " Vim file type icons
 Plug 'ryanoasis/vim-devicons'
@@ -262,6 +275,7 @@ Plug 'jiangmiao/auto-pairs'
 
 " Javascript syntax
 Plug 'pangloss/vim-javascript'
+
 Plug 'mxw/vim-jsx'
 " Enable syntax for jsdocs
 let g:javascript_plugin_jsdoc = 1
@@ -269,7 +283,11 @@ let g:javascript_plugin_jsdoc = 1
 " FZF plugin
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+Plug 'antoinemadec/coc-fzf'
+" let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 }}
+let g:fzf_layout = { 'down': '~60%' }
+let g:coc_fzf_preview = ''
+let g:coc_fzf_opts = []
 
 " Git plugin for gdiff command
 Plug 'tpope/vim-fugitive'
@@ -278,21 +296,37 @@ Plug 'tpope/vim-fugitive'
 Plug 'zivyangll/git-blame.vim'
 
 " Snipet
-Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
 
 Plug 'tpope/vim-surround'
 
 " Typescript
 Plug 'leafgarland/typescript-vim'
 
-" gdscript
-" Plug 'clktmr/vim-gdscript3'
-
 " Rust
 " Plug 'rust-lang/rust.vim'
+
+Plug 'lambdalisue/suda.vim'
+
+" An always-on highlight for a unique character in every word on a line to help you use f, F and family.
+Plug 'unblevable/quick-scope'
+
+Plug 'dart-lang/dart-vim-plugin'
+
+Plug 'aserebryakov/vim-todo-lists'
+let g:VimTodoListsMoveItems = 0
+let g:VimTodoListsDatesEnabled = 1
+
+Plug 'AndrewRadev/tagalong.vim'
+
+Plug 'psliwka/vim-smoothie'
+
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+Plug 'arcticicestudio/nord-vim'
+
+Plug 'sindrets/diffview.nvim'
+
+Plug 'kyazdani42/nvim-web-devicons'
 
 call plug#end()
