@@ -1,0 +1,107 @@
+set incsearch
+set cursorline
+set smartcase
+
+let mapleader = "\<space>"
+nmap <esc> :noh<cr>
+
+" Key mapping
+map <leader>w :w<cr>
+map <leader>q :q<cr>
+map <leader>n :set nohlsearch<cr>
+map <leader>N :set hlsearch<cr>
+
+map <leader>e :NERDTree<cr>
+map <leader>r <Action>(SelectInProjectView)
+map <leader>f <Action>(ReformatCode)
+map <C-W><C-R> <Action>(MoveEditorToOppositeTabGroup)
+map <leader>b <Action>(RecentFiles)
+map <leader><cr> <Action>(GotoFile)
+map <leader>\ <Action>(RecentChangedFiles)
+map <leader>a <Action>(ShowIntentionActions)
+map <leader>o <Action>(ReSharperGotoNextErrorInSolution)
+map <leader>i <Action>(ReSharperGotoPrevErrorInSolution)
+map <leader>] <Action>(FindInPath)
+map <leader>R <Action>(RenameElement)
+map ˙ gT
+map ¬ gt
+map <leader>c <Action>(CommentByLineComment)
+
+" Delete without yanking to clipboard "
+vnoremap <leader>d "_d
+vnoremap <leader>D "_D
+vnoremap <leader>s "_s
+vnoremap <leader>S "_S
+
+nnoremap <leader>d "_d
+nnoremap <leader>D "_D
+nnoremap <leader>s "_s
+nnoremap <leader>S "_S
+nnoremap x "_x
+" Paste without copy the selected text to clipboard
+xnoremap p "_dP
+
+""" Idea specific settings ------------------
+set ideajoin
+set ideastatusicon=gray
+set idearefactormode=keep
+set showmode
+
+""" Plugin
+set NERDTree
+set surround
+
+set splitright
+
+" Hide mode in the bottom e.g., -- INSERT --
+set noshowmode
+
+" Folding setting
+set foldmethod=indent
+set foldnestmax=10
+set nofoldenable
+set foldlevel=20
+
+" Ignore case sensitive when search
+set ignorecase
+
+" Enable clipboard to copy from system
+set clipboard=unnamedplus
+
+" Hightlight all the search matches
+set hlsearch
+
+set encoding=utf8
+
+" Flag to support indent
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set autoindent
+set smartindent
+
+autocmd FileType javascript setlocal shiftwidth=2 softtabstop=2
+
+" Using mouse
+set mouse=a
+
+" Show line number
+set nu rnu
+
+" Use vimrc
+set nocompatible
+
+" Show code syntax
+syntax enable
+
+" Set persisten undo
+set undofile
+set undodir=~/.config/nvim/undodir
+set undolevels=1000
+set undoreload=10000
+
+" Set no backup
+set nobackup
+set nowritebackup
+set nowb
+set noswapfile

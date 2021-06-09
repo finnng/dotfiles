@@ -5,7 +5,8 @@ alias ll="ls -al"
 alias kd="kitty +kitten diff"
 alias kgd="git difftool --no-symlinks --dir-diff"
 
-alias vim="nvim"
+alias vim="~/nvim-osx64/bin/nvim"
+# alias vim="nvim"
 alias evim='vim ~/.config/nvim/init.vim'
 
 alias salias="source ~/.aliases.sh"
@@ -15,6 +16,10 @@ alias dc="docker-compose"
 alias dclog="docker-compose logs -f --tail=100"
 
 alias :q="exit"
+
+# Kubernetes
+alias ks="kubectl --context=gke_agency-revolution_asia-southeast1-a_staging --namespace=staging"
+alias kp="kubectl --context=gke_agency-revolution_us-west1-b_production --namespace=production"
 
 # Read markdown on terminal
 rmd () {
@@ -28,7 +33,7 @@ rmd () {
 
 alias gdiff='vim -p $(git diff --name-only) -c "tabdo :Gvdiff HEAD"'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-alias co="git checkout"
+alias gc="git checkout"
 
 export CONNECT_APP_DIR=/Users/finn/Projects/connect
 

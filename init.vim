@@ -1,7 +1,13 @@
 let $FZF_DEFAULT_COMMAND="ag -Q --nogroup --nocolor --column --hidden -l"
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all,ctrl-d:deselect-all --color=bg:#3d3d3c --inline-info'
 
-let $darkcolor='gruvbox'
+let g:nord_italic = 1
+let g:nord_italic_comments = 1
+let g:nord_underline = 1
+let g:nord_cursor_line_number_background = 1
+let g:nord_uniform_diff_background = 1
+
+let $darkcolor='nord'
 let $whitecolor='PaperColor'
 
 set incsearch
@@ -40,18 +46,23 @@ map <leader>] :Ag<cr>
 nmap <leader>} yiw:Ag<space><C-R><S-+><cr>
 vmap <leader>} y:Ag<space><C-R><S-+><cr>
 map <leader>b :Buffers<cr>
-map <leader>f <Plug>(coc-codeaction)
+map <leader>a <Plug>(coc-codeaction)
+map <leader>f :Prettier<cr>
 map <leader>t :tabnew<cr>
 map <leader>q :q<cr>
 map <leader>e :NERDTreeToggle<cr>
 map <leader>r :NERDTreeFind<cr>\|zz
-" map <leader>n :set nohlsearch<cr>
-" map <leader>N :set hlsearch<cr>
+map <leader>n :set nohlsearch<cr>
+map <leader>N :set hlsearch<cr>
 map <leader>gb :GitBlame<cr>
 nmap <leader>R <Plug>(coc-rename)
 nmap <silent><leader>i <Plug>(coc-diagnostic-prev)
 nmap <silent><leader>o <Plug>(coc-diagnostic-next)
 nnoremap <silent><leader>E :redir @+<cr>:1message<cr>:redir END<cr>
+
+" Search and highlight but do not jump
+nnoremap * *``
+nnoremap * :keepjumps normal! mi*`i<CR>
 
 " Apply AutoFix to problem on the current line.
 nmap <leader>F  <Plug>(coc-fix-current)
@@ -126,20 +137,6 @@ noremap ˙ <C-w>h
 noremap ≥ :cn<CR>
 noremap ≤ :cp<CR>
 
-" vem-tabline remap key
-nnoremap <leader>1 :1tabnext<CR>
-nnoremap <leader>2 :2tabnext<CR>
-nnoremap <leader>3 :3tabnext<CR>
-nnoremap <leader>4 :4tabnext<CR>
-nnoremap <leader>5 :5tabnext<CR>
-nnoremap <leader>6 :6tabnext<CR>
-nnoremap <leader>7 :7tabnext<CR>
-nnoremap <leader>8 :8tabnext<CR>
-nnoremap <leader>9 :9tabnext<CR>
-nmap <leader>p <Plug>vem_prev_buffer-
-nmap <leader>n <Plug>vem_next_buffer-
-nmap <leader>x <Plug>vem_delete_buffer-
-
 " Commands
 :command Json :set filetype=json
 :command Js   :set filetype=javascript
@@ -194,7 +191,7 @@ syntax enable
 
 " Set persisten undo
 set undofile
-set undodir=~/.config/nvim/undodir
+set undodir=~/.config/nvim/undodir-0.5.0
 set undolevels=1000
 set undoreload=10000
 
@@ -230,10 +227,11 @@ let g:airline_section_y = ''
 let g:airline_skip_empty_sections = 1
 
 " Airline theme
-let g:airline_theme='wombat'
+" let g:airline_theme = 'spaceduck'
 
 " " Hide the git hunk
-let g:airline_section_b = '%{airline#util#wrap(strpart(airline#extensions#branch#get_head(),0,11),0)}'
+" let g:airline_section_b = '%{airline#util#wrap(strpart(airline#extensions#branch#get_head(),0,11),0)}'
+let g:airline_section_b = ''
 
 " Color Schemes
 Plug 'flazz/vim-colorschemes'
@@ -249,7 +247,7 @@ let g:NERDDefaultAlign = 'both'
 Plug 'scrooloose/nerdtree'
 " show hidden file
 let NERDTreeShowHidden=1
-" let NERDTreeShowLineNumbers=1
+let NERDTreeShowLineNumbers=1
 let g:NERDTreeWinSize=50
 let g:NERDTreeStatusline="%{substitute(getcwd(), '^.*/', '', '')}"
 
@@ -323,6 +321,12 @@ Plug 'AndrewRadev/tagalong.vim'
 
 Plug 'psliwka/vim-smoothie'
 
-Plug 'pacha/vem-tabline'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+Plug 'arcticicestudio/nord-vim'
+
+Plug 'sindrets/diffview.nvim'
+
+Plug 'kyazdani42/nvim-web-devicons'
 
 call plug#end()
