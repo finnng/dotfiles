@@ -18,6 +18,11 @@ alias kp="kubectl --context=gke_agency-revolution_us-west1-b_production --namesp
 alias gdiff='vim -p $(git diff --name-only) -c "tabdo :Gvdiff HEAD"'
 alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias gc="git checkout"
+alias gd="git diff"
+alias gs="git status"
+
+# And all other shared git aliases
+source $CONNECT_APP_DIR/dev-tools/shell-scripts/git-tool.sh
 
 ################# GET HOSTS #################
 source $CONNECT_APP_DIR/dev-tools/shell-scripts/get-hosts.sh
