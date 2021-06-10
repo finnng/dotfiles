@@ -1,78 +1,41 @@
 ﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
-; #Warn  ; Enable warnings to assist with detecting common errors.
-SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
-SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
-
-#MenuMaskKey vkE8  ; Change the masking key to something unassigned such as vkE8.
-
-; cmd+a
-!a::
-Send, ^a
+F1::
+if WinExist("ahk_exe msedge.exe",,"Picture-in-Picture")
+    WinActivate
 return
 
-; starts vim keys
-^j::
-Send, {down}
+F3::
+if WinExist("ahk_exe WindowsTerminal.exe")
+    WinActivate
 return
 
-^k::
-Send, {up}
+F4::
+if WinExist("ahk_exe rider64.exe")
+    WinActivate
 return
 
-^h::
-Send, {left}
+F5::
+if WinExist("ahk_exe firefox.exe",,"Picture-in-Picture")
+    WinActivate
 return
 
-#IfWinActive ahk_class MozillaWindowClass
-!l::
-Send, ^l
+F7::
+if WinExist("ahk_exe Slack.exe")
+    WinActivate
 return
 
-#IfWinNotActive ahk_class MozillaWindowClass
-^l::
-Send, {right}
+F8::
+if WinExist("ahk_exe Postman.exe")
+    WinActivate
 return
 
-#IfWinActive ahk_exe nvim-qt.exe
-j & k::
-Send, {Esc}
+F9::
+if WinExist("ahk_exe pritunl.exe")
+    WinActivate
 return
 
-#IfWinActive ahk_exe nvim-qt.exe
-k & j::
-Send, {Esc}
-return
-
-; ~j::
-; Send, j
-; return
-
-; ~k::
-; Send, k
-; return
-
-; ends vim keys ------------------------kk
-
-!q::
-Send, !{f4}
-return
-
-!c::
-Send, ^c
-return
-
-!v::
-Send, ^v
-return
-
-!t::
-Send, ^t
-return
-
-!w::
-Send, ^w
-return
-
-!BackSpace::
-Send, +{Home}{BackSpace}
+;; With alt
+<!F3::
+if WinExist("ahk_exe explorer.exe")
+    WinActivate
 return
