@@ -1,6 +1,11 @@
 ﻿#NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
 F1::
-if WinExist("ahk_exe msedge.exe",,"Picture-in-Picture")
+if WinExist("ahk_exe chrome.exe",,"Picture-in-Picture")
+    WinActivate
+return
+
+F2::
+if WinExist("ahk_exe nvim-qt.exe")
     WinActivate
 return
 
@@ -31,11 +36,5 @@ return
 
 F9::
 if WinExist("ahk_exe pritunl.exe")
-    WinActivate
-return
-
-;; With alt
-<!F3::
-if WinExist("ahk_exe explorer.exe")
     WinActivate
 return
