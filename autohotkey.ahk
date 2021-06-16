@@ -5,7 +5,7 @@ if WinExist("ahk_exe chrome.exe",,"Picture-in-Picture")
 return
 
 F2::
-if WinExist("ahk_exe nvim-qt.exe")
+if WinExist("ahk_exe code.exe")
     WinActivate
 return
 
