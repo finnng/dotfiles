@@ -7,6 +7,9 @@ Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 Import-Module ZLocation;
 Write-Host -Foreground Green "`n[ZLocation] knows about $((Get-ZLocation).Keys.Count) locations.`n"
 Set-Alias -Name j -Value Invoke-ZLocation
+Set-Alias -Name vim -Value nvim
+
+# kubectl
 
 function glog {
     git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
@@ -20,8 +23,9 @@ function gd {
     git diff
 }
 
-function gc($1){
+function gco($1){
     git checkout $1
+    & invoke-Expression 'git checkout $1'
 }
 
 function gcurrent() {
@@ -112,13 +116,24 @@ function gtagpush($1) {
     "> git checkout master"
     git checkout master
 
-    $cmd1 = "git tag -a $1 -m $1"
-    "> $cmd1"
-    & invoke-Expression $cmd1 2>&1
+    "> git tag -a $1 -m `"$1`""
+    git tag -a $1 -m "$1"
 
-    $cmd2 = "git push origin $1"
-    "> $cmd2"
-    & invoke-Expression $cmd2 2>&1
+    "> git push origin $1"
+    git push origin $1
+}
+
+function gstg(){
+    # $cmd1 = "gcloud compute instances list | grep staging-fuse-product-pool | awk 'NR==1 {print $4}'"
+    # $newIp = & invoke-Expression $cmd1 2>&1
+    # $host_name = "gstg.app1"
+
+    # $new_line="$newIp $host_name"
+    # "> Will replace with new host: $new_line"
+
+    # sudo vim -s (echo -e "?$(echo $host_name)?\nS$(echo $new_line)\e:wq") C:\Windows\system32\drivers\etc\hosts
+    gcloud compute instances list | grep staging-fuse-product-pool | awk 'NR==1 {print $4}' | set-clipboard
+    sudo nvim C:\Windows\System32\drivers\etc\hosts
 }
 
 [System.Environment]::SetEnvironmentVariable('NODE_EXE','C:\Users\nbn\scoop\apps\nvm\current\nodejs\nodejs\node.exe')

@@ -25,6 +25,8 @@ map <leader>i <Action>(GotoPreviousError)
 map <leader>] <Action>(FindInPath)
 map <leader>R <Action>(RenameElement)
 map <leader>p <Action>(ManageRecentProjects)
+map <leader>I <Action>(VcsShowPrevChangeMarker)
+map <leader>O <Action>(VcsShowNextChangeMarker)
 map ˙ gT
 map ¬ gt
 map <leader>c <Action>(CommentByLineComment)
@@ -107,3 +109,7 @@ set nobackup
 set nowritebackup
 set nowb
 set noswapfile
+
+" Disable annoy sounds
+set visualbell
+set noerrorbells
