@@ -27,14 +27,14 @@ function! s:show_documentation()
 endfunction
 
 " Ag with preview
-" command! -bang -nargs=* Ag
-"   \ call fzf#vim#ag(<q-args>,
-"   \                 <bang>0 ? fzf#vim#with_preview('up:60%')
-"   \                         : fzf#vim#with_preview('right:50%', '?'),
-"   \                 <bang>0)
+command! -bang -nargs=* Ag
+  \ call fzf#vim#ag(<q-args>,
+  \                 <bang>0 ? fzf#vim#with_preview('up:60%')
+  \                         : fzf#vim#with_preview('right:50%', '?'),
+  \                 <bang>0)
 
 " " Rag search within specific directory
-" command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
+command! -bang -nargs=+ -complete=dir Rag call fzf#vim#ag_raw(<q-args>, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}), <bang>0)
 
 let mapleader = "\<space>"
 nmap <esc> :noh<cr>
@@ -288,7 +288,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'antoinemadec/coc-fzf'
 " let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 }}
 let g:fzf_layout = { 'down': '~60%' }
-let g:fzf_preview_window = []
+" let g:fzf_preview_window = []
 let g:coc_fzf_preview = ''
 let g:coc_fzf_opts = []
 
