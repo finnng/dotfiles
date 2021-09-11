@@ -1,22 +1,16 @@
 let $FZF_DEFAULT_COMMAND="ag -Q --nogroup --nocolor --column --hidden -l"
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all,ctrl-d:deselect-all --color=bg:#3d3d3c --inline-info'
 
-set guifont=Consolas:h14
-
 let g:nord_italic = 1
 let g:nord_italic_comments = 1
 let g:nord_underline = 1
 let g:nord_cursor_line_number_background = 1
 let g:nord_uniform_diff_background = 1
 
-let $darkcolor='nord'
-let $whitecolor='PaperColor'
-
 set incsearch
 set cursorline
 set smartcase
 set background=dark
-colorscheme $darkcolor
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -77,10 +71,6 @@ nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-" Change theme
-map <leader><Up> :colorscheme $darkcolor \| set background=dark<cr>
-map <leader><Down> :colorscheme $whitecolor \| set background=light<cr>
 
 " coc-snippets tab to trigger complete
 inoremap <silent><expr> <TAB>
@@ -254,8 +244,8 @@ let g:NERDTreeWinSize=50
 let g:NERDTreeStatusline="%{substitute(getcwd(), '^.*/', '', '')}"
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-let g:coc_node_path = $NODE_EXE
-let g:coc_global_extensions=['coc-omnisharp', 'coc-python', 'coc-tsserver', 'coc-rls', 'coc-flow', 'coc-eslint', 'coc-json', 'coc-prettier', 'coc-snippets', 'coc-flutter']
+let g:coc_node_path = '/Users/finn/.nvm/versions/node/v14.17.6/bin/node'
+let g:coc_global_extensions=['coc-tsserver', 'coc-flow', 'coc-eslint', 'coc-json', 'coc-prettier', 'coc-snippets']
 
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 let g:prettier#exec_cmd_path = $HOME."/.nvm/versions/node/v10.15.1/bin/prettier"
@@ -314,17 +304,17 @@ Plug 'lambdalisue/suda.vim'
 " An always-on highlight for a unique character in every word on a line to help you use f, F and family.
 Plug 'unblevable/quick-scope'
 
-Plug 'dart-lang/dart-vim-plugin'
+" Plug 'dart-lang/dart-vim-plugin'
 
-Plug 'aserebryakov/vim-todo-lists'
-let g:VimTodoListsMoveItems = 0
-let g:VimTodoListsDatesEnabled = 1
+" Plug 'aserebryakov/vim-todo-lists'
+" let g:VimTodoListsMoveItems = 0
+" let g:VimTodoListsDatesEnabled = 1
 
 Plug 'AndrewRadev/tagalong.vim'
 
 Plug 'psliwka/vim-smoothie'
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 Plug 'arcticicestudio/nord-vim'
 
@@ -333,3 +323,5 @@ Plug 'sindrets/diffview.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 
 call plug#end()
+
+colorscheme nord

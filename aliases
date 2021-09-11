@@ -2,7 +2,7 @@ export FZF_DEFAULT_COMMAND="ag -Q --nogroup --nocolor --column --hidden -l"
 
 alias ll="ls -al"
 
-alias vim="~/nvim-osx64/bin/nvim"
+# alias vim="~/nvim-osx64/bin/nvim"
 # alias vim="nvim"
 # alias evim='vim ~/.config/nvim/init.vim'
 
@@ -10,8 +10,8 @@ alias dc="docker-compose"
 alias dclog="docker-compose logs -f --tail=100"
 
 # Kubernetes
-alias ks="kubectl --context=gke_agency-revolution_asia-southeast1-a_staging --namespace=staging"
-alias kp="kubectl --context=gke_agency-revolution_us-west1-b_production --namespace=production"
+alias kbs="kubectl --context=gke_agency-revolution_asia-southeast1-a_staging-v2 --namespace=staging-v2"
+alias kbp="kubectl --context=gke_agency-revolution_us-west1-b_production-v2 --namespace=production-v2"
 
 ################# GIT #################
 
@@ -20,6 +20,8 @@ alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset
 alias gc="git checkout"
 alias gd="git diff"
 alias gs="git status"
+
+export CONNECT_APP_DIR=/Users/finn/projects/connect
 
 # And all other shared git aliases
 source $CONNECT_APP_DIR/dev-tools/shell-scripts/git-tool.sh
