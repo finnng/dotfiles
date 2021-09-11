@@ -1,0 +1,106 @@
+{
+  "title": "App switching",
+  "rules": [
+    {
+      "description": "CMD + f1 to open Settings",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "f1",
+            "modifiers": {
+              "mandatory": [
+                "left_gui"
+              ]
+            }
+          },
+          "to": [
+            {
+              "shell_command": "open -a 'System Preferences'"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "f1 to open Chrome",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "f1"
+          },
+          "to": [
+            {
+              "shell_command": "open '/Applications/Google Chrome.app'"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "f2 to open Kitty",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "f2"
+          },
+          "to": [
+            {
+              "shell_command": "open '/Applications/kitty.app'"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "f3 to open Kitty",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "f3"
+          },
+          "to": [
+            {
+              "shell_command": "open '/Applications/kitty.app'"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "f4 to open Rider",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "f4"
+          },
+          "to": [
+            {
+              "shell_command": "open '/Applications/Rider.app'"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "f5 to open Firefox",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "f5"
+          },
+          "to": [
+            {
+              "shell_command": "open '/Applications/Firefox.app'"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
