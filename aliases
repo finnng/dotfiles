@@ -2,9 +2,7 @@ export FZF_DEFAULT_COMMAND="ag -Q --nogroup --nocolor --column --hidden -l"
 
 alias ll="ls -al"
 
-# alias vim="~/nvim-osx64/bin/nvim"
-# alias vim="nvim"
-# alias evim='vim ~/.config/nvim/init.vim'
+alias vim="nvim"
 
 alias dc="docker-compose"
 alias dclog="docker-compose logs -f --tail=100"

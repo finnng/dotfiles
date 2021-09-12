@@ -245,7 +245,7 @@ let g:NERDTreeStatusline="%{substitute(getcwd(), '^.*/', '', '')}"
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 let g:coc_node_path = '/Users/finn/.nvm/versions/node/v14.17.6/bin/node'
-let g:coc_global_extensions=['coc-tsserver', 'coc-flow', 'coc-eslint', 'coc-json', 'coc-prettier', 'coc-snippets']
+let g:coc_global_extensions=['coc-tsserver', 'coc-flow', 'coc-eslint', 'coc-json', 'coc-prettier', 'coc-snippets', 'coc-tabnine']
 
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 let g:prettier#exec_cmd_path = $HOME."/.nvm/versions/node/v10.15.1/bin/prettier"

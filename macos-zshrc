@@ -22,3 +22,5 @@ if [ -f '/Users/finn/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/finn/googl
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/finn/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/finn/google-cloud-sdk/completion.zsh.inc'; fi
+
+source ~/.aliases
