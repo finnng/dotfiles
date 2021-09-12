@@ -1,133 +1,93 @@
 {
-  "title": "Left ctrl + hjkl to Arrow Keys Vim",
-  "rules": [
-    {
-      "description": "Left ctrl + hjkl to arrow keys Vim",
-      "manipulators": [
+    "title": "Global key maps",
+    "rules": [
         {
-          "from": {
-            "key_code": "h",
-            "modifiers": {
-              "mandatory": [
-                "left_control"
-              ],
-              "optional": [
-                "any"
-              ]
-            }
-          },
-          "to": [
-            {
-              "key_code": "left_arrow"
-            }
-          ],
-          "type": "basic"
+            "description": "Left ctrl + hjkl to arrow keys Vim",
+            "manipulators": [
+                {
+                    "from": {
+                        "key_code": "h",
+                        "modifiers": {
+                            "mandatory": ["left_control"],
+                            "optional": ["any"]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "left_arrow"
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "from": {
+                        "key_code": "j",
+                        "modifiers": {
+                            "mandatory": ["left_control"],
+                            "optional": ["any"]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "down_arrow"
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "from": {
+                        "key_code": "k",
+                        "modifiers": {
+                            "mandatory": ["left_control"],
+                            "optional": ["any"]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "up_arrow"
+                        }
+                    ],
+                    "type": "basic"
+                },
+                {
+                    "from": {
+                        "key_code": "l",
+                        "modifiers": {
+                            "mandatory": ["left_control"],
+                            "optional": ["any"]
+                        }
+                    },
+                    "to": [
+                        {
+                            "key_code": "right_arrow"
+                        }
+                    ],
+                    "type": "basic"
+                }
+            ]
         },
         {
-          "from": {
-            "key_code": "j",
-            "modifiers": {
-              "mandatory": [
-                "left_control"
-              ],
-              "optional": [
-                "any"
-              ]
-            }
-          },
-          "to": [
-            {
-              "key_code": "down_arrow"
-            }
-          ],
-          "type": "basic"
-        },
-        {
-          "from": {
-            "key_code": "k",
-            "modifiers": {
-              "mandatory": [
-                "left_control"
-              ],
-              "optional": [
-                "any"
-              ]
-            }
-          },
-          "to": [
-            {
-              "key_code": "up_arrow"
-            }
-          ],
-          "type": "basic"
-        },
-        {
-          "from": {
-            "key_code": "l",
-            "modifiers": {
-              "mandatory": [
-                "left_control"
-              ],
-              "optional": [
-                "any"
-              ]
-            }
-          },
-          "to": [
-            {
-              "key_code": "right_arrow"
-            }
-          ],
-          "type": "basic"
+            "description": "J+K at the same time to Escape",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "simultaneous": [
+                            {
+                                "key_code": "j"
+                            },
+                            {
+                                "key_code": "k"
+                            }
+                        ]
+                    },
+                    "to": [
+                        {
+                            "key_code": "escape"
+                        }
+                    ]
+                }
+            ]
         }
-      ]
-    },
-    {
-      "description": "J+K at the same time to Escape",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "j",
-            "modifiers": {
-              "mandatory": [
-                "k"
-              ]
-            }
-          },
-          "to": [
-            {
-              "key_code": "escape"
-            }
-          ],
-          "to_if_alone": [
-            {
-              "key_code": "j"
-            }
-          ]
-        },
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "k",
-            "modifiers": {
-              "mandatory": [
-                "j"
-              ]
-            }
-          },
-          "to": [
-            {
-              "key_code": "escape"
-            }
-          ],
-          "to_if_alone": [
-            {
-              "key_code": "k"
-            }
-          ]
-        }
-      ]
-    }
-  ]
+    ]
 }
