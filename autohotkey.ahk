@@ -9,6 +9,11 @@ if WinExist("ahk_exe code.exe")
     WinActivate
 return
 
+!F2::
+if WinExist("ahk_exe thunderbird.exe")
+    WinActivate
+return
+
 F3::
 if WinExist("ahk_exe WindowsTerminal.exe")
     WinActivate
@@ -55,3 +60,25 @@ F10::
 if WinExist("ahk_exe clickup.exe")
     WinActivate
 return
+
+; + arrow keys
+<!Up::send {RAlt Up}{PgUp}
+<!Down::send {RAlt Up}{PgDn}
+<!Left::send {RAlt Up}{Home}
+<!Right::send {RAlt Up}{End}
+
+^j::send {Down}
+^k::send {Up}
+^h::send {Left}
+^l::send {Right}
+
+$~*Ctrl:: 
+if !state 
+	state :=  (GetKeyState("Shift", "P") ||  GetKeyState("Alt", "P") || GetKeyState("LWin", "P") || GetKeyState("RWin", "P"))
+return 
+
+$~ctrl up::
+if instr(A_PriorKey, "control") && !state
+	send {esc}
+state := 0 
+return 
