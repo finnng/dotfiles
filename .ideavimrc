@@ -27,9 +27,10 @@ map <leader>R <Action>(RenameElement)
 map <leader>p <Action>(ManageRecentProjects)
 map <leader>I <Action>(VcsShowPrevChangeMarker)
 map <leader>O <Action>(VcsShowNextChangeMarker)
-map ˙ gT
-map ¬ gt
 map <leader>c <Action>(CommentByLineComment)
+map <leader>` <Action>(Vcs.QuickListPopupAction)
+map gi <Action>(ReSharperGotoImplementation)
+map <leader>P <Action>(RiderCopyRootPath)
 
 " Delete without yanking to clipboard "
 vnoremap <leader>d "_d

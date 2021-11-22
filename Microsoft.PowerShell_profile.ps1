@@ -9,7 +9,15 @@ Write-Host -Foreground Green "`n[ZLocation] knows about $((Get-ZLocation).Keys.C
 Set-Alias -Name j -Value Invoke-ZLocation
 Set-Alias -Name vim -Value nvim
 
-# kubectl
+# kubectl staging
+function kbs($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) {
+    kubectl --context=gke_agency-revolution_asia-southeast1-a_staging-v2 --namespace=staging-v2 $1 $2 $3 $4 $5 $6 $7 $8 $9 $10
+}
+
+#kubectl production
+function kbp($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) {
+    kubectl --context=gke_agency-revolution_us-west1-b_production-v2 --namespace=production-v2 $1 $2 $3 $4 $5 $6 $7 $8 $9 $10
+}
 
 function glog {
     git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
@@ -124,16 +132,9 @@ function gtagpush($1) {
 }
 
 function gstg(){
-    # $cmd1 = "gcloud compute instances list | grep staging-fuse-product-pool | awk 'NR==1 {print $4}'"
-    # $newIp = & invoke-Expression $cmd1 2>&1
-    # $host_name = "gstg.app1"
-
-    # $new_line="$newIp $host_name"
-    # "> Will replace with new host: $new_line"
-
-    # sudo vim -s (echo -e "?$(echo $host_name)?\nS$(echo $new_line)\e:wq") C:\Windows\system32\drivers\etc\hosts
-    gcloud compute instances list | grep staging-fuse-product-pool | awk 'NR==1 {print $4}' | set-clipboard
+    gcloud compute instances list | grep staging-v2-fuse-product-pool | awk 'NR==1 {print $4}' | set-clipboard
     sudo nvim C:\Windows\System32\drivers\etc\hosts
 }
 
-[System.Environment]::SetEnvironmentVariable('NODE_EXE','C:\Users\nbn\scoop\apps\nvm\current\nodejs\nodejs\node.exe')
+[System.Environment]::SetEnvironmentVariable('NODE_EXE','C:\Users\nbn\scoop\persist\nvm\nodejs\v12.12.0\node.exe')
+[System.Environment]::SetEnvironmentVariable('INFLUX_TOKEN','J65ksD3POuXwtNwYX_iA0pPGoagUMIYRTA0eIWbotha3ypmFzYoxJWXYQB6sFRFiZPGD8G-BA4CVhh4lIPeUxw==')

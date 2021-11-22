@@ -1,13 +1,3 @@
-" let $FZF_DEFAULT_COMMAND="ag -Q --nogroup --nocolor --column --hidden -l"
-" let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all,ctrl-d:deselect-all --color=bg:#3d3d3c --inline-info'
-
-" let $PATH = "C:\\Program Files\\Git\\usr\\bin;" . $PATH
-
-" let g:fzf_layout = { 'down': '~60%' }
-" let g:fzf_preview_window = ['right:50%', 'ctrl-/']
-" let g:coc_fzf_preview = ''
-" let g:coc_fzf_opts = []
-
 set guifont=Consolas:h12
 
 let g:nord_italic = 1
@@ -25,26 +15,18 @@ set smartcase
 set background=dark
 colorscheme $darkcolor
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocAction('doHover')
-  endif
-endfunction
+ function! s:show_documentation()
+   if (index(['vim','help'], &filetype) >= 0)
+     execute 'h '.expand('<cword>')
+   else
+     call CocAction('doHover')
+   endif
+ endfunction
 
 let mapleader = "\<space>"
 nmap <esc> :noh<cr>
 tnoremap <esc> <C-\><C-n>:q<cr>
 map <leader>w :w<cr>
-" map <leader><enter> :Files<cr>
-" map <leader>[ yiw:Rag<space><C-R><C-+><space><C-R><S-%>
-" map <leader>{ :Rag <C-R><C-%>
-" map <leader>\ :History<cr>
-" map <leader>] :Ag<cr>
-" nmap <leader>} yiw:Ag<space><C-R><S-+><cr>
-" vmap <leader>} y:Ag<space><C-R><S-+><cr>
-" map <leader>b :Buffers<cr>
 map <leader>a <Plug>(coc-codeaction)
 map <leader>f :Prettier<cr>
 map <leader>t :tabnew<cr>
@@ -80,7 +62,7 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+ nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 " Change theme
 map <leader><Up> :colorscheme $darkcolor \| set background=dark<cr>
@@ -305,28 +287,22 @@ Plug 'tpope/vim-surround'
 " Typescript
 Plug 'leafgarland/typescript-vim'
 
-" Rust
-" Plug 'rust-lang/rust.vim'
-
 Plug 'lambdalisue/suda.vim'
 
 " An always-on highlight for a unique character in every word on a line to help you use f, F and family.
 Plug 'unblevable/quick-scope'
 
-Plug 'dart-lang/dart-vim-plugin'
 
-Plug 'aserebryakov/vim-todo-lists'
-let g:VimTodoListsMoveItems = 0
-let g:VimTodoListsDatesEnabled = 1
-
+" Automatic rename HTML tags
 Plug 'AndrewRadev/tagalong.vim'
 
+" Smooth scroll
 Plug 'psliwka/vim-smoothie'
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 Plug 'arcticicestudio/nord-vim'
 
+" Git diff viewer
 Plug 'sindrets/diffview.nvim'
 
 Plug 'kyazdani42/nvim-web-devicons'
@@ -335,6 +311,8 @@ Plug 'nvim-lua/popup.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
-" Plug 'codota/tabnine-vim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 call plug#end()
+
