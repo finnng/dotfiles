@@ -132,7 +132,7 @@ function gtagpush($1) {
 }
 
 function gstg(){
-    gcloud compute instances list | grep staging-v2-fuse-product-pool | awk 'NR==1 {print $4}' | set-clipboard
+    gcloud compute instances list | grep staging-v2-fuse-cloud-pool | awk 'NR==1 {print $4}' | set-clipboard
     sudo nvim C:\Windows\System32\drivers\etc\hosts
 }
 

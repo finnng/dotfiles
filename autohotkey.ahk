@@ -4,20 +4,22 @@ if WinExist("ahk_exe chrome.exe",,"Picture-in-Picture")
     WinActivate
 return
 
-F2::
-if WinExist("ahk_exe code.exe")
-    WinActivate
-return
+; F2::
+; if WinExist("ahk_exe code.exe")
+;     WinActivate
+; return
 
 !F2::
 if WinExist("ahk_exe thunderbird.exe")
     WinActivate
 return
 
-F3::
+F2::
 if WinExist("ahk_exe WindowsTerminal.exe")
     WinActivate
 return
+
+F3::send {LWin Down}{Tab}{LWin Up}
 
 F4::
 if WinExist("ahk_exe rider64.exe")
@@ -35,7 +37,7 @@ if WinExist("ahk_exe telegram.exe")
 return
 
 F6::
-if WinExist("ahk_exe discord.exe")
+if WinExist("ahk_exe gather.exe")
     WinActivate
 return
 
@@ -72,13 +74,13 @@ return
 ^h::send {Left}
 ^l::send {Right}
 
-$~*Ctrl:: 
-if !state 
-	state :=  (GetKeyState("Shift", "P") ||  GetKeyState("Alt", "P") || GetKeyState("LWin", "P") || GetKeyState("RWin", "P"))
-return 
-
-$~ctrl up::
-if instr(A_PriorKey, "control") && !state
-	send {esc}
-state := 0 
-return 
+; $~*ctrl:: 
+; if !state 
+; 	state :=  (GetKeyState("Shift", "P") ||  GetKeyState("Alt", "P") || GetKeyState("LWin", "P") || GetKeyState("RWin", "P"))
+; return 
+; 
+; $~ctrl up::
+; if instr(a_PriorKey, "control") && !state
+; 	send {esc}
+; state := 0 
+; return 
