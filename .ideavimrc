@@ -31,8 +31,9 @@ map <leader>c <Action>(CommentByLineComment)
 map <leader>` <Action>(Vcs.QuickListPopupAction)
 map gi <Action>(ReSharperGotoImplementation)
 map <leader>P <Action>(RiderCopyRootPath)
-nmap [c <Action>(VcsShowNextChangeMarker)
-nmap ]c <Action>(VcsShowPrevChangeMarker)
+map [c <Action>(VcsShowPrevChangeMarker)
+map ]c <Action>(VcsShowNextChangeMarker)
+map zf <Action>(CollapseSelection)
 
 " Delete without yanking to clipboard "
 vnoremap <leader>d "_d

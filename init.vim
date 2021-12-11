@@ -240,12 +240,12 @@ Plug 'scrooloose/nerdtree'
 " show hidden file
 let NERDTreeShowHidden=1
 let NERDTreeShowLineNumbers=1
-let g:NERDTreeWinSize=50
+let g:NERDTreeWinSize=40
 let g:NERDTreeStatusline="%{substitute(getcwd(), '^.*/', '', '')}"
 
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 let g:coc_node_path = '/Users/finn/.nvm/versions/node/v14.17.6/bin/node'
-let g:coc_global_extensions=['coc-tsserver', 'coc-flow', 'coc-eslint', 'coc-json', 'coc-prettier', 'coc-snippets', 'coc-tabnine']
+let g:coc_global_extensions=['coc-tsserver', 'coc-flow', 'coc-eslint', 'coc-json', 'coc-prettier', 'coc-snippets', 'coc-tabnine', 'coc-java']
 
 Plug 'prettier/vim-prettier', { 'do': 'npm install', 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 let g:prettier#exec_cmd_path = $HOME."/.nvm/versions/node/v10.15.1/bin/prettier"
@@ -318,10 +318,11 @@ Plug 'psliwka/vim-smoothie'
 
 Plug 'arcticicestudio/nord-vim'
 
-Plug 'sindrets/diffview.nvim'
+" Plug 'sindrets/diffview.nvim'
 
 Plug 'kyazdani42/nvim-web-devicons'
 
 call plug#end()
 
-colorscheme nord
+" colorscheme nord
+colorscheme gruvbox
