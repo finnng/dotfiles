@@ -1,12 +1,6 @@
 let $FZF_DEFAULT_COMMAND="ag -Q --nogroup --nocolor --column --hidden -l"
 let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all,ctrl-d:deselect-all --color=bg:#3d3d3c --inline-info'
 
-let g:nord_italic = 1
-let g:nord_italic_comments = 1
-let g:nord_underline = 1
-let g:nord_cursor_line_number_background = 1
-let g:nord_uniform_diff_background = 1
-
 set incsearch
 set cursorline
 set smartcase
@@ -296,19 +290,10 @@ Plug 'tpope/vim-surround'
 " Typescript
 Plug 'leafgarland/typescript-vim'
 
-" Rust
-" Plug 'rust-lang/rust.vim'
-
 Plug 'lambdalisue/suda.vim'
 
 " An always-on highlight for a unique character in every word on a line to help you use f, F and family.
 Plug 'unblevable/quick-scope'
-
-" Plug 'dart-lang/dart-vim-plugin'
-
-" Plug 'aserebryakov/vim-todo-lists'
-" let g:VimTodoListsMoveItems = 0
-" let g:VimTodoListsDatesEnabled = 1
 
 Plug 'AndrewRadev/tagalong.vim'
 
@@ -316,13 +301,8 @@ Plug 'psliwka/vim-smoothie'
 
 " Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
-Plug 'arcticicestudio/nord-vim'
-
-" Plug 'sindrets/diffview.nvim'
-
 Plug 'kyazdani42/nvim-web-devicons'
 
 call plug#end()
 
-" colorscheme nord
 colorscheme gruvbox
