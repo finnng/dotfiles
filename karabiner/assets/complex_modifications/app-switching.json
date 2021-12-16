@@ -187,7 +187,7 @@
             ]
         },
         {
-            "description": "f9 to open Pritunl",
+            "description": "f9 to open Pritunl & Authy",
             "manipulators": [
                 {
                     "type": "basic",
@@ -196,7 +196,7 @@
                     },
                     "to": [
                         {
-                            "shell_command": "open '/Applications/Pritunl.app'"
+                            "shell_command": "open '/Applications/Pritunl.app' && open '/Applications/Authy Desktop.app'"
                         }
                     ]
                 }

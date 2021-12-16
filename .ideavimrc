@@ -3,13 +3,13 @@ set cursorline
 set smartcase
 
 let mapleader = "\<space>"
-nmap <esc> :noh<cr>
+"nmap <esc> :noh<cr>
 
 " Key mapping
 map <leader>w :w<cr>
 map <leader>q :q<cr>
-map <leader>n :set nohlsearch<cr>
-map <leader>N :set hlsearch<cr>
+map <leader>n :noh<cr>
+"map <leader>N :set hlsearch<cr>
 
 map <leader>e :NERDTree<cr>
 map <leader>r <Action>(SelectInProjectView)

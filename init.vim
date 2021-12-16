@@ -1,10 +1,11 @@
 let $FZF_DEFAULT_COMMAND="ag -Q --nogroup --nocolor --column --hidden -l"
-let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all,ctrl-d:deselect-all --color=bg:#3d3d3c --inline-info'
+let $FZF_DEFAULT_OPTS = '--bind ctrl-a:select-all,ctrl-d:deselect-all --color=bg:#ffffff --inline-info'
 
 set incsearch
 set cursorline
 set smartcase
-set background=dark
+set background=light
+colorscheme PaperColor
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
@@ -304,5 +305,3 @@ Plug 'psliwka/vim-smoothie'
 Plug 'kyazdani42/nvim-web-devicons'
 
 call plug#end()
-
-colorscheme gruvbox
