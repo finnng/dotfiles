@@ -3,10 +3,10 @@ set cursorline
 set smartcase
 
 let mapleader = "\<space>"
-"nmap <esc> :noh<cr>
+nmap <esc> :noh<cr>
 
 " Key mapping
-map <leader>w :w<cr>
+map <leader>w <Action>(SaveAll)
 map <leader>q :q<cr>
 map <leader>n :noh<cr>
 "map <leader>N :set hlsearch<cr>
@@ -14,7 +14,7 @@ map <leader>n :noh<cr>
 map <leader>e :NERDTree<cr>
 map <leader>r <Action>(SelectInProjectView)
 map <leader>f <Action>(ReformatCode)
-map <leader>F <Action>(ReformatWithPrettierAction)
+"map <leader>f <Action>(ReformatWithPrettierAction)
 map <C-W><C-R> <Action>(MoveEditorToOppositeTabGroup)
 map <leader>b <Action>(RecentFiles)
 map <leader><cr> <Action>(GotoFile)
@@ -28,9 +28,10 @@ map <leader>p <Action>(ManageRecentProjects)
 map <leader>I <Action>(VcsShowPrevChangeMarker)
 map <leader>O <Action>(VcsShowNextChangeMarker)
 map <leader>c <Action>(CommentByLineComment)
+map <leader>C <Action>(CommentByBlockComment)
 map <leader>` <Action>(Vcs.QuickListPopupAction)
 map gi <Action>(ReSharperGotoImplementation)
-map <leader>P <Action>(RiderCopyRootPath)
+map <leader>P <Action>(CopyReference)
 map [c <Action>(VcsShowPrevChangeMarker)
 map ]c <Action>(VcsShowNextChangeMarker)
 map zf <Action>(CollapseSelection)

@@ -123,6 +123,38 @@
             ]
         },
         {
+            "description": "left f7 to open Godot_mono",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "f7"
+                    },
+                    "to": [
+                        {
+                            "shell_command": "open '/Applications/Godot_mono.app'"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "description": "left f8 to open Xcode",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "f8"
+                    },
+                    "to": [
+                        {
+                            "shell_command": "open '/Applications/Xcode.app'"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "description": "f5 to open Firefox",
             "manipulators": [
                 {
@@ -197,6 +229,22 @@
                     "to": [
                         {
                             "shell_command": "open '/Applications/Pritunl.app' && open '/Applications/Authy Desktop.app'"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "description": "f10 to open drawio",
+            "manipulators": [
+                {
+                    "type": "basic",
+                    "from": {
+                        "key_code": "f10"
+                    },
+                    "to": [
+                        {
+                            "shell_command": "open '/Applications/draw.io.app'"
                         }
                     ]
                 }
