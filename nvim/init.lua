@@ -3,8 +3,9 @@ vim.g.mapleader = " "
 
 -- Plugin configuration
 local plugins = {
-    "neovim/nvim-lspconfig",
     "williamboman/mason.nvim",
+    "williamboman/mason-lspconfig.nvim",
+    "neovim/nvim-lspconfig",
     "madox2/vim-ai",
     "airblade/vim-gitgutter",
     "jesseleite/vim-agriculture",
@@ -24,6 +25,7 @@ local plugins = {
     "vim-airline/vim-airline",
     "vim-airline/vim-airline-themes",
     "tveskag/nvim-blame-line",
+    "github/copilot.vim"
 }
 
 -- Lazy loading configuration
@@ -48,10 +50,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins, lazy_config)
 require("mason").setup()
+require("mason-lspconfig").setup()
 
-local lspconfig = require('lspconfig')
-lspconfig.pyright.setup {}
-lspconfig.tsserver.setup {}
+require("my-lsp-config")
+
 
 -- Token counting function definition
 function CountTokens()
@@ -79,7 +81,7 @@ vim.g.airline_extensions_tabline_enabled = 1
 vim.g.airline_extensions_tabline_formatter = 'unique_tail'
 vim.g.airline_extensions_branch_displayed_head_limit = 20
 vim.g.airline_solorized_bg = 'dark'
-vim.g.airline_theme = 'minimalist'
+--vim.g.airline_theme = 'minimalist'
 vim.g.airline_powerline_fonts = 1
 vim.g.bargreybars_auto = 0
 
