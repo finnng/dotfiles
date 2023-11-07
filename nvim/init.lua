@@ -3,35 +3,35 @@ vim.g.mapleader = " "
 
 -- Plugin configuration
 local plugins = {
-    "williamboman/mason.nvim",
-    "williamboman/mason-lspconfig.nvim",
-    "neovim/nvim-lspconfig",
-    "madox2/vim-ai",
-    "airblade/vim-gitgutter",
-    "jesseleite/vim-agriculture",
-    "jiangmiao/auto-pairs",
-    "junegunn/fzf",
-    "junegunn/fzf.vim",
-    "lambdalisue/suda.vim",
-    "morhetz/gruvbox",
-    "nvim-treesitter/nvim-treesitter",
-    "preservim/nerdtree",
-    "ryanoasis/vim-devicons",
-    "scrooloose/nerdcommenter",
-    "shaunsingh/nord.nvim",
-    "tpope/vim-fugitive",
-    "tpope/vim-surround",
-    "tpope/vim-vinegar",
-    "vim-airline/vim-airline",
-    "vim-airline/vim-airline-themes",
-    "tveskag/nvim-blame-line",
-    "github/copilot.vim"
+  "williamboman/mason.nvim",
+  "williamboman/mason-lspconfig.nvim",
+  "neovim/nvim-lspconfig",
+  "madox2/vim-ai",
+  "airblade/vim-gitgutter",
+  "jesseleite/vim-agriculture",
+  "jiangmiao/auto-pairs",
+  "junegunn/fzf",
+  "junegunn/fzf.vim",
+  "lambdalisue/suda.vim",
+  "morhetz/gruvbox",
+  "nvim-treesitter/nvim-treesitter",
+  "ryanoasis/vim-devicons",
+  "scrooloose/nerdcommenter",
+  "shaunsingh/nord.nvim",
+  "tpope/vim-fugitive",
+  "tpope/vim-surround",
+  "tpope/vim-vinegar",
+  "vim-airline/vim-airline",
+  "vim-airline/vim-airline-themes",
+  "tveskag/nvim-blame-line",
+  "github/copilot.vim",
+  "nvim-tree/nvim-tree.lua"
 }
 
 -- Lazy loading configuration
 local lazy_config = {
-    enable = true,
-    disable_commands = true
+  enable = true,
+  disable_commands = true
 }
 
 -- Lazy loading path setup
@@ -52,31 +52,13 @@ require("lazy").setup(plugins, lazy_config)
 require("mason").setup()
 require("mason-lspconfig").setup()
 
-require("my-lsp-config")
+require("lsp")
+require("nvimtree")
+require("aichat")
 
-
--- Token counting function definition
-function CountTokens()
-    local output = vim.fn.system('python3 ~/scripts/count_token_vim.py', table.concat(vim.fn.getline(1, '$'), "\n"))
-    print(output)
-end
-vim.cmd("command! TokenCount lua CountTokens()")
-
--- AI configurations and global settings
-vim.g.copilot_node_command = "~/.nvm/versions/node/v18.18.2/bin/node"
-vim.g.vim_ai_chat = {
-    options = {
-        model = "gpt-4-0613",
-        temperature = 0.5,
-        max_tokens = 2048,
-    },
-}
-
--- NERDTree settings
-vim.g.NERDTreeWinSize = 40
 
 -- FZF and airline configurations
-vim.g.fzf_history_dir = '~/.vim/fzf_history'
+vim.g.fzf_history_dir = vim.fn.expand('~/.vim/fzf_history')
 vim.g.airline_extensions_tabline_enabled = 1
 vim.g.airline_extensions_tabline_formatter = 'unique_tail'
 vim.g.airline_extensions_branch_displayed_head_limit = 20
@@ -102,7 +84,7 @@ vim.cmd('filetype plugin indent on')
 vim.cmd('syntax on')
 vim.opt.ttyfast = true
 vim.opt.undofile = true
-vim.opt.undodir = '~/.vim/undodir'
+vim.opt.undodir = vim.fn.expand('~/.vim/undodir')
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.incsearch = true
@@ -114,35 +96,28 @@ vim.cmd('colorscheme nord')
 
 
 -- Key mappings
-vim.api.nvim_set_keymap('n', '<C-N>', ':bnext<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<C-P>', ':bprev<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader><enter>', ':Files<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>]', ':Ag<CR>', {noremap = true})
-vim.api.nvim_set_keymap('v', '<leader>]', '"uy:AgRaw -Q \'<c-r>u\'<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>b', ':Buffers<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>\\', ':History<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>P', ':let @+ = expand(\'%:~:.\') . \':\' . line(\'.\')<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>W', ':%bd<Bar>e#<Bar>bd#<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>q', ':bd<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>w', ':w<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<silent> <Esc>', ':nohl<CR><Esc>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>r', ':NERDTreeFind<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>e', ':NERDTreeToggle<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>no', ':copen<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>nc', ':cclose<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>nn', ':cnext<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>np', ':cprev<CR>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>h1', 'iAI, please condense the conversation up to this point into a single title and format it in snake_case.<esc>:AIC<cr>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>h2', 'yi"O~/aichat/<C-r>+.aichat<esc>dd:w <C-r>+<cr>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<leader>h3', ':echo system(\'python3 ~/scripts/count_token_vim.py\', getline(1, \'$\'))<cr>', {noremap = true})
-vim.api.nvim_set_keymap('i', '<c-enter>', '<esc>:AIC<cr>', {noremap = true})
-vim.api.nvim_set_keymap('n', '<silent> <leader>`', ':ToggleBlameLine<CR>', {noremap = true})
+vim.api.nvim_set_keymap('n', '<C-N>', ':bnext<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<C-P>', ':bprev<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader><enter>', ':GFiles<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>]', ':Ag<CR>', { noremap = true })
+vim.api.nvim_set_keymap('v', '<leader>]', '"uy:AgRaw -Q \'<c-r>u\'<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>b', ':Buffers<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>\\', ':History<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>P', ':let @+ = expand(\'%:~:.\') . \':\' . line(\'.\')<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>W', ':%bd<Bar>e#<Bar>bd#<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>q', ':bd<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>w', ':w<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<silent> <Esc>', ':nohl<CR><Esc>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>no', ':copen<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>nc', ':cclose<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>nn', ':cnext<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<leader>np', ':cprev<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<silent> <leader>`', ':ToggleBlameLine<CR>', { noremap = true })
 
 -- Treesitter configuration for better syntax highlighting
-require'nvim-treesitter.configs'.setup {
+require 'nvim-treesitter.configs'.setup {
   ensure_installed = "all",
   highlight = {
     enable = true,
   },
 }
-
