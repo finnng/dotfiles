@@ -138,6 +138,22 @@
                         ]
                     },
                     {
+                        "description": "f4 to open Webstorm",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "f4"
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "open '/Applications/Webstorm.app'"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "f5 to open Firefox",
                         "manipulators": [
                             {
@@ -311,22 +327,6 @@
                                 "to": [
                                     {
                                         "shell_command": "open '/Users/finn/Applications/Rider.app'"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "f4 to open Kitty",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "f4"
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open '/Applications/kitty.app'"
                                     }
                                 ],
                                 "type": "basic"

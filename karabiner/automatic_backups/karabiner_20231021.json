@@ -2,7 +2,7 @@
     "global": {
         "ask_for_confirmation_before_quitting": true,
         "check_for_updates_on_startup": true,
-        "show_in_menu_bar": false,
+        "show_in_menu_bar": true,
         "show_profile_name_in_menu_bar": false,
         "unsafe_ui": false
     },
@@ -131,6 +131,22 @@
                                 "to": [
                                     {
                                         "shell_command": "open '/Applications/Google Chrome.app'"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "f4 to open Webstorm",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "f4"
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "open '/Applications/Webstorm.app'"
                                     }
                                 ],
                                 "type": "basic"
@@ -311,22 +327,6 @@
                                 "to": [
                                     {
                                         "shell_command": "open '/Users/finn/Applications/Rider.app'"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "f4 to open Kitty",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "f4"
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open '/Applications/kitty.app'"
                                     }
                                 ],
                                 "type": "basic"
