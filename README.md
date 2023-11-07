@@ -7,19 +7,30 @@ This repository contains my personal configuration files (also known as dotfiles
 The repository is structured as follows:
 
 ```
-.
-├── karabiner
-├── kitty
-│   └── kitty.conf
-├── nvim
-├── old_nvim
-│   ├── coc-settings.json
-│   ├── init-windows.vim
-│   ├── init.vim
-│   └── vimvscode
-└── windows
-    ├── Microsoft.PowerShell_profile.ps1
-    └── autohotkey.ahk
+   karabiner
+    assets/complex_modifications
+       app-switching.json
+       misc.json
+     karabiner.json
+  kitty
+     kitty.conf
+  nvim
+    lua
+       aichat.lua
+       lsp.lua
+       nvimtree.lua
+     init.lua
+     lazy-lock.json
+     my-lsp-config.lua
+  old_nvim
+     coc-settings.json
+     init-windows.vim
+     init.vim
+     vimvscode
+  windows
+     Microsoft.PowerShell_profile.ps1
+     autohotkey.ahk
+   README.md
 ```
 
 ## Contents
