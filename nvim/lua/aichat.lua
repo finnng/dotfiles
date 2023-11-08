@@ -6,7 +6,7 @@ vim.g.vim_ai_chat = {
   options = {
     model = "gpt-4-0613",
     temperature = 0.5,
-    max_tokens = 2048,
+    max_tokens = -1,
   },
 }
 vim.api.nvim_set_keymap('n', '<leader>h1',

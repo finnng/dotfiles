@@ -16,7 +16,6 @@ local plugins = {
 	"nvim-treesitter/nvim-treesitter",
 	"ryanoasis/vim-devicons",
 	"scrooloose/nerdcommenter",
-	"shaunsingh/nord.nvim",
 	"tpope/vim-fugitive",
 	"tpope/vim-surround",
 	"tpope/vim-vinegar",
@@ -32,6 +31,8 @@ local plugins = {
 	"hrsh7th/cmp-path",
 	"hrsh7th/cmp-cmdline",
 	"hrsh7th/nvim-cmp",
+	"RRethy/nvim-base16",
+	"shaunsingh/nord.nvim",
 }
 
 -- Lazy loading configuration
@@ -66,6 +67,9 @@ require("nvimtree")
 require("aichat")
 require("format_config")
 require("linting_config")
+require("change_theme")
+
+vim.cmd("colorscheme nord")
 
 -- FZF and airline configurations
 vim.g.fzf_history_dir = vim.fn.expand("~/.vim/fzf_history")
@@ -102,7 +106,6 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.background = "dark"
-vim.cmd("colorscheme nord")
 
 vim.opt.updatetime = 100
 
@@ -118,12 +121,12 @@ vim.api.nvim_set_keymap("n", "<leader>P", ":let @+ = expand('%:~:.') . ':' . lin
 vim.api.nvim_set_keymap("n", "<leader>W", ":%bd<Bar>e#<Bar>bd#<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>q", ":bd<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>w", ":w<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<silent><esc>", ":nohl<CR><esc>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<esc>", ":nohl<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>no", ":copen<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>nc", ":cclose<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>nn", ":cnext<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>np", ":cprev<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<silent> <leader>`", ":ToggleBlameLine<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>`", ":ToggleBlameLine<CR>", { noremap = true, silent = true })
 
 -- Treesitter configuration for better syntax highlighting
 require("nvim-treesitter.configs").setup({
