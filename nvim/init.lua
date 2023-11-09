@@ -33,6 +33,7 @@ local plugins = {
 	"hrsh7th/nvim-cmp",
 	"RRethy/nvim-base16",
 	"shaunsingh/nord.nvim",
+	"hood/popui.nvim",
 }
 
 -- Lazy loading configuration
@@ -57,7 +58,6 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins, lazy_config)
 require("mason").setup()
-
 require("mason-lspconfig").setup()
 
 -- custom lua files, the order is important completion_config should be loaded before lsp
@@ -68,15 +68,21 @@ require("aichat")
 require("format_config")
 require("linting_config")
 require("change_theme")
+require("popui_config")
+require("fzf_config")
+
+vim.ui.select = require("popui.ui-overrider")
+vim.ui.input = require("popui.input-overrider")
+vim.api.nvim_set_keymap("n", ",d", ':lua require"popui.diagnostics-navigator"()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", ",m", ':lua require"popui.marks-manager"()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", ",r", ':lua require"popui.references-navigator"()<CR>', { noremap = true, silent = true })
 
 vim.cmd("colorscheme nord")
 
--- FZF and airline configurations
-vim.g.fzf_history_dir = vim.fn.expand("~/.vim/fzf_history")
 vim.g.airline_extensions_tabline_enabled = 1
 vim.g.airline_extensions_tabline_formatter = "unique_tail"
 vim.g.airline_extensions_branch_displayed_head_limit = 20
-vim.g.airline_solorized_bg = "dark"
+--vim.g.airline_solorized_bg = "dark"
 --vim.g.airline_theme = 'minimalist'
 vim.g.airline_powerline_fonts = 1
 vim.g.bargreybars_auto = 0
@@ -106,7 +112,8 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.background = "dark"
-
+vim.opt.foldmethod = "indent"
+vim.opt.foldlevelstart = 99
 vim.opt.updatetime = 100
 
 -- Key mappings
@@ -132,6 +139,12 @@ vim.api.nvim_set_keymap("n", "<leader>`", ":ToggleBlameLine<CR>", { noremap = tr
 require("nvim-treesitter.configs").setup({
 	ensure_installed = "all",
 	highlight = {
+		enable = true,
+	},
+	indent = {
+		enable = true,
+	},
+	incremental_selection = {
 		enable = true,
 	},
 })
