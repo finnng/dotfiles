@@ -1,5 +1,18 @@
 local lspconfig = require("lspconfig")
 
+local configs = require("lspconfig/configs")
+
+if not lspconfig.htmx then
+	configs.htmx = {
+		default_config = {
+			cmd = { "htmx-lsp" },
+			filetypes = { "html", "htm" },
+			root_dir = lspconfig.util.root_pattern(".git/", ".hg/"),
+		},
+	}
+end
+
+lspconfig.htmx.setup({})
 require("mason-lspconfig").setup_handlers({
 	-- The first entry (without a key) will be the default handler
 	-- and will be called for each installed server that doesn't have
@@ -12,11 +25,12 @@ require("mason-lspconfig").setup_handlers({
 			end,
 		})
 	end,
-	-- Next, you can provide a dedicated handler for specific servers.
-	-- For example, a handler override for the `rust_analyzer`:
-	--["rust_analyzer"] = function ()
-	--require("rust-tools").setup {}
-	--end
+	-- Not support yet
+	--htmx = {
+	--cmd = { "htmx-lsp" },
+	--filetypes = { "html", "htm" },
+	--root_dir = require("lspconfig/util").root_pattern(".git/", ".hg/"),
+	--},
 })
 
 -- Global mappings.

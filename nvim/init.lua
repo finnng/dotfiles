@@ -8,7 +8,7 @@ local plugins = {
 	"neovim/nvim-lspconfig",
 	"madox2/vim-ai",
 	"jesseleite/vim-agriculture",
-	"jiangmiao/auto-pairs",
+	--"jiangmiao/auto-pairs",
 	"junegunn/fzf",
 	"junegunn/fzf.vim",
 	"lambdalisue/suda.vim",
@@ -34,6 +34,13 @@ local plugins = {
 	"RRethy/nvim-base16",
 	"shaunsingh/nord.nvim",
 	"hood/popui.nvim",
+	"ibhagwan/fzf-lua",
+	-- optional for icon support
+	dependencies = { "nvim-tree/nvim-web-devicons" },
+	config = function()
+		-- calling `setup` is optional for customization
+		require("fzf-lua").setup({})
+	end,
 }
 
 -- Lazy loading configuration
@@ -67,15 +74,11 @@ require("nvimtree")
 require("aichat")
 require("format_config")
 require("linting_config")
-require("change_theme")
+--require("change_theme")
 require("popui_config")
 require("fzf_config")
+require("scratch_config")
 
-vim.ui.select = require("popui.ui-overrider")
-vim.ui.input = require("popui.input-overrider")
-vim.api.nvim_set_keymap("n", ",d", ':lua require"popui.diagnostics-navigator"()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", ",m", ':lua require"popui.marks-manager"()<CR>', { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", ",r", ':lua require"popui.references-navigator"()<CR>', { noremap = true, silent = true })
 
 vim.cmd("colorscheme nord")
 
