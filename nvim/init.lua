@@ -32,8 +32,11 @@ local plugins = {
 	"hrsh7th/cmp-cmdline",
 	"hrsh7th/nvim-cmp",
 	"RRethy/nvim-base16",
+	"RRethy/vim-illuminate",
 	"shaunsingh/nord.nvim",
 	"hood/popui.nvim",
+	"mfussenegger/nvim-dap",
+	"rcarriga/nvim-dap-ui",
 	"ibhagwan/fzf-lua",
 	-- optional for icon support
 	dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -78,7 +81,7 @@ require("linting_config")
 require("popui_config")
 require("fzf_config")
 require("scratch_config")
-
+require("dap_config")
 
 vim.cmd("colorscheme nord")
 

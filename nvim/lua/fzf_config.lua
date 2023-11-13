@@ -6,7 +6,6 @@ vim.cmd([[ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9 } } ]])
 vim.cmd([[
 let $FZF_DEFAULT_OPTS="-m --height 80% --border
 \ --bind ctrl-y:preview-up,ctrl-e:preview-down,
-\ctrl-a:select-all,ctrl-z:deselect-all,
 \ctrl-b:preview-page-up,ctrl-f:preview-page-down,
 \ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down"
 ]])
