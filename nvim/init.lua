@@ -19,8 +19,8 @@ local plugins = {
 	"tpope/vim-fugitive",
 	"tpope/vim-surround",
 	"tpope/vim-vinegar",
-	"vim-airline/vim-airline",
-	"vim-airline/vim-airline-themes",
+	"nvim-lualine/lualine.nvim",
+	"nvim-tree/nvim-web-devicons",
 	"tveskag/nvim-blame-line",
 	"github/copilot.vim",
 	"nvim-tree/nvim-tree.lua",
@@ -82,16 +82,9 @@ require("popui_config")
 require("fzf_config")
 require("scratch_config")
 require("dap_config")
+require("lualine_config")
 
 vim.cmd("colorscheme nord")
-
-vim.g.airline_extensions_tabline_enabled = 1
-vim.g.airline_extensions_tabline_formatter = "unique_tail"
-vim.g.airline_extensions_branch_displayed_head_limit = 20
---vim.g.airline_solorized_bg = "dark"
---vim.g.airline_theme = 'minimalist'
-vim.g.airline_powerline_fonts = 1
-vim.g.bargreybars_auto = 0
 
 -- Editor options
 vim.opt.clipboard = "unnamedplus"
