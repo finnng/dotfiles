@@ -33,7 +33,7 @@ function dash-case() {
 
 function ggm() {
   local git_changes
-  local prompt="Generate a commit message for the following changes. Only output the message inside the double quotes. Do not say anything else."
+  local prompt="Generate a commit message for the following changes. Only output the message inside the double quotes. Do not say anything else. The message need to be short, decriptive, split by ; if it including many actions. Sort by the importance of actions"
   git_changes=$(git diff)
   if [[ -n $git_changes ]]; then
     commit_message=$(echo "$git_changes" | chatgpt "$prompt")

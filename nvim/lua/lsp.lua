@@ -70,3 +70,21 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		--end, opts)
 	end,
 })
+
+-- Disable virtual text for 
+vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+  local client = vim.lsp.get_client_by_id(ctx.client_id)
+
+  --if client.name == "tsserver" then
+    -- Disable virtual text for tsserver
+    local opts = vim.tbl_deep_extend("force", {
+      virtual_text = false
+    }, config or {})
+
+    -- Call the default handler with modified options
+    vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, opts)
+  --else
+    ---- Call the default handler for other language servers
+    --vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, config)
+  --end
+end

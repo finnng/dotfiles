@@ -24,9 +24,30 @@ end
 
 -- Lualine setup
 require("lualine").setup({
+	options = {
+		theme = "ayu_mirage",
+	},
 	sections = {
 		lualine_b = {
 			{ truncated_branch, icon = "" }, -- Adjust the icon as needed
+		},
+		lualine_c = {
+			{
+				"filename",
+				path = 1, -- Display relative path
+			},
+		},
+		lualine_x = {
+			"encoding",
+			{
+				"fileformat",
+				symbols = {
+					unix = "", -- Powerline symbol for Unix LF, it should be , but I like apple
+					dos = "", -- Powerline symbol for DOS CRLF
+					mac = "", -- Powerline symbol for Mac CR (or LF in modern systems)
+				},
+			},
+			"filetype",
 		},
 	},
 	tabline = {

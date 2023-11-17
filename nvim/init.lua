@@ -37,13 +37,20 @@ local plugins = {
 	"hood/popui.nvim",
 	"mfussenegger/nvim-dap",
 	"rcarriga/nvim-dap-ui",
-	"ibhagwan/fzf-lua",
-	-- optional for icon support
-	dependencies = { "nvim-tree/nvim-web-devicons" },
-	config = function()
-		-- calling `setup` is optional for customization
-		require("fzf-lua").setup({})
-	end,
+	{ "mxsdev/nvim-dap-vscode-js", requires = { "mfussenegger/nvim-dap" } },
+	{
+		"microsoft/vscode-js-debug",
+		opt = true,
+		run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+	},
+	{
+		"ibhagwan/fzf-lua",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			-- calling `setup` is optional for customization
+			require("fzf-lua").setup({})
+		end,
+	},
 }
 
 -- Lazy loading configuration
