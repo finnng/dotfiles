@@ -1,4 +1,6 @@
--- Leader key configuration
+-- disable netrw for tree plugins
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
 
 -- Plugin configuration
@@ -7,10 +9,8 @@ local plugins = {
 	"williamboman/mason-lspconfig.nvim",
 	"neovim/nvim-lspconfig",
 	"madox2/vim-ai",
-	"jesseleite/vim-agriculture",
-	--"jiangmiao/auto-pairs",
-	"junegunn/fzf",
-	"junegunn/fzf.vim",
+	--"junegunn/fzf",
+	--"junegunn/fzf.vim",
 	"lambdalisue/suda.vim",
 	"morhetz/gruvbox",
 	"nvim-treesitter/nvim-treesitter",
@@ -23,7 +23,6 @@ local plugins = {
 	"nvim-tree/nvim-web-devicons",
 	"tveskag/nvim-blame-line",
 	"github/copilot.vim",
-	"nvim-tree/nvim-tree.lua",
 	"mhartington/formatter.nvim",
 	"mhinz/vim-signify",
 	"hrsh7th/cmp-nvim-lsp",
@@ -37,19 +36,30 @@ local plugins = {
 	"hood/popui.nvim",
 	"mfussenegger/nvim-dap",
 	"rcarriga/nvim-dap-ui",
-	{ "mxsdev/nvim-dap-vscode-js", requires = { "mfussenegger/nvim-dap" } },
+	"leoluz/nvim-dap-go",
+	{ "mxsdev/nvim-dap-vscode-js", dependencies = { "mfussenegger/nvim-dap" } },
 	{
 		"microsoft/vscode-js-debug",
-		opt = true,
-		run = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
+		lazy = true,
+		build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
 	},
+	"theHamsta/nvim-dap-virtual-text",
 	{
 		"ibhagwan/fzf-lua",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = function()
-			-- calling `setup` is optional for customization
-			require("fzf-lua").setup({})
+			require("fzf_config").configureFzfLua()
 		end,
+	},
+	{
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v3.x",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+			"MunifTanjim/nui.nvim",
+			"3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+		},
 	},
 }
 
@@ -79,12 +89,11 @@ require("mason-lspconfig").setup()
 
 -- custom lua files, the order is important completion_config should be loaded before lsp
 require("completion_config")
-require("lsp")
-require("nvimtree")
-require("aichat")
+require("my_lsp_config")
+require("tree_config")
+require("aichat_config")
 require("format_config")
 require("linting_config")
---require("change_theme")
 require("popui_config")
 require("fzf_config")
 require("scratch_config")
@@ -125,13 +134,13 @@ vim.opt.updatetime = 100
 -- Key mappings
 vim.api.nvim_set_keymap("n", "<C-N>", ":bnext<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<C-P>", ":bprev<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader><enter>", ":Files<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>]", ":Ag<CR>", { noremap = true })
-vim.api.nvim_set_keymap("v", "<leader>]", "\"uy:AgRaw -Q '<c-r>u'<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>b", ":Buffers<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>\\", ":History<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>P", ":let @+ = expand('%:~:.') . ':' . line('.')<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>W", ":%bd<Bar>e#<Bar>bd#<CR>", { noremap = true })
+vim.api.nvim_set_keymap(
+	"n",
+	"<leader>P",
+	":let @+ = expand('%:~:.') . ':' . line('.')<CR><bar>:echom @+<cr>",
+	{ noremap = true, silent = true }
+)
+vim.api.nvim_set_keymap("n", "<leader>W", ":%bd<bar>e#<bar>bd#<cr>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>q", ":bd<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>w", ":w<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<esc>", ":nohl<CR>", { noremap = true, silent = true })

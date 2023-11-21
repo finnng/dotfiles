@@ -42,7 +42,7 @@ require("lualine").setup({
 			{
 				"fileformat",
 				symbols = {
-					unix = "", -- Powerline symbol for Unix LF, it should be , but I like apple
+					unix = "", -- Powerline symbol for Unix LF
 					dos = "", -- Powerline symbol for DOS CRLF
 					mac = "", -- Powerline symbol for Mac CR (or LF in modern systems)
 				},
