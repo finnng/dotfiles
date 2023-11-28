@@ -68,7 +68,20 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 --end
 --require("lspconfig")["tsserver"].setup({ capabilities = capabilities, on_attach = onAttachFunc })
 
-local servers = { "tsserver", "pyright", "gopls", --[["bashls",]] "yamlls", "html", "cssls", "csharp_ls" }
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+local servers = {
+  "bashls",
+	"tsserver",
+	"pyright",
+	"gopls",
+	"yamlls",
+	"html",
+	"cssls",
+	"csharp_ls",
+	"templ",
+	"tailwindcss",
+  "htmx"
+}
 
 -- Loop over the servers and set them up
 for _, lsp in ipairs(servers) do

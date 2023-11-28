@@ -9,18 +9,16 @@ local plugins = {
 	"williamboman/mason-lspconfig.nvim",
 	"neovim/nvim-lspconfig",
 	"madox2/vim-ai",
-	--"junegunn/fzf",
-	--"junegunn/fzf.vim",
 	"lambdalisue/suda.vim",
 	"morhetz/gruvbox",
 	"nvim-treesitter/nvim-treesitter",
 	"ryanoasis/vim-devicons",
+	"nvim-tree/nvim-web-devicons",
 	"scrooloose/nerdcommenter",
 	"tpope/vim-fugitive",
 	"tpope/vim-surround",
-	"tpope/vim-vinegar",
+	"junegunn/gv.vim",
 	"nvim-lualine/lualine.nvim",
-	"nvim-tree/nvim-web-devicons",
 	"tveskag/nvim-blame-line",
 	"github/copilot.vim",
 	"mhartington/formatter.nvim",
@@ -34,6 +32,7 @@ local plugins = {
 	"RRethy/vim-illuminate",
 	"shaunsingh/nord.nvim",
 	"hood/popui.nvim",
+	"mhinz/vim-startify",
 	"mfussenegger/nvim-dap",
 	"rcarriga/nvim-dap-ui",
 	"leoluz/nvim-dap-go",
@@ -84,9 +83,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins, lazy_config)
+
 require("mason").setup()
 require("mason-lspconfig").setup()
-
 -- custom lua files, the order is important completion_config should be loaded before lsp
 require("completion_config")
 require("my_lsp_config")
@@ -102,9 +101,16 @@ require("lualine_config")
 
 vim.cmd("colorscheme nord")
 
+-- additional filetypes
+vim.filetype.add({
+	extension = {
+		templ = "templ",
+	},
+})
+
 -- Editor options
 vim.opt.clipboard = "unnamedplus"
-vim.opt.completeopt = "noinsert,menuone,noselect"
+--vim.opt.completeopt = "noinsert,menuone,noselect"
 vim.opt.cursorline = true
 vim.opt.hidden = true
 vim.opt.autoindent = true
@@ -129,9 +135,12 @@ vim.opt.expandtab = true
 vim.opt.background = "dark"
 vim.opt.foldmethod = "indent"
 vim.opt.foldlevelstart = 99
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldenable = false
+
 vim.opt.updatetime = 100
 
--- Key mappings
 vim.api.nvim_set_keymap("n", "<C-N>", ":bnext<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<C-P>", ":bprev<CR>", { noremap = true })
 vim.api.nvim_set_keymap(
@@ -150,11 +159,11 @@ vim.api.nvim_set_keymap("n", "<leader>nn", ":cnext<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>np", ":cprev<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>`", ":ToggleBlameLine<CR>", { noremap = true, silent = true })
 
--- Treesitter configuration for better syntax highlighting
 require("nvim-treesitter.configs").setup({
 	ensure_installed = "all",
 	highlight = {
 		enable = true,
+		additional_vim_regex_highlighting = false,
 	},
 	indent = {
 		enable = true,

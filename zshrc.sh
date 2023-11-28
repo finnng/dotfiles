@@ -17,6 +17,7 @@ source ~/fuse-ultils.sh
 
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$HOME/bin
 export PATH="$PATH:/Users/finn/.dotnet/tools"
 
 export BAT_THEME="Nord"
