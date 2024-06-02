@@ -103,7 +103,6 @@ require("dapui").setup({
 		max_value_lines = 100,
 	},
 })
--- dir    /Users/finn/.local/share/nvim/lazy/nvim-dap-vscode-js
 
 vim.api.nvim_set_keymap("n", "<M-b>", ':lua require"dap".toggle_breakpoint()<CR>', { noremap = true })
 vim.api.nvim_set_keymap("n", "<M-v>", ':lua require"dap".continue()<CR>', { noremap = true })
@@ -195,8 +194,8 @@ require("dap-go").setup({
 		-- a string that defines the port to start delve debugger.
 		-- default to string "${port}" which instructs nvim-dap
 		-- to start the process in a random available port
-    port = "${port}",
-    --port = 1304,
+		port = "${port}",
+		--port = 1304,
 		-- additional args to pass to dlv
 		args = {},
 		-- the build flags that are passed to delve.
@@ -209,10 +208,10 @@ require("dap-go").setup({
 	},
 })
 --dap.adapters.go = function(callback, config)
-	---- Wait for delve to start
-	--vim.defer_fn(function()
-		--callback({ type = "server", host = "127.0.0.1", port = "port" })
-	--end, 100)
+---- Wait for delve to start
+--vim.defer_fn(function()
+--callback({ type = "server", host = "127.0.0.1", port = "port" })
+--end, 100)
 --end
 -- DAP UI
 

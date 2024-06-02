@@ -26,6 +26,8 @@ end
 require("lualine").setup({
 	options = {
 		theme = "ayu_mirage",
+		section_separators = { left = "", right = "" },
+		component_separators = { left = "", right = "" },
 	},
 	sections = {
 		lualine_b = {
@@ -56,7 +58,13 @@ require("lualine").setup({
 		lualine_b = {}, -- Can customize with other components
 		lualine_c = {},
 		lualine_x = {},
-		lualine_y = {},
+		--lualine_y = {
+		--{
+		--"searchcount",
+		--maxcount = 999999,
+		--timeout = 200,
+		--},
+		--},
 		lualine_z = { "tabs" }, -- Shows tabs in tabline
 	},
 })

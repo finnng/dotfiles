@@ -7,7 +7,7 @@ alias glog="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset
 alias gc="git checkout"
 alias gd="git diff"
 alias gs="git status"
-alias gb="git branch | fzf | tr -d '[:space:]' | pbcopy"
+alias gb="git for-each-ref --sort=-creatordate --format '%(refname:short)' refs/heads | fzf --no-sort | xargs git checkout"
 
 # search in the history
 h() {
@@ -72,8 +72,8 @@ The output should only be the commit message, nothing else. Do not include any n
       commit_message="\"$ticket_number: $commit_message\""
     fi
 
-    echo "$commit_message"
-    echo "$commit_message" | pbcopy
+    echo "\"$commit_message\""
+    echo "\"$commit_message\"" | pbcopy
     echo "Commit message copied to clipboard."
   else
     echo "No changes detected in the git repository."

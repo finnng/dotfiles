@@ -33,6 +33,7 @@ vim.api.nvim_set_keymap("x", "<leader>]", ":lua searchLiveGrepWithSelection()<CR
 vim.api.nvim_set_keymap("n", "<leader>]", ":FzfLua live_grep_resume<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>b", ":FzfLua buffers<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>\\", ":FzfLua oldfiles<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>s", ":FzfLua lsp_document_symbols<CR>", { noremap = true })
 
 -- This is for fzf.lua, it reflects the same settings as above
 local M = {}

@@ -3,36 +3,42 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
 
--- Plugin configuration
 local plugins = {
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
 	"neovim/nvim-lspconfig",
-	"madox2/vim-ai",
-	"lambdalisue/suda.vim",
+	"madox2/vim-ai", -- ai chat plugin
+	"lambdalisue/suda.vim", -- sudo plugin to edit file as root
 	"morhetz/gruvbox",
 	"nvim-treesitter/nvim-treesitter",
 	"ryanoasis/vim-devicons",
 	"nvim-tree/nvim-web-devicons",
-	"scrooloose/nerdcommenter",
-	"tpope/vim-fugitive",
-	"tpope/vim-surround",
-	"junegunn/gv.vim",
-	"nvim-lualine/lualine.nvim",
-	"tveskag/nvim-blame-line",
-	"github/copilot.vim",
-	"mhartington/formatter.nvim",
-	"mhinz/vim-signify",
-	"hrsh7th/cmp-nvim-lsp",
-	"hrsh7th/cmp-buffer",
-	"hrsh7th/cmp-path",
-	"hrsh7th/cmp-cmdline",
-	"hrsh7th/nvim-cmp",
-	"RRethy/nvim-base16",
-	"RRethy/vim-illuminate",
+	{
+		"numToStr/Comment.nvim", -- comment plugin
+		opts = {},
+		lazy = false,
+	},
+	"tpope/vim-fugitive", -- git plugin, e.g. :Gstatus, :Gblame
+	"tpope/vim-surround", -- surround plugin, e.g. cs"' will change the surrounding ' to "
+	"junegunn/gv.vim", -- git commit browser
+	"nvim-lualine/lualine.nvim", -- statusline
+	"tveskag/nvim-blame-line", -- git blame, display the inline blame
+	"github/copilot.vim", -- github copilot
+	"mhartington/formatter.nvim", -- code formatter
+	"mhinz/vim-signify", -- git diff
+	"hrsh7th/cmp-nvim-lsp", -- completion plugin
+	"hrsh7th/cmp-buffer", -- completion plugin
+	"hrsh7th/cmp-path", -- completion plugin
+	"hrsh7th/cmp-cmdline", -- completion plugin
+	"hrsh7th/nvim-cmp", -- completion plugin
+	"RRethy/nvim-base16", -- base16 themes
+	"RRethy/vim-illuminate", -- highlight the word under the cursor
 	"shaunsingh/nord.nvim",
-	"hood/popui.nvim",
-	"mhinz/vim-startify",
+	"hood/popui.nvim", -- popup ui, this will affect all the nvim popup
+	"dcampos/nvim-snippy",
+	"dcampos/cmp-snippy",
+	-- "honza/vim-snippets",
+	"wakatime/vim-wakatime",
 	"mfussenegger/nvim-dap",
 	"rcarriga/nvim-dap-ui",
 	"leoluz/nvim-dap-go",
@@ -60,6 +66,15 @@ local plugins = {
 			"3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
 		},
 	},
+	{
+		"tomasky/bookmarks.nvim", -- bookmarks plugin
+		event = "VimEnter",
+		config = function()
+			require("bookmarks").setup()
+		end,
+	},
+	"kevinhwang91/promise-async", -- folding plugin
+	{ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" }, -- folding plugin
 }
 
 -- Lazy loading configuration
@@ -98,6 +113,7 @@ require("fzf_config")
 require("scratch_config")
 require("dap_config")
 require("lualine_config")
+require("bookmarks_config")
 
 vim.cmd("colorscheme nord")
 
@@ -107,10 +123,8 @@ vim.filetype.add({
 		templ = "templ",
 	},
 })
-
--- Editor options
+vim.o.signcolumn = "auto:1" -- keep the sign column fixed size
 vim.opt.clipboard = "unnamedplus"
---vim.opt.completeopt = "noinsert,menuone,noselect"
 vim.opt.cursorline = true
 vim.opt.hidden = true
 vim.opt.autoindent = true
@@ -133,13 +147,13 @@ vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.background = "dark"
-vim.opt.foldmethod = "indent"
-vim.opt.foldlevelstart = 99
-vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
-vim.opt.foldenable = false
 
 vim.opt.updatetime = 100
+vim.o.foldcolumn = "1" -- '0' is not bad
+vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
 vim.api.nvim_set_keymap("n", "<C-N>", ":bnext<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<C-P>", ":bprev<CR>", { noremap = true })
@@ -153,11 +167,27 @@ vim.api.nvim_set_keymap("n", "<leader>W", ":%bd<bar>e#<bar>bd#<cr>", { noremap =
 vim.api.nvim_set_keymap("n", "<leader>q", ":bd<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>w", ":w<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<esc>", ":nohl<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<leader>no", ":copen<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>nc", ":cclose<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>nn", ":cnext<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>np", ":cprev<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>`", ":ToggleBlameLine<CR>", { noremap = true, silent = true })
+
+_G.toggle_quickfix = function()
+	local qf_open = false
+	for _, win in ipairs(vim.fn.getwininfo()) do
+		if win.quickfix == 1 then
+			qf_open = true
+			break
+		end
+	end
+	if qf_open then
+		vim.cmd("cclose")
+	else
+		vim.cmd("copen")
+	end
+end
+
+-- quickfix window key mapping
+vim.api.nvim_set_keymap("n", "<c-\\>", ":lua _G.toggle_quickfix()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<c-]>", ":cnext<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<c-[>", ":cprev<CR>", { noremap = true })
 
 require("nvim-treesitter.configs").setup({
 	ensure_installed = "all",
@@ -172,3 +202,19 @@ require("nvim-treesitter.configs").setup({
 		enable = true,
 	},
 })
+
+-- Folding plugin setup
+require("ufo").setup({
+	provider_selector = function(bufnr, filetype, buftype)
+		return { "treesitter", "indent" }
+	end,
+})
+vim.keymap.set("n", "zR", require("ufo").openAllFolds)
+vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
+vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds)
+vim.keymap.set("n", "zm", require("ufo").closeFoldsWith) -- closeAllFolds == closeFoldsWith(0)
+
+-- Comment plugin setup
+require("Comment").setup()
+local ft = require("Comment.ft")
+ft.set("templ", "//%s", "/*%s*/")

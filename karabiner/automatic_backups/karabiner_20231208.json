@@ -2,7 +2,7 @@
     "global": {
         "ask_for_confirmation_before_quitting": true,
         "check_for_updates_on_startup": true,
-        "show_in_menu_bar": true,
+        "show_in_menu_bar": false,
         "show_profile_name_in_menu_bar": false,
         "unsafe_ui": false
     },
@@ -17,22 +17,6 @@
                     "mouse_motion_to_scroll.speed": 100
                 },
                 "rules": [
-                    {
-                        "description": "f2 to open iTerms",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "f2"
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open '/Applications/iTerm.app'"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
                     {
                         "description": "Left ctrl + hjkl to arrow keys Vim",
                         "manipulators": [
@@ -138,7 +122,7 @@
                         ]
                     },
                     {
-                        "description": "f1 to open Arc",
+                        "description": "f1 to open Chrome",
                         "manipulators": [
                             {
                                 "from": {
@@ -146,7 +130,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open '/Applications/Arc.app'"
+                                        "shell_command": "open '/Applications/Google Chrome.app'"
                                     }
                                 ],
                                 "type": "basic"
@@ -226,7 +210,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open '/Applications/Pritunl.app' && open '/Applications/Authy.app'"
+                                        "shell_command": "open '/Applications/Pritunl.app' && open '/Applications/Authy Desktop.app'"
                                     }
                                 ],
                                 "type": "basic"
@@ -276,7 +260,23 @@
                         ]
                     },
                     {
-                        "description": "CMD + f4 to open Warp",
+                        "description": "f2 to open iTerms",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "f2"
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "open '/Applications/iTerm.app'"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "CMD + f4 to open Goland",
                         "manipulators": [
                             {
                                 "from": {
@@ -289,7 +289,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open '/Applications/Warp.app'"
+                                        "shell_command": "open '/Applications/Goland.app'"
                                     }
                                 ],
                                 "type": "basic"
@@ -318,7 +318,7 @@
                         ]
                     },
                     {
-                        "description": "f4 to open WebStorm",
+                        "description": "f4 to open Kitty",
                         "manipulators": [
                             {
                                 "from": {
@@ -326,7 +326,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "open '/Applications/WebStorm.app'"
+                                        "shell_command": "open '/Applications/kitty.app'"
                                     }
                                 ],
                                 "type": "basic"
@@ -339,9 +339,7 @@
                 {
                     "disable_built_in_keyboard_if_exists": false,
                     "fn_function_keys": [],
-                    "game_pad_swap_sticks": false,
                     "identifiers": {
-                        "is_game_pad": false,
                         "is_keyboard": false,
                         "is_pointing_device": true,
                         "product_id": 45093,
@@ -349,21 +347,13 @@
                     },
                     "ignore": true,
                     "manipulate_caps_lock_led": false,
-                    "mouse_flip_horizontal_wheel": false,
-                    "mouse_flip_vertical_wheel": false,
-                    "mouse_flip_x": false,
-                    "mouse_flip_y": false,
-                    "mouse_swap_wheels": false,
-                    "mouse_swap_xy": false,
                     "simple_modifications": [],
                     "treat_as_built_in_keyboard": false
                 },
                 {
                     "disable_built_in_keyboard_if_exists": false,
                     "fn_function_keys": [],
-                    "game_pad_swap_sticks": false,
                     "identifiers": {
-                        "is_game_pad": false,
                         "is_keyboard": true,
                         "is_pointing_device": false,
                         "product_id": 4621,
@@ -371,23 +361,7 @@
                     },
                     "ignore": false,
                     "manipulate_caps_lock_led": true,
-                    "mouse_flip_horizontal_wheel": false,
-                    "mouse_flip_vertical_wheel": false,
-                    "mouse_flip_x": false,
-                    "mouse_flip_y": false,
-                    "mouse_swap_wheels": false,
-                    "mouse_swap_xy": false,
                     "simple_modifications": [
-                        {
-                            "from": {
-                                "key_code": "caps_lock"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "left_option"
-                                }
-                            ]
-                        },
                         {
                             "from": {
                                 "key_code": "delete_forward"
@@ -490,21 +464,31 @@
                         },
                         {
                             "from": {
-                                "key_code": "right_control"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "caps_lock"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
                                 "key_code": "right_option"
                             },
                             "to": [
                                 {
                                     "key_code": "left_command"
+                                }
+                            ]
+                        },
+                        {
+                            "from": {
+                                "key_code": "caps_lock"
+                            },
+                            "to": [
+                                {
+                                    "key_code": "left_option"
+                                }
+                            ]
+                        },
+                        {
+                            "from": {
+                                "key_code": "right_control"
+                            },
+                            "to": [
+                                {
+                                    "key_code": "caps_lock"
                                 }
                             ]
                         }
@@ -514,9 +498,7 @@
                 {
                     "disable_built_in_keyboard_if_exists": false,
                     "fn_function_keys": [],
-                    "game_pad_swap_sticks": false,
                     "identifiers": {
-                        "is_game_pad": false,
                         "is_keyboard": true,
                         "is_pointing_device": false,
                         "product_id": 0,
@@ -524,12 +506,6 @@
                     },
                     "ignore": false,
                     "manipulate_caps_lock_led": true,
-                    "mouse_flip_horizontal_wheel": false,
-                    "mouse_flip_vertical_wheel": false,
-                    "mouse_flip_x": false,
-                    "mouse_flip_y": false,
-                    "mouse_swap_wheels": false,
-                    "mouse_swap_xy": false,
                     "simple_modifications": [
                         {
                             "from": {
@@ -557,9 +533,7 @@
                 {
                     "disable_built_in_keyboard_if_exists": false,
                     "fn_function_keys": [],
-                    "game_pad_swap_sticks": false,
                     "identifiers": {
-                        "is_game_pad": false,
                         "is_keyboard": false,
                         "is_pointing_device": true,
                         "product_id": 0,
@@ -567,21 +541,13 @@
                     },
                     "ignore": true,
                     "manipulate_caps_lock_led": false,
-                    "mouse_flip_horizontal_wheel": false,
-                    "mouse_flip_vertical_wheel": false,
-                    "mouse_flip_x": false,
-                    "mouse_flip_y": false,
-                    "mouse_swap_wheels": false,
-                    "mouse_swap_xy": false,
                     "simple_modifications": [],
                     "treat_as_built_in_keyboard": false
                 },
                 {
                     "disable_built_in_keyboard_if_exists": false,
                     "fn_function_keys": [],
-                    "game_pad_swap_sticks": false,
                     "identifiers": {
-                        "is_game_pad": false,
                         "is_keyboard": true,
                         "is_pointing_device": false,
                         "product_id": 6418,
@@ -589,12 +555,6 @@
                     },
                     "ignore": false,
                     "manipulate_caps_lock_led": true,
-                    "mouse_flip_horizontal_wheel": false,
-                    "mouse_flip_vertical_wheel": false,
-                    "mouse_flip_x": false,
-                    "mouse_flip_y": false,
-                    "mouse_swap_wheels": false,
-                    "mouse_swap_xy": false,
                     "simple_modifications": [
                         {
                             "from": {
@@ -603,56 +563,6 @@
                             "to": [
                                 {
                                     "key_code": "left_control"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "delete_forward"
-                            },
-                            "to": [
-                                {
-                                    "consumer_key_code": "scan_previous_track"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "end"
-                            },
-                            "to": [
-                                {
-                                    "consumer_key_code": "play_or_pause"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "f3"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "mission_control"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "home"
-                            },
-                            "to": [
-                                {
-                                    "consumer_key_code": "volume_decrement"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "insert"
-                            },
-                            "to": [
-                                {
-                                    "consumer_key_code": "mute"
                                 }
                             ]
                         },
@@ -672,7 +582,7 @@
                             },
                             "to": [
                                 {
-                                    "key_code": "left_option"
+                                    "key_code": "caps_lock"
                                 }
                             ]
                         },
@@ -685,320 +595,8 @@
                                     "key_code": "left_command"
                                 }
                             ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "page_down"
-                            },
-                            "to": [
-                                {
-                                    "consumer_key_code": "scan_next_track"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "page_up"
-                            },
-                            "to": [
-                                {
-                                    "consumer_key_code": "volume_increment"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "right_command"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "left_option"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "right_control"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "caps_lock"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "right_option"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "left_command"
-                                }
-                            ]
                         }
                     ],
-                    "treat_as_built_in_keyboard": false
-                },
-                {
-                    "disable_built_in_keyboard_if_exists": false,
-                    "fn_function_keys": [],
-                    "game_pad_swap_sticks": false,
-                    "identifiers": {
-                        "is_game_pad": false,
-                        "is_keyboard": true,
-                        "is_pointing_device": false,
-                        "product_id": 34050,
-                        "vendor_id": 2652
-                    },
-                    "ignore": false,
-                    "manipulate_caps_lock_led": true,
-                    "mouse_flip_horizontal_wheel": false,
-                    "mouse_flip_vertical_wheel": false,
-                    "mouse_flip_x": false,
-                    "mouse_flip_y": false,
-                    "mouse_swap_wheels": false,
-                    "mouse_swap_xy": false,
-                    "simple_modifications": [
-                        {
-                            "from": {
-                                "key_code": "caps_lock"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "left_option"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "delete_forward"
-                            },
-                            "to": [
-                                {
-                                    "consumer_key_code": "scan_previous_track"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "end"
-                            },
-                            "to": [
-                                {
-                                    "consumer_key_code": "play_or_pause"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "f3"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "mission_control"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "home"
-                            },
-                            "to": [
-                                {
-                                    "consumer_key_code": "volume_decrement"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "insert"
-                            },
-                            "to": [
-                                {
-                                    "consumer_key_code": "mute"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "left_command"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "left_option"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "left_option"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "left_command"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "page_down"
-                            },
-                            "to": [
-                                {
-                                    "consumer_key_code": "scan_next_track"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "page_up"
-                            },
-                            "to": [
-                                {
-                                    "consumer_key_code": "volume_increment"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "right_command"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "left_option"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "right_control"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "caps_lock"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "right_option"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "left_command"
-                                }
-                            ]
-                        }
-                    ],
-                    "treat_as_built_in_keyboard": false
-                },
-                {
-                    "disable_built_in_keyboard_if_exists": false,
-                    "fn_function_keys": [],
-                    "game_pad_swap_sticks": false,
-                    "identifiers": {
-                        "is_game_pad": false,
-                        "is_keyboard": true,
-                        "is_pointing_device": false,
-                        "product_id": 834,
-                        "vendor_id": 1452
-                    },
-                    "ignore": false,
-                    "manipulate_caps_lock_led": true,
-                    "mouse_flip_horizontal_wheel": false,
-                    "mouse_flip_vertical_wheel": false,
-                    "mouse_flip_x": false,
-                    "mouse_flip_y": false,
-                    "mouse_swap_wheels": false,
-                    "mouse_swap_xy": false,
-                    "simple_modifications": [
-                        {
-                            "from": {
-                                "key_code": "caps_lock"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "left_control"
-                                }
-                            ]
-                        },
-                        {
-                            "from": {
-                                "key_code": "right_option"
-                            },
-                            "to": [
-                                {
-                                    "key_code": "caps_lock"
-                                }
-                            ]
-                        }
-                    ],
-                    "treat_as_built_in_keyboard": false
-                },
-                {
-                    "disable_built_in_keyboard_if_exists": false,
-                    "fn_function_keys": [],
-                    "game_pad_swap_sticks": false,
-                    "identifiers": {
-                        "is_game_pad": false,
-                        "is_keyboard": false,
-                        "is_pointing_device": true,
-                        "product_id": 834,
-                        "vendor_id": 1452
-                    },
-                    "ignore": true,
-                    "manipulate_caps_lock_led": false,
-                    "mouse_flip_horizontal_wheel": false,
-                    "mouse_flip_vertical_wheel": false,
-                    "mouse_flip_x": false,
-                    "mouse_flip_y": false,
-                    "mouse_swap_wheels": false,
-                    "mouse_swap_xy": false,
-                    "simple_modifications": [],
-                    "treat_as_built_in_keyboard": false
-                },
-                {
-                    "disable_built_in_keyboard_if_exists": false,
-                    "fn_function_keys": [],
-                    "game_pad_swap_sticks": false,
-                    "identifiers": {
-                        "is_game_pad": false,
-                        "is_keyboard": true,
-                        "is_pointing_device": false,
-                        "product_id": 50475,
-                        "vendor_id": 1133
-                    },
-                    "ignore": false,
-                    "manipulate_caps_lock_led": true,
-                    "mouse_flip_horizontal_wheel": false,
-                    "mouse_flip_vertical_wheel": false,
-                    "mouse_flip_x": false,
-                    "mouse_flip_y": false,
-                    "mouse_swap_wheels": false,
-                    "mouse_swap_xy": false,
-                    "simple_modifications": [],
-                    "treat_as_built_in_keyboard": false
-                },
-                {
-                    "disable_built_in_keyboard_if_exists": false,
-                    "fn_function_keys": [],
-                    "game_pad_swap_sticks": false,
-                    "identifiers": {
-                        "is_game_pad": false,
-                        "is_keyboard": false,
-                        "is_pointing_device": true,
-                        "product_id": 50475,
-                        "vendor_id": 1133
-                    },
-                    "ignore": true,
-                    "manipulate_caps_lock_led": false,
-                    "mouse_flip_horizontal_wheel": false,
-                    "mouse_flip_vertical_wheel": false,
-                    "mouse_flip_x": false,
-                    "mouse_flip_y": false,
-                    "mouse_swap_wheels": false,
-                    "mouse_swap_xy": false,
-                    "simple_modifications": [],
                     "treat_as_built_in_keyboard": false
                 }
             ],

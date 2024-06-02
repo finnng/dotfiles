@@ -1,4 +1,3 @@
--- Utilities for creating configurations
 local util = require("formatter.util")
 
 -- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
@@ -10,28 +9,45 @@ require("formatter").setup({
 	-- All formatter configurations are opt-in
 	filetype = {
 		lua = { require("formatter.filetypes.lua").stylua },
+
 		typescript = { require("formatter.filetypes.typescript").prettierd },
 		typescriptreact = { require("formatter.filetypes.typescript").prettierd },
 		javascript = { require("formatter.filetypes.typescript").prettierd },
 		javascriptreact = { require("formatter.filetypes.typescript").prettierd },
-		json = { require("formatter.filetypes.json").prettierd },
+
 		html = { require("formatter.filetypes.html").prettierd },
 		css = { require("formatter.filetypes.css").prettierd },
 		scss = { require("formatter.filetypes.css").prettierd },
 
-		markdown = { require("formatter.filetypes.markdown").prettierd },
-
 		yaml = { require("formatter.filetypes.yaml").prettierd },
-
 		python = { require("formatter.filetypes.python").black },
-
 		go = { require("formatter.filetypes.go").gofmt },
+
+		svg = {
+			function()
+				return {
+					exe = "prettierd",
+					args = { util.escape_path(util.get_current_buffer_file_path()) },
+					stdin = true,
+				}
+			end,
+		},
 
 		templ = {
 			function()
 				return {
 					exe = "templ",
 					args = { "fmt" },
+					stdin = true,
+				}
+			end,
+		},
+
+		json = {
+			function()
+				return {
+					exe = "prettier",
+					args = { util.escape_path(util.get_current_buffer_file_path()) },
 					stdin = true,
 				}
 			end,

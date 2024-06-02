@@ -18,22 +18,6 @@
                 },
                 "rules": [
                     {
-                        "description": "f2 to open iTerms",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "f2"
-                                },
-                                "to": [
-                                    {
-                                        "shell_command": "open '/Applications/iTerm.app'"
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "Left ctrl + hjkl to arrow keys Vim",
                         "manipulators": [
                             {
@@ -269,6 +253,22 @@
                                 "to": [
                                     {
                                         "shell_command": "open -a 'System Preferences'"
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "f2 to open Warp",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "f2"
+                                },
+                                "to": [
+                                    {
+                                        "shell_command": "open '/Applications/Warp.app'"
                                     }
                                 ],
                                 "type": "basic"

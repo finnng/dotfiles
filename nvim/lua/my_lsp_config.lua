@@ -2,35 +2,15 @@ local lspconfig = require("lspconfig")
 
 local configs = require("lspconfig/configs")
 
-if not lspconfig.htmx then
-	configs.htmx = {
-		default_config = {
-			cmd = { "htmx-lsp" },
-			filetypes = { "html", "htm", "templ" },
-			root_dir = lspconfig.util.root_pattern(".git/", ".hg/"),
-		},
-	}
-end
-
-lspconfig.htmx.setup({})
 require("mason-lspconfig").setup_handlers({
-	-- The first entry (without a key) will be the default handler
-	-- and will be called for each installed server that doesn't have
-	-- a dedicated handler.
 	function(server_name) -- default handler (optional)
 		require("lspconfig")[server_name].setup({
 			on_attach = function(client, bufnr)
+				-- it breaks the syntax highlight if we don't disable it
 				client.server_capabilities.semanticTokensProvider = nil
-				-- Add any additional on_attach configuration here
 			end,
 		})
 	end,
-	-- Not support yet
-	--htmx = {
-	--cmd = { "htmx-lsp" },
-	--filetypes = { "html", "htm" },
-	--root_dir = require("lspconfig/util").root_pattern(".git/", ".hg/"),
-	--},
 
 	["tailwindcss"] = function()
 		lspconfig.tailwindcss.setup({
@@ -57,8 +37,6 @@ require("mason-lspconfig").setup_handlers({
 				"handlebars",
 				"hbs",
 				"html",
-				-- 'HTML (Eex)',
-				-- 'HTML (EEx)',
 				"html-eex",
 				"heex",
 				"jade",
@@ -103,20 +81,16 @@ require("mason-lspconfig").setup_handlers({
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-vim.keymap.set("n", "<leader>E", vim.diagnostic.open_float)
+--vim.keymap.set("n", "<m-e>", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>i", vim.diagnostic.goto_prev)
 vim.keymap.set("n", "<leader>o", vim.diagnostic.goto_next)
-vim.keymap.set("n", "<leader>L", vim.diagnostic.setloclist)
+vim.keymap.set("n", "<m-e>", vim.diagnostic.setloclist)
 
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
 	callback = function(ev)
-		-- Enable completion triggered by <c-x><c-o>
-		--vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-		-- Buffer local mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
 		local opts = { buffer = ev.buf }
 		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
@@ -124,35 +98,45 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
 		vim.keymap.set("n", "<leader>K", vim.lsp.buf.signature_help, opts)
-		--vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
-		--vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
-		--vim.keymap.set('n', '<space>wl', function()
-		--print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-		--end, opts)
 		vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
 		vim.keymap.set("n", "<leader>R", vim.lsp.buf.rename, opts)
 		vim.keymap.set({ "n", "v" }, "<space>a", vim.lsp.buf.code_action, opts)
 		vim.keymap.set("n", "gR", vim.lsp.buf.references, opts)
-		--vim.keymap.set('n', '<leader>f', function()
-		--vim.lsp.buf.format { async = true }
-		--end, opts)
 	end,
 })
+local function toggle_location_list()
+	-- Get the current window number
+	local current_win = vim.api.nvim_get_current_win()
+
+	-- Get the location list for the current window
+	local loc_list = vim.fn.getloclist(0, { winid = 0 })
+
+	-- If the location list window is open, close it
+	if loc_list.winid ~= 0 and vim.api.nvim_win_is_valid(loc_list.winid) then
+		vim.api.nvim_win_close(loc_list.winid, true)
+	else
+		-- If the location list window is not open, set it using the LSP diagnostic
+		vim.diagnostic.setloclist()
+	end
+
+	-- Return focus to the original window
+	vim.api.nvim_set_current_win(current_win)
+end
+
+-- Map the toggle function to <m-l>
+vim.keymap.set("n", "<m-l>", toggle_location_list)
 
 -- Disable virtual text for
 vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
 	local client = vim.lsp.get_client_by_id(ctx.client_id)
 
-	--if client.name == "tsserver" then
-	-- Disable virtual text for tsserver
-	local opts = vim.tbl_deep_extend("force", {
-		virtual_text = false,
-	}, config or {})
+	if client.name == "tsserver" then
+		-- Disable virtual text for tsserver
+		local opts = vim.tbl_deep_extend("force", {
+			virtual_text = false,
+		}, config or {})
+	end
 
 	-- Call the default handler with modified options
 	vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, opts)
-	--else
-	---- Call the default handler for other language servers
-	--vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, config)
-	--end
 end
