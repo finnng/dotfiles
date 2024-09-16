@@ -77,6 +77,29 @@ require("mason-lspconfig").setup_handlers({
 			},
 		})
 	end,
+	["gopls"] = function()
+		lspconfig.gopls.setup({
+			settings = {
+				gopls = {
+					analyses = {
+						shadow = true,
+						unusedvariable = true,
+						useany = true,
+					},
+					staticcheck = true,
+					hints = {
+						assignVariableTypes = true,
+						compositeLiteralFields = true,
+						compositeLiteralTypes = true,
+						constantValues = true,
+						functionTypeParameters = true,
+						parameterNames = true,
+						rangeVariableTypes = true,
+					},
+				},
+			},
+		})
+	end,
 })
 
 -- Global mappings.

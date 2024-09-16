@@ -25,9 +25,9 @@ end
 -- Lualine setup
 require("lualine").setup({
 	options = {
-		theme = "ayu_mirage",
-		section_separators = { left = "", right = "" },
-		component_separators = { left = "", right = "" },
+		theme = "everforest",
+		component_separators = { left = "", right = "" },
+		section_separators = { left = "", right = "" },
 	},
 	sections = {
 		lualine_b = {

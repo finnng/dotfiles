@@ -7,7 +7,6 @@ local plugins = {
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
 	"neovim/nvim-lspconfig",
-	"madox2/vim-ai", -- ai chat plugin
 	"lambdalisue/suda.vim", -- sudo plugin to edit file as root
 	"morhetz/gruvbox",
 	"nvim-treesitter/nvim-treesitter",
@@ -39,16 +38,6 @@ local plugins = {
 	"dcampos/cmp-snippy",
 	-- "honza/vim-snippets",
 	"wakatime/vim-wakatime",
-	"mfussenegger/nvim-dap",
-	"rcarriga/nvim-dap-ui",
-	"leoluz/nvim-dap-go",
-	{ "mxsdev/nvim-dap-vscode-js", dependencies = { "mfussenegger/nvim-dap" } },
-	{
-		"microsoft/vscode-js-debug",
-		lazy = true,
-		build = "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out",
-	},
-	"theHamsta/nvim-dap-virtual-text",
 	{
 		"ibhagwan/fzf-lua",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -75,6 +64,30 @@ local plugins = {
 	},
 	"kevinhwang91/promise-async", -- folding plugin
 	{ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" }, -- folding plugin
+	{
+		"ThePrimeagen/refactoring.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+		},
+		config = function()
+			require("refactoring").setup()
+		end,
+	},
+	{
+		"olimorris/codecompanion.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"hrsh7th/nvim-cmp", -- Optional: For using slash commands and variables in the chat buffer
+			{
+				"stevearc/dressing.nvim", -- Optional: Improves the default Neovim UI
+				opts = {},
+			},
+			"nvim-telescope/telescope.nvim", -- Optional: For using slash commands
+		},
+		config = true,
+	},
 }
 
 -- Lazy loading configuration
@@ -111,9 +124,9 @@ require("linting_config")
 require("popui_config")
 require("fzf_config")
 require("scratch_config")
-require("dap_config")
 require("lualine_config")
 require("bookmarks_config")
+require("refactoring").setup()
 
 vim.cmd("colorscheme nord")
 
@@ -127,7 +140,14 @@ vim.o.signcolumn = "auto:1" -- keep the sign column fixed size
 vim.opt.clipboard = "unnamedplus"
 vim.opt.cursorline = true
 vim.opt.hidden = true
+
+vim.opt.shiftwidth = 2
+vim.opt.tabstop = 2
+vim.opt.expandtab = true
 vim.opt.autoindent = true
+vim.opt.smartindent = true
+vim.cmd("filetype plugin indent on")
+
 vim.opt.inccommand = "split"
 vim.opt.mouse = "a"
 vim.opt.number = true
@@ -149,7 +169,7 @@ vim.opt.expandtab = true
 vim.opt.background = "dark"
 
 vim.opt.updatetime = 100
-vim.o.foldcolumn = "1" -- '0' is not bad
+vim.o.foldcolumn = "0" -- '0' is not bad
 vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
 vim.o.foldlevelstart = 99
 vim.o.foldenable = true
@@ -218,3 +238,14 @@ vim.keymap.set("n", "zm", require("ufo").closeFoldsWith) -- closeAllFolds == clo
 require("Comment").setup()
 local ft = require("Comment.ft")
 ft.set("templ", "//%s", "/*%s*/")
+
+vim.api.nvim_create_augroup("PythonSpaces", { clear = true })
+vim.api.nvim_create_autocmd("FileType", {
+	group = "PythonSpaces",
+	pattern = "python",
+	callback = function()
+		vim.opt_local.list = true
+		-- vim.opt_local.listchars = 'space:·'
+		vim.opt_local.listchars = "space:˙"
+	end,
+})

@@ -80,3 +80,9 @@ require("formatter").setup({
 })
 
 vim.api.nvim_set_keymap("n", "<leader>f", ":FormatWrite<CR>", { silent = true })
+
+-- Automatically run :FormatWrite when a file is saved
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "*",
+  command = "FormatWrite",
+})

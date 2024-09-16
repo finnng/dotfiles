@@ -8,6 +8,11 @@ alias gc="git checkout"
 alias gd="git diff"
 alias gs="git status"
 alias gb="git for-each-ref --sort=-creatordate --format '%(refname:short)' refs/heads | fzf --no-sort | xargs git checkout"
+# alias t="talosctl"
+# alias kt="kubectl --context=admin@talos-default-1"
+
+alias k="minikube kubectl --"
+alias m="minikube"
 
 # search in the history
 h() {
