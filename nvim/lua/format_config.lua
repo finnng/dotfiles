@@ -21,7 +21,7 @@ require("formatter").setup({
 
 		yaml = { require("formatter.filetypes.yaml").prettierd },
 		python = { require("formatter.filetypes.python").black },
-		go = { require("formatter.filetypes.go").gofmt },
+		go = { require("formatter.filetypes.go").goimports },
 
 		svg = {
 			function()
@@ -83,6 +83,6 @@ vim.api.nvim_set_keymap("n", "<leader>f", ":FormatWrite<CR>", { silent = true })
 
 -- Automatically run :FormatWrite when a file is saved
 vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = "*",
-  command = "FormatWrite",
+	pattern = "*",
+	command = "FormatWrite",
 })

@@ -25,6 +25,7 @@ dotsync() {
   rsync -r ~/.config/kitty/* ~/projects/dotfiles/kitty
   rsync -r ~/aliases.sh ~/projects/dotfiles/alises.sh
   rsync -r ~/.zshrc ~/projects/dotfiles/zshrc.sh
+  rsync -r ~/.tmux.conf ~/projects/dotfiles/tmux.conf
 }
 
 function dash-case() {

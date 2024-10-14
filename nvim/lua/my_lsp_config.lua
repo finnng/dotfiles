@@ -12,25 +12,21 @@ require("mason-lspconfig").setup_handlers({
 		})
 	end,
 
+	["ts_ls"] = function()
+		lspconfig.ts_ls.setup({
+			on_attach = function(client, bufnr)
+				client.server_capabilities.semanticTokensProvider = nil
+			end,
+		})
+	end,
+
 	["tailwindcss"] = function()
 		lspconfig.tailwindcss.setup({
 			cmd = { "tailwindcss-language-server", "--stdio" },
 			filetypes = {
 				"templ",
 				-- html
-				"aspnetcorerazor",
-				"astro",
-				"astro-markdown",
-				"blade",
-				"clojure",
-				"django-html",
-				"htmldjango",
-				"edge",
-				"eelixir", -- vim ft
-				"elixir",
 				"ejs",
-				"erb",
-				"eruby", -- vim ft
 				"gohtml",
 				"gohtmltmpl",
 				"haml",
@@ -38,19 +34,12 @@ require("mason-lspconfig").setup_handlers({
 				"hbs",
 				"html",
 				"html-eex",
-				"heex",
-				"jade",
-				"leaf",
 				"liquid",
 				"markdown",
 				"mdx",
 				"mustache",
 				"njk",
 				"nunjucks",
-				"php",
-				"razor",
-				"slim",
-				"twig",
 				-- css
 				"css",
 				"less",
@@ -98,10 +87,25 @@ require("mason-lspconfig").setup_handlers({
 					},
 				},
 			},
+			on_attach = function(client, bufnr)
+				vim.api.nvim_buf_set_option(bufnr, "expandtab", false)
+				vim.api.nvim_buf_set_option(bufnr, "tabstop", 4)
+				vim.api.nvim_buf_set_option(bufnr, "shiftwidth", 4)
+
+				-- Enable autoformatting on save
+				if client.server_capabilities.documentFormattingProvider then
+					vim.api.nvim_create_autocmd("BufWritePre", {
+						group = vim.api.nvim_create_augroup("GoFormat", {}),
+						buffer = bufnr,
+						callback = function()
+							vim.lsp.buf.format({ async = false })
+						end,
+					})
+				end
+			end,
 		})
 	end,
 })
-
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 --vim.keymap.set("n", "<m-e>", vim.diagnostic.open_float)

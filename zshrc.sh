@@ -24,3 +24,4 @@ export BAT_THEME="Nord"
 
 
 export FZF_DEFAULT_OPTS='-m --height 80% --border --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all'
+export PATH="/opt/homebrew/opt/libpq/bin:$PATH"

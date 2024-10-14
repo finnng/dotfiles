@@ -65,14 +65,17 @@ local plugins = {
 	"kevinhwang91/promise-async", -- folding plugin
 	{ "kevinhwang91/nvim-ufo", requires = "kevinhwang91/promise-async" }, -- folding plugin
 	{
-		"ThePrimeagen/refactoring.nvim",
+		"NeogitOrg/neogit",
 		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
+			"nvim-lua/plenary.nvim", -- required
+			"sindrets/diffview.nvim", -- optional - Diff integration
+
+			-- Only one of these is needed.
+			"nvim-telescope/telescope.nvim", -- optional
+			"ibhagwan/fzf-lua", -- optional
+			"echasnovski/mini.pick", -- optional
 		},
-		config = function()
-			require("refactoring").setup()
-		end,
+		config = true,
 	},
 	{
 		"olimorris/codecompanion.nvim",
@@ -88,6 +91,7 @@ local plugins = {
 		},
 		config = true,
 	},
+	"diepm/vim-rest-console",
 }
 
 -- Lazy loading configuration
@@ -113,7 +117,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins, lazy_config)
 
 require("mason").setup()
-require("mason-lspconfig").setup()
+require("mason-lspconfig").setup({})
 -- custom lua files, the order is important completion_config should be loaded before lsp
 require("completion_config")
 require("my_lsp_config")
@@ -126,7 +130,6 @@ require("fzf_config")
 require("scratch_config")
 require("lualine_config")
 require("bookmarks_config")
-require("refactoring").setup()
 
 vim.cmd("colorscheme nord")
 
@@ -141,12 +144,13 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.cursorline = true
 vim.opt.hidden = true
 
+vim.cmd("filetype plugin indent on")
+vim.cmd("syntax on")
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.expandtab = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
-vim.cmd("filetype plugin indent on")
 
 vim.opt.inccommand = "split"
 vim.opt.mouse = "a"
@@ -155,8 +159,6 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.title = true
 vim.opt.wildmenu = true
-vim.cmd("filetype plugin indent on")
-vim.cmd("syntax on")
 vim.opt.ttyfast = true
 vim.opt.undofile = true
 vim.opt.undodir = vim.fn.expand("~/.vim/undodir")
@@ -175,8 +177,8 @@ vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
 
-vim.api.nvim_set_keymap("n", "<C-N>", ":bnext<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<C-P>", ":bprev<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<M-n>", ":bnext<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<M-p>", ":bprev<CR>", { noremap = true })
 vim.api.nvim_set_keymap(
 	"n",
 	"<leader>P",
@@ -205,9 +207,9 @@ _G.toggle_quickfix = function()
 end
 
 -- quickfix window key mapping
-vim.api.nvim_set_keymap("n", "<c-\\>", ":lua _G.toggle_quickfix()<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap("n", "<c-]>", ":cnext<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<c-[>", ":cprev<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<C-\\>", ":lua _G.toggle_quickfix()<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<C-n>", ":cnext<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<C-p>", ":cprevious<CR>", { noremap = true })
 
 require("nvim-treesitter.configs").setup({
 	ensure_installed = "all",
@@ -217,6 +219,7 @@ require("nvim-treesitter.configs").setup({
 	},
 	indent = {
 		enable = true,
+		disable = { "go" },
 	},
 	incremental_selection = {
 		enable = true,
@@ -249,3 +252,10 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.listchars = "space:˙"
 	end,
 })
+
+-- for vim-rest-console, I can't user c-j
+vim.keymap.set("v", "<M-i>", ":call VrcQuery()<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<M-i>", ":call VrcQuery()<CR>", { noremap = true, silent = true })
+vim.keymap.set("i", "<M-i>", "<Esc>:call VrcQuery()<CR>", { noremap = true, silent = true })
+
+vim.keymap.set("v", "p", '"_dP', { desc = "Paste in visual mode without yanking" })
