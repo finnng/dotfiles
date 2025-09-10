@@ -1,5 +1,18 @@
 local util = require("formatter.util")
 
+local biome = function()
+	return {
+		exe = "biome",
+		args = {
+			"check",
+			"--fix",
+			"--stdin-file-path",
+			util.escape_path(util.get_current_buffer_file_path()),
+		},
+		stdin = true,
+	}
+end
+
 -- Provides the Format, FormatWrite, FormatLock, and FormatWriteLock commands
 require("formatter").setup({
 	-- Enable or disable logging
@@ -10,16 +23,25 @@ require("formatter").setup({
 	filetype = {
 		lua = { require("formatter.filetypes.lua").stylua },
 
-		typescript = { require("formatter.filetypes.typescript").prettierd },
-		typescriptreact = { require("formatter.filetypes.typescript").prettierd },
-		javascript = { require("formatter.filetypes.typescript").prettierd },
-		javascriptreact = { require("formatter.filetypes.typescript").prettierd },
+		-- typescript = { require("formatter.filetypes.typescript").prettierd },
+		-- typescriptreact = { require("formatter.filetypes.typescript").prettierd },
+		-- javascript = { require("formatter.filetypes.typescript").prettierd },
+		-- javascriptreact = { require("formatter.filetypes.typescript").prettierd },
+		-- html = { require("formatter.filetypes.html").prettierd },
+		-- css = { require("formatter.filetypes.css").prettierd },
+		-- scss = { require("formatter.filetypes.css").prettierd },
+		-- json = { require("formatter.filetypes.json").prettierd },
+		-- yaml = { require("formatter.filetypes.yaml").prettierd },
+		typescript = { biome },
+		typescriptreact = { biome },
+		javascript = { biome },
+		javascriptreact = { biome },
+		html = { biome },
+		css = { biome },
+		scss = { biome },
+		json = { biome },
+		yaml = { biome },
 
-		html = { require("formatter.filetypes.html").prettierd },
-		css = { require("formatter.filetypes.css").prettierd },
-		scss = { require("formatter.filetypes.css").prettierd },
-
-		yaml = { require("formatter.filetypes.yaml").prettierd },
 		python = { require("formatter.filetypes.python").black },
 		go = { require("formatter.filetypes.go").goimports },
 
@@ -43,16 +65,16 @@ require("formatter").setup({
 			end,
 		},
 
-		json = {
-			function()
-				return {
-					exe = "prettier",
-					args = { util.escape_path(util.get_current_buffer_file_path()) },
-					stdin = true,
-				}
-			end,
-		},
-
+		-- json = {
+		-- 	function()
+		-- 		return {
+		-- 			exe = "prettier",
+		-- 			args = { util.escape_path(util.get_current_buffer_file_path()) },
+		-- 			stdin = true,
+		-- 		}
+		-- 	end,
+		-- },
+		--
 		sh = { require("formatter.filetypes.sh").shfmt },
 
 		sql = {
@@ -67,6 +89,15 @@ require("formatter").setup({
 			function()
 				return {
 					exe = "dotnet-csharpier",
+					stdin = true,
+				}
+			end,
+		},
+
+		swift = {
+			function()
+				return {
+					exe = "swift-format",
 					stdin = true,
 				}
 			end,

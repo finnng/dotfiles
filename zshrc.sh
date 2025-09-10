@@ -25,3 +25,35 @@ export BAT_THEME="Nord"
 
 export FZF_DEFAULT_OPTS='-m --height 80% --border --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all'
 export PATH="/opt/homebrew/opt/libpq/bin:$PATH"
+
+# goenv
+export GOENV_ROOT="$HOME/.goenv"
+export PATH="$GOENV_ROOT/bin:$PATH"
+eval "$(goenv init -)"
+export PATH="$GOROOT/bin:$PATH"
+export PATH="$PATH:$GOPATH/bin"
+
+# bun completions
+[ -s "/Users/finn/.bun/_bun" ] && source "/Users/finn/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+alias claude="/Users/finn/.claude/local/claude"
+
+# pnpm
+export PNPM_HOME="/Users/finn/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# Created by `pipx` on 2025-04-30 03:25:42
+export PATH="$PATH:/Users/finn/.local/bin"
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
+
+
+export DOTNET_ROOT=/usr/local/share/dotnet
