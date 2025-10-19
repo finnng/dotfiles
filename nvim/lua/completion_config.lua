@@ -53,7 +53,7 @@ local servers = {
 }
 
 for _, lsp in ipairs(servers) do
-	require("lspconfig")[lsp].setup({ capabilities = capabilities })
+	vim.lsp.config[lsp] = { capabilities = capabilities }
 end
 
 require("snippy").setup({

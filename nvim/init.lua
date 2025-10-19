@@ -83,16 +83,19 @@ local plugins = {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-treesitter/nvim-treesitter",
-			"hrsh7th/nvim-cmp", -- Optional: For using slash commands and variables in the chat buffer
-			{
-				"stevearc/dressing.nvim", -- Optional: Improves the default Neovim UI
-				opts = {},
-			},
-			"nvim-telescope/telescope.nvim", -- Optional: For using slash commands
 		},
-		config = true,
+	},
+	{
+		"MeanderingProgrammer/render-markdown.nvim",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-tree/nvim-web-devicons",
+		},
+		ft = { "markdown", "codecompanion" },
+		opts = {},
 	},
 	"diepm/vim-rest-console",
+	"rust-lang/rust.vim",
 }
 
 -- Lazy loading configuration
@@ -128,23 +131,25 @@ require("mason-lspconfig").setup({
 	handlers = {
 		-- Default handler for all servers
 		function(server_name)
-			require("lspconfig")[server_name].setup({
+			vim.lsp.config[server_name] = {
 				on_attach = function(client, bufnr)
 					-- it breaks the syntax highlight if we don't disable it
 					client.server_capabilities.semanticTokensProvider = nil
 				end,
-			})
+			}
+			vim.lsp.enable(server_name)
 		end,
 		-- Custom handlers for specific servers
 		["ts_ls"] = function()
-			require("lspconfig").ts_ls.setup({
+			vim.lsp.config.ts_ls = {
 				on_attach = function(client, bufnr)
 					client.server_capabilities.semanticTokensProvider = nil
 				end,
-			})
+			}
+			vim.lsp.enable("ts_ls")
 		end,
 		["tailwindcss"] = function()
-			require("lspconfig").tailwindcss.setup({
+			vim.lsp.config.tailwindcss = {
 				cmd = { "tailwindcss-language-server", "--stdio" },
 				filetypes = {
 					"templ",
@@ -187,10 +192,11 @@ require("mason-lspconfig").setup({
 						templ = "html",
 					},
 				},
-			})
+			}
+			vim.lsp.enable("tailwindcss")
 		end,
 		["gopls"] = function()
-			require("lspconfig").gopls.setup({
+			vim.lsp.config.gopls = {
 				settings = {
 					gopls = {
 						analyses = {
@@ -226,20 +232,22 @@ require("mason-lspconfig").setup({
 						})
 					end
 				end,
-			})
+			}
+			vim.lsp.enable("gopls")
 		end,
 
 	},
 })
 
 -- Configure SourceKit-LSP directly (not managed by Mason since it comes with Xcode)
-require("lspconfig").sourcekit.setup({
+vim.lsp.config.sourcekit = {
 	cmd = { "sourcekit-lsp" },
 	filetypes = { "swift", "objective-c", "objective-cpp" },
 	on_attach = function(client, bufnr)
 		client.server_capabilities.semanticTokensProvider = nil
 	end,
-})
+}
+vim.lsp.enable("sourcekit")
 
 -- custom lua files, the order is important completion_config should be loaded before lsp
 require("completion_config")
@@ -386,6 +394,16 @@ vim.keymap.set("v", "p", '"_dP', { desc = "Paste in visual mode without yanking"
 -- LSP keymaps (since we're not loading my_lsp_config.lua anymore)
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
+
+-- Configure diagnostics to show inline
+vim.diagnostic.config({
+	virtual_text = true,
+	signs = true,
+	underline = true,
+	update_in_insert = false,
+	severity_sort = true,
+})
+
 vim.keymap.set("n", "<leader>i", vim.diagnostic.goto_prev)
 vim.keymap.set("n", "<leader>o", vim.diagnostic.goto_next)
 vim.keymap.set("n", "<m-e>", vim.diagnostic.setloclist)

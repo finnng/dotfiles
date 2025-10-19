@@ -1,28 +1,19 @@
 require("codecompanion").setup({
 	strategies = {
 		chat = {
-			adapter = "openai",
+			adapter = "copilot",
 		},
 		inline = {
-			adapter = "openai",
+			adapter = "copilot",
 		},
 		agent = {
-			adapter = "openai",
+			adapter = "copilot",
 		},
 	},
-	adapters = {
-		openai = function()
-			return require("codecompanion.adapters").extend("openai", {
-				env = {
-					api_key = os.getenv("OPENAI_API_KEY"),
-				},
-        schema = {
-          model = {
-            default = "gpt-4o-mini",
-          },
-        },
-			})
-		end,
-	},
 })
-vim.api.nvim_set_keymap("n", "<leader>h", ":CodeCompanionChat<cr>", { noremap = true })
+
+-- Keybindings for CodeCompanion
+vim.api.nvim_set_keymap("n", "<leader>h", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "<leader>h", "<cmd>CodeCompanionChat Toggle<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>cc", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("v", "<leader>cc", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
