@@ -38,6 +38,7 @@
                     },
                     {
                         "description": "f4 to open iTerms2",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": { "key_code": "f4" },
@@ -47,11 +48,32 @@
                         ]
                     },
                     {
+                        "description": "f4 to open ghostty",
+                        "manipulators": [
+                            {
+                                "from": { "key_code": "f4" },
+                                "to": [{ "shell_command": "open '/Applications/Ghostty.app'" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "f5 to open Arc",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": { "key_code": "f5" },
                                 "to": [{ "shell_command": "open '/Applications/Arc.app'" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "f5 to open Dia",
+                        "manipulators": [
+                            {
+                                "from": { "key_code": "f5" },
+                                "to": [{ "shell_command": "open '/Applications/Dia.app'" }],
                                 "type": "basic"
                             }
                         ]
@@ -285,7 +307,7 @@
                         },
                         {
                             "from": { "key_code": "right_option" },
-                            "to": [{ "key_code": "right_command" }]
+                            "to": [{ "key_code": "left_command" }]
                         }
                     ]
                 },

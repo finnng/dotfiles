@@ -7,4 +7,10 @@ require("neo-tree").setup({
 		winbar = true,
 		statusline = true,
 	},
+	filesystem = {
+		filtered_items = {
+			hide_dotfiles = false,
+			hide_gitignored = false,
+		},
+	},
 })

@@ -3,6 +3,21 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = " "
 
+-- Load VSCode-specific config when running inside VS Code
+if vim.g.vscode then
+	require("vscode_config")
+	return -- Skip the rest of init.lua when in VS Code
+end
+
+-- Suppress watch.watch ENOENT error
+local notify = vim.notify
+vim.notify = function(msg, level, opts)
+	if type(msg) == "string" and msg:match("watch%.watch.*ENOENT") then
+		return
+	end
+	notify(msg, level, opts)
+end
+
 local plugins = {
 	"williamboman/mason.nvim",
 	"williamboman/mason-lspconfig.nvim",
@@ -79,23 +94,22 @@ local plugins = {
 		config = true,
 	},
 	{
-		"olimorris/codecompanion.nvim",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"nvim-treesitter/nvim-treesitter",
-		},
-	},
-	{
 		"MeanderingProgrammer/render-markdown.nvim",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-tree/nvim-web-devicons",
 		},
-		ft = { "markdown", "codecompanion" },
+		ft = { "markdown" },
 		opts = {},
 	},
 	"diepm/vim-rest-console",
 	"rust-lang/rust.vim",
+	{
+		"esmuellert/vscode-diff.nvim",
+		branch = "next",
+		dependencies = { "MunifTanjim/nui.nvim" },
+		cmd = "CodeDiff",
+	},
 }
 
 -- Lazy loading configuration
@@ -120,11 +134,18 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup(plugins, lazy_config)
 
+local function disable_semantic_tokens(client, _)
+	client.server_capabilities.semanticTokensProvider = nil
+end
+
 -- Mason setup with proper configuration
 require("mason").setup()
 require("mason-lspconfig").setup({
 	-- List of servers to automatically install and configure
-	ensure_installed = { "ts_ls", "gopls", "tailwindcss" },
+	ensure_installed = { "gopls", "tailwindcss" },
+	automatic_enable = {
+		exclude = { "ts_ls" },
+	},
 	-- Automatically install servers when they are configured
 	automatic_installation = true,
 	-- Setup handlers for automatic configuration
@@ -132,22 +153,10 @@ require("mason-lspconfig").setup({
 		-- Default handler for all servers
 		function(server_name)
 			vim.lsp.config[server_name] = {
-				on_attach = function(client, bufnr)
-					-- it breaks the syntax highlight if we don't disable it
-					client.server_capabilities.semanticTokensProvider = nil
-				end,
+				on_attach = disable_semantic_tokens,
 			}
-			vim.lsp.enable(server_name)
 		end,
 		-- Custom handlers for specific servers
-		["ts_ls"] = function()
-			vim.lsp.config.ts_ls = {
-				on_attach = function(client, bufnr)
-					client.server_capabilities.semanticTokensProvider = nil
-				end,
-			}
-			vim.lsp.enable("ts_ls")
-		end,
 		["tailwindcss"] = function()
 			vim.lsp.config.tailwindcss = {
 				cmd = { "tailwindcss-language-server", "--stdio" },
@@ -235,24 +244,25 @@ require("mason-lspconfig").setup({
 			}
 			vim.lsp.enable("gopls")
 		end,
-
 	},
 })
+
+vim.lsp.config.tsgo = {
+	on_attach = disable_semantic_tokens,
+}
+vim.lsp.enable("tsgo")
 
 -- Configure SourceKit-LSP directly (not managed by Mason since it comes with Xcode)
 vim.lsp.config.sourcekit = {
 	cmd = { "sourcekit-lsp" },
 	filetypes = { "swift", "objective-c", "objective-cpp" },
-	on_attach = function(client, bufnr)
-		client.server_capabilities.semanticTokensProvider = nil
-	end,
+	on_attach = disable_semantic_tokens,
 }
 vim.lsp.enable("sourcekit")
 
 -- custom lua files, the order is important completion_config should be loaded before lsp
 require("completion_config")
 require("tree_config")
-require("aichat_config")
 require("format_config")
 -- require("linting_config")
 require("popui_config")
@@ -305,6 +315,12 @@ vim.o.foldlevelstart = 99
 vim.o.foldenable = true
 -- Fix the problematic fillchars setting
 vim.o.fillchars = "eob: ,fold: ,foldopen:▾,foldsep: ,foldclose:▸"
+
+-- Auto-save on focus lost and buffer leave
+vim.api.nvim_create_autocmd({ "FocusLost", "BufLeave" }, {
+	pattern = "*",
+	command = "silent! wa",
+})
 
 vim.api.nvim_set_keymap("n", "<M-n>", ":bnext<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<M-p>", ":bprev<CR>", { noremap = true })
@@ -388,6 +404,13 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.keymap.set("v", "<M-i>", ":call VrcQuery()<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<M-i>", ":call VrcQuery()<CR>", { noremap = true, silent = true })
 vim.keymap.set("i", "<M-i>", "<Esc>:call VrcQuery()<CR>", { noremap = true, silent = true })
+
+-- Diff mode keymaps
+vim.keymap.set("n", "]d", ":SignifyHunkDiff<CR>", { noremap = true, silent = true, desc = "Signify hunk diff" })
+vim.keymap.set("n", "]p", ":diffput<CR>", { noremap = true, silent = true, desc = "Diff put (push to other)" })
+vim.keymap.set("n", "]g", ":diffget<CR>", { noremap = true, silent = true, desc = "Diff get (pull from other)" })
+vim.keymap.set("n", "]o", ":SignifyToggle<CR>", { noremap = true, silent = true, desc = "Signify toggle" })
+vim.keymap.set("n", "]z", ":SignifyHunkUndo<CR>", { noremap = true, silent = true, desc = "Signify hunk undo" })
 
 vim.keymap.set("v", "p", '"_dP', { desc = "Paste in visual mode without yanking" })
 

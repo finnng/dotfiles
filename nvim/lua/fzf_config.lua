@@ -1,14 +1,3 @@
---vim.g.fzf_history_dir = vim.fn.expand("~/.vim/fzf_history")
-
---vim.cmd([[ let g:fzf_preview_window = 'up:70%' ]])
---vim.cmd([[ let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.9 } } ]])
---vim.cmd([[
---let $FZF_DEFAULT_OPTS="-m --height 80% --border
---\ --bind ctrl-y:preview-up,ctrl-e:preview-down,
---\ctrl-b:preview-page-up,ctrl-f:preview-page-down,
---\ctrl-u:preview-half-page-up,ctrl-d:preview-half-page-down"
---]])
-
 _G.searchLiveGrepWithSelection = function()
 	local original_pos = vim.api.nvim_win_get_cursor(0)
 	vim.cmd('normal! gv"xy')
@@ -31,12 +20,11 @@ vim.api.nvim_set_keymap("n", "<leader><CR>", ":FzfLua files<CR>", { noremap = tr
 vim.api.nvim_set_keymap("x", "<leader><CR>", ":lua searchFilesWithSelection()<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("x", "<leader>]", ":lua searchLiveGrepWithSelection()<CR>", { noremap = true, silent = true })
 vim.api.nvim_set_keymap("n", "<leader>]", ":FzfLua live_grep<CR>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<leader>}", ":FzfLua live_grep_resume<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>b", ":FzfLua buffers<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>\\", ":FzfLua oldfiles<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<leader>s", ":FzfLua lsp_document_symbols<CR>", { noremap = true })
 
--- This is for fzf.lua, it reflects the same settings as above
+-- fzf-lua configuration
 local M = {}
 M.configureFzfLua = function()
 	require("fzf-lua").setup({
@@ -45,14 +33,23 @@ M.configureFzfLua = function()
 			width = 0.90,
 			preview = {
 				layout = "vertical",
-				vertical = "up:70%", -- Preview at the top, taking up 70% of the screen
-				flip_columns = 120, -- Flip to horizontal if the window is narrower than 120 columns
+				vertical = "up:70%",
+				flip_columns = 120,
 			},
 		},
-		--keymap = {
-		--},
 		fzf_opts = {
 			["--layout"] = "default",
+		},
+		-- Enable search history with ctrl-n/ctrl-p navigation
+		files = {
+			fzf_opts = {
+				["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-files-history",
+			},
+		},
+		grep = {
+			fzf_opts = {
+				["--history"] = vim.fn.stdpath("data") .. "/fzf-lua-grep-history",
+			},
 		},
 	})
 end

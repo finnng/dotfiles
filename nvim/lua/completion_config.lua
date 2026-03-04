@@ -40,7 +40,7 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local servers = {
 	"bashls",
-	"ts_ls",
+	"tsgo",
 	"pyright",
 	"gopls",
 	"yamlls",
@@ -53,7 +53,9 @@ local servers = {
 }
 
 for _, lsp in ipairs(servers) do
-	vim.lsp.config[lsp] = { capabilities = capabilities }
+	vim.lsp.config[lsp] = vim.tbl_deep_extend("force", vim.lsp.config[lsp] or {}, {
+		capabilities = capabilities,
+	})
 end
 
 require("snippy").setup({

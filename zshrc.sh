@@ -39,7 +39,6 @@ export PATH="$PATH:$GOPATH/bin"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-alias claude="/Users/finn/.claude/local/claude"
 
 # pnpm
 export PNPM_HOME="/Users/finn/Library/pnpm"
@@ -57,3 +56,8 @@ eval "$(pyenv init - zsh)"
 
 
 export DOTNET_ROOT=/usr/local/share/dotnet
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/finn/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
